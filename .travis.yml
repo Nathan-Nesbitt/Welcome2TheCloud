@@ -4,7 +4,6 @@ services:
  - mysql
  - apache2
 before_script:
-  - wget -O phpunit https://phar.phpunit.de/phpunit-8.phar
-  - chmod +x phpunit
+  - composer update
 script:
- - ./phpunit --bootstrap src/addcart.php tests/AddCartTest.php
+ - vendor/bin/phpunit --bootstrap src/addcart.php tests/AddCartTest.php

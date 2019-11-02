@@ -1,9 +1,9 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-final class AddCartTest extends TestCase
+final class addcartTest extends TestCase
 {
-    function testGetCurrentItems() {
+    public function testGetCurrentItems() {
         $this -> assertNotNull(getCurrentItems());
     }
 }
