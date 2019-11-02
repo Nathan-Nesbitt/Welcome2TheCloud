@@ -3,7 +3,7 @@ use PHPUnit\Framework\TestCase;
 
 final class AddCartTest extends TestCase
 {
-    function GetCurrentItemsTest() {
+    function testGetCurrentItems() {
         $this -> assertNotNull(getCurrentItems());
     }
 }

@@ -2,14 +2,17 @@
 
 function getCurrentItems() {
 	// Get the current list of products
-	session_start();
+	if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    } 
 	$productList = null;
 	if (isset($_SESSION['productList'])){
 		$productList = $_SESSION['productList'];
 	} else{ 	// No products currently in list.  Create a list.
 		$productList = array();
 	}
-
+	
 	return $productList;
 };
 
