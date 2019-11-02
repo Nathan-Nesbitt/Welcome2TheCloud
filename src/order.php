@@ -2,21 +2,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>YOUR NAME Grocery Order Processing</title>
+<title>Order Processing</title>
 </head>
 <body>
 
 <?php
 include 'include/db_credentials.php';
 /** Get customer id **/
-$custId = null;
-if(isset($_GET['customerId'])){
-	$custId = $_GET['customerId'];
-}
-session_start();
-$productList = null;
-if (isset($_SESSION['productList'])){
-	$productList = $_SESSION['productList'];
+function getGustomerID() {
+	$custId = null;
+	if(isset($_GET['customerId'])){
+		$custId = $_GET['customerId'];
+	}
+	session_start();
+	$productList = null;
+	if (isset($_SESSION['productList'])){
+		$productList = $_SESSION['productList'];
+	}
+
+	return $custId;
 }
 
 /**

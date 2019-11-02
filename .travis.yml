@@ -2,5 +2,9 @@ language: php
 php: '7.0'
 services:
  - mysql
+ - apache2
+before_script:
+  - wget -O phpunit https://phar.phpunit.de/phpunit-8.phar
+  - chmod +x phpunit
 script:
  - ./phpunit --bootstrap src/addcart.php tests/AddCartTest.php
