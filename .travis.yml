@@ -7,3 +7,9 @@ before_script:
   - composer update
 script:
  - vendor/bin/phpunit --bootstrap src/addcart.php tests/AddCartTest.php
+ - vendor/bin/phpunit --bootstrap src/checkout.php tests/CheckoutTest.php
+ - vendor/bin/phpunit --bootstrap src/listorder.php tests/ListOrderTest.php
+ - vendor/bin/phpunit --bootstrap src/listprod.php tests/ListProdTest.php
+ - vendor/bin/phpunit --bootstrap src/loaddata.php tests/LoadDataTest.php
+ - vendor/bin/phpunit --bootstrap src/order.php tests/OrderTest.php
+ - vendor/bin/phpunit --bootstrap src/showcart.php tests/ShowCartTest.php
