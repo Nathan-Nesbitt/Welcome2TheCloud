@@ -3,4 +3,4 @@ php: '7.0'
 services:
  - mysql
 script:
- - phpunit --bootstrap src/autoload.php tests/AddCartTest
+ - ./phpunit --bootstrap src/addcart.php tests/AddCartTest.php
