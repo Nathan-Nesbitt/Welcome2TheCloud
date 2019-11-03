@@ -1,1 +1,7 @@
-## THIS FILE IS LEFT BLANK, AS IS CONTAINS SENSITIVE DATA NOT MEANT FOR GIT ##
+<?php
+	$username = "";
+	$password = "";
+	$database = "";
+	$server = "localhost";
+	$connectionInfo = array( "Database"=>$database, "UID"=>$username, "PWD"=>$password, "CharacterSet" => "UTF-8");
+?>
