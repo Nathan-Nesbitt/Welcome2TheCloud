@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # To handle the known hosts output
-echo '172.31.29.63 ecdsa-sha2-nistp256 SHA256:BXmn96AGAd7TdnQdwxwOuqQOXJ1/VvR0MeZgwqZswp0' >> ~/.ssh/known_hosts
+echo 'connect.welcome2the.cloud ecdsa-sha2-nistp256 SHA256:BXmn96AGAd7TdnQdwxwOuqQOXJ1/VvR0MeZgwqZswp0' >> ~/.ssh/known_hosts
 
 set -e
 ssh -i ~/.ssh/deploy_rsa git@connect.welcome2the.cloud -v exit
