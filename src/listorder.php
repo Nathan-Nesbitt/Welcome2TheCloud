@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>YOUR NAME Grocery Order List</title>
+<title>Order List</title>
 </head>
 <body>
 

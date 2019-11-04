@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Your Shopping Cart</title>
+<title>Shopping Cart</title>
 </head>
 <body>
 
