@@ -1,0 +1,53 @@
+/*  
+    A CSS File for the main shop
+    Nathan Nesbitt, 2019
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* This is the layout for the navbar */
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  
+  .container {
+    padding-top: 10px;
+  }
+  
+  /* This is the layout for all of the divs*/
+  
+  .slide-content {
+    padding: 15px;
+    font-size: 18px;
+    min-height: 100%;
+    /* Change this when we know the layout */
+    background: white;
+    margin-bottom: 10px;
+  }
+  
+  .col-lg-12 {
+    min-height: 100%;
+  }
+  
+  @media (max-width: 543px) {
+    /* Makes it so when the screen is small, it shrinks the size*/
+    .container-fluid .row {
+      min-height: 400px;
+    }
+    .slide-content {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 544px) {
+    /* Makes it so when the screen is large, it expands the size*/
+    .container-fluid .row {
+      min-height: 500px;
+    }
+  }
