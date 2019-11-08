@@ -10,5 +10,4 @@ git config --global push.default simple # we only want to push one branch — ma
 # specify the repo on the live server as a remote repo, and name it 'production'
 # <user> here is the separate user you created for deploying
 git remote add production ssh://git@connect.welcome2the.cloud/home/git/Welcome2TheCloud/
-git push production :master # Overwrites the previous 
-git push production master # push our updates
+git push production master:master # push our updates
