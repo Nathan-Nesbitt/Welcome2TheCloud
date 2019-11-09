@@ -33,7 +33,7 @@
 			# Print it out in a list
 			echo("<li>".$line . ";</li><br/>");
 			# Run a query on the line
-			$result = $connection->execute($line);
+			$result = $connection->query($line);
 			if($result == FALSE){
 				printf("error: %s\n", $connection->error);
 			}
