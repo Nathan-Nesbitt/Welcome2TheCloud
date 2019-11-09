@@ -74,7 +74,8 @@ function printTable($connection) {
 					<th scope="col">Product Id</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
-				</tr>';
+				</tr>
+				<table>';
 			
 			$innerResult = getOrderProducts($connection, $row["customerId"]);
 			if ($innerResult->num_rows != 0) {	
