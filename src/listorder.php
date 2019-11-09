@@ -42,7 +42,8 @@ function getOrderProducts($connection, $orderId) {
 	/* Binds the prepared statement with the orderID (i is to specify integer) */
 	$query->bind_param("i", $orderId);
 	$query->execute();
-	return $query;
+	$result = $query->get_result();
+	return $result;
 }
 
 /* Main function for this page, prints out all orders and all products */
