@@ -38,7 +38,7 @@ function getOrders($connection) {
 /* Function to get all products in a given order */
 function getOrderProducts($connection, $orderId) {
 	/* Creates a prepared statement */
-	$query = $connection->prepare($connection, "SELECT * FROM orderproduct WHERE orderId=?");
+	$query = $connection->prepare("SELECT * FROM orderproduct WHERE orderId=?");
 	/* Binds the prepared statement with the orderID (i is to specify integer) */
 	$query->bind_param("i", $orderId);
 	$query->execute();
