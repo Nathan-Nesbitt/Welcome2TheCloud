@@ -59,7 +59,7 @@ function printTable($connection) {
 				<th scope="col">Total Amount</th>
 			</tr>';
 		
-		while($row = $result->fetch_row()) {
+		while($row = $result->fetch_assoc()) {
 			/* Prints out the 'head values' or the order values */
 			echo '<tr>
 				<td>'.$row["orderId"].'</td>
