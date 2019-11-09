@@ -31,8 +31,8 @@ include 'include/db_connection.php';
 /* Function to get all orders from the database */
 function getOrders($connection) {
 	$query = "SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId";
-	$connection-> query($query);
-	return $connection;
+	$result = $connection-> query($query);
+	return $result;
 }
 
 /* Function to get all products in a given order */
@@ -41,7 +41,6 @@ function getOrderProducts($connection, $orderId) {
 	$query = $connection->prepare($connection, "SELECT * FROM orderproduct WHERE orderId=?");
 	/* Binds the prepared statement with the orderID (i is to specify integer) */
 	$query->bind_param("i", $orderId);
-
 	$query->execute();
 	return $query;
 }
@@ -60,7 +59,7 @@ function printTable($connection) {
 				<th scope="col">Total Amount</th>
 			</tr>';
 		
-		while($row = $result->fetch_assoc()) {
+		while($row = $result->fetch_row()) {
 			/* Prints out the 'head values' or the order values */
 			echo '<tr>
 				<td>'.$row["orderId"].'</td>
