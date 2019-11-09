@@ -50,7 +50,7 @@ function getOrderProducts($connection, $orderId) {
 /* Main function for this page, prints out all orders and all products */
 function printTable($connection) {
 	
-	$result = getCustomerOrders($connection);
+	$result = getOrders($connection);
 
 	if ($result->num_rows != 0) {
 		echo '<table class="table">';
