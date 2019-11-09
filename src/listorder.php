@@ -31,28 +31,26 @@ include 'include/db_connection.php';
 /* Function to get all orders from the database */
 function getOrders($connection) {
 	$query = "SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId";
-	$result = mysqli_query($connection, $query);
-	return $result;
+	$connection-> query($query);
+	return $connection;
 }
 
 /* Function to get all products in a given order */
 function getOrderProducts($connection, $orderId) {
 	/* Creates a prepared statement */
-	$query = mysqli_prepare($connection, "SELECT * FROM orderproduct WHERE orderId=?");
-	/* Binds the prepared statement with the orderID */
-	mysqli_stmt_bind_param($query, "s", $orderId);
+	$query = $connection->prepare($connection, "SELECT * FROM orderproduct WHERE orderId=?");
+	/* Binds the prepared statement with the orderID (i is to specify integer) */
+	$query->bind_param("i", $orderId);
 
-	$result = mysqli_query($connection, $query);
-	
-	return $result;
+	$query->execute();
+	return $query;
 }
 
 /* Main function for this page, prints out all orders and all products */
 function printTable($connection) {
 	
-	$result = getOrders($connection);
+		$result = getOrders($connection);
 
-	if ($result->num_rows != 0) {
 		echo '<table class="table">';
 		echo '<tr>
 				<th scope="col">Order Id</th>
@@ -78,26 +76,26 @@ function printTable($connection) {
                     <th scope="col">Price</th>
 				</tr>';
 			
-			$innerResult = getOrderProducts($connection, $row["customerId"]);	
-			while($innerRow = $innerResult->fetch_assoc()) {
-				echo '<tr>
-					<td>'.$innerRow["productId"].'</td>
-					<td>'.$innerRow["quantity"].'</td>
-					<td>'.$innerRow["price"].'</td>
-				</tr>';
+			$innerResult = getOrderProducts($connection, $row["customerId"]);
+			if ($innerResult->num_rows != 0) {	
+				while($innerRow = $innerResult->fetch_assoc()) {
+					echo '<tr>
+						<td>'.$innerRow["productId"].'</td>
+						<td>'.$innerRow["quantity"].'</td>
+						<td>'.$innerRow["price"].'</td>
+					</tr>';
+				}
 			}
 			echo "</table>";
 		}
 		echo "</table>";
 	}
-}
 
 /* Creates and checks the connection */
 $connection = createConnection();
 /*  */
 printTable($connection);
-mysqli_close($connection)
-
+$connection->close();
 
 /**
 Useful code for formatting currency:
