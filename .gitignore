@@ -1,5 +1,5 @@
 db_credentials.php
 vendor/
-src/include/*
+src/include/db_credentials.php
 deploy_rsa.pub
 deploy_rsa
