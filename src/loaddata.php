@@ -33,15 +33,15 @@
 			# Print it out in a list
 			echo("<li>".$line . ";</li><br/>");
 			# Run a query on the line
-			$result = mysqli_query($connection, $line);
+			$result = $connection->execute($line);
 			if($result == FALSE){
-				printf("error: %s\n", mysqli_error($connection));
+				printf("error: %s\n", $connection->error);
 			}
 		}
 	}
 
 	# Finally let's close this connection
-	mysqli_close($connection); 
+	$connection->close();
 	echo("</p><h2>Database loading complete!</h2>");
 ?>
 </body>
