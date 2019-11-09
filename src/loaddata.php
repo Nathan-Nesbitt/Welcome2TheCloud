@@ -4,10 +4,10 @@
 </head>
 <body>
 <?php
-	include 'include/db_credentials.php';
+	include 'include/db_connection.php';
 	
 	# Let's make a connection to the database
-	$connection = mysqli_connect($server, $username, $password, $database);
+	$connection = createConnection();
 	echo("<h1>Connecting to database.</h1>");
 	# If there is no connection made we can quit, as there is an error
 	if (!$connection) {
@@ -21,7 +21,7 @@
 	$file = file_get_contents($fileName, true);
 	# Create an array of all of the file contents
 	$lines = explode(";", $file);
-	echo("<p>foobar"+$lines[0]+"</p>");
+	echo("<p>"+$lines[0]+"</p>");
 
 	echo("<ol>");
 	# For each line in the file
