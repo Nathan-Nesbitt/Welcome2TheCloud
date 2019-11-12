@@ -18,6 +18,7 @@ If you want to see a live version of the site, it can be seen at Welcome2The.clo
 3. Create a new user for this database using `CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';`
 4. Create a database for this account `CREATE DATABASE <database>`
 5. Allow the new user access to the database `GRANT ALL ON <database>.* TO '<username>'@'localhost';`
+6. Flush privileges to ensure that everything has been committed. `flush privileges;`
 
 #### Modifying the files
 ##### src/include/db_credentials.php
