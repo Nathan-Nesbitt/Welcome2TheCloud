@@ -70,12 +70,13 @@ function printTable($connection) {
 				<td>'.number_format($row["totalAmount"], 2).'</td>
 			</tr>';
 			
-			echo '<tr align="right"> 
+			echo '<tr>
+				<table>
+				<tr>
 					<th scope="col">Product Id</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
-				</tr>
-				<table>';
+				</tr>';
 			
 			$innerResult = getOrderProducts($connection, $row["customerId"]);
 			if ($innerResult->num_rows != 0) {	
@@ -87,7 +88,7 @@ function printTable($connection) {
 					</tr>';
 				}
 			}
-			echo "</table>";
+			echo "</table></tr>";
 		}
 		echo "</table>";
 	}
