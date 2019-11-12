@@ -17,7 +17,6 @@ Colour Scheme:
     color: white;
     cursor: pointer;
     padding: 18px;
-    width: 70%;
     border: none;
     text-align: left;
     outline: none;
@@ -30,10 +29,29 @@ Colour Scheme:
     display: none;
     overflow: hidden;
     background-color: #f2f2f2;
-    width: 70%;
   }
 
   .order-info {
       float: left;
       text-align: left;
+  }
+
+  @media (max-width: 543px) {
+    /* Makes it so when the screen is small */
+    .order-dropdown {
+        width: 100%;
+    }
+    .order-dropdown-inner {
+        width: 100%;
+    }
+  }
+  
+  @media (min-width: 544px) {
+    /* Makes it so when the screen is large */
+    .order-dropdown {
+        width: 70%;
+    }
+    .order-dropdown-inner {
+        width: 70%;
+    }
   }
