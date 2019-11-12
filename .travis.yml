@@ -18,7 +18,9 @@ before_install:
 - mysql -e "CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';"
 - mysql -e "GRANT ALL ON testDatabase.* TO 'username'@'localhost'; flush privileges;"
 - echo "<?php \$username = \"username\"; \$password = \"password\"; \$database = \"testDatabase\"; \$server = \"localhost\"; ?>" > src/include/db_credentials.php 
-- php src/loaddata.php
+- cd src
+- php loaddata.php
+- cd ../
 before_script:
 - composer update
 script:
