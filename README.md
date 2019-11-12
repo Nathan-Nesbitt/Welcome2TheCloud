@@ -12,16 +12,22 @@ If you want to see a live version of the site, it can be seen at Welcome2The.clo
 ## How to use this?
 
 ### If you are just using this for testing and are pushing to my git repo:
+#### Setting up the environment
+1. Install mysql, php7, Apache2 on WSL
+2. Log into mysql as sudo `sudo mysql`
+3. Create a new user for this database using `CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';`
+4. Create a database for this account `CREATE DATABASE <database>`
+5. Allow the new user access to the database `GRANT ALL ON <database>.* TO '<username>'@'localhost';`
+
 #### Modifying the files
 ##### src/include/db_credentials.php
 You need to fill out the src/include/db_credentials.php with the information for your database.
 ```{php}
 <?php
-	$username = "";
-	$password = "";
-	$database = "";
+	$username = "<username>";
+	$password = "<password>";
+	$database = "<database>";
 	$server = "localhost";
-	$connectionInfo = array( "Database"=>$database, "UID"=>$username, "PWD"=>$password, "CharacterSet" => "UTF-8");
 ?> 
 ```
 The push script has been configured to ignore these files, as every push to the master will overwrite the website login information.
