@@ -4,6 +4,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
 <title>Order List - Welcome2TheCloud</title>
+<link rel="stylesheet" href="shop.css">
+<link rel="icon" type="image/png" href="images/welcome2thecloud.png" type="image/x-icon">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
                 integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
                 crossorigin="anonymous">
@@ -19,11 +21,6 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
 </head>
-
-</head>
-<body>
-
-<h1>Order List</h1>
 
 <?php
 include 'include/db_connection.php';
@@ -50,28 +47,34 @@ function getOrderProducts($connection, $orderId) {
 function printTable($connection) {
 	
 		$result = getOrders($connection);
-
-		echo '<table class="table">';
-		echo '<tr>
-				<th scope="col">Order Id</th>
-				<th scope="col">Order Date</th>
-				<th scope="col">Customer Id</th>
-				<th scope="col">Customer Name</th>
-				<th scope="col">Total Amount</th>
-			</tr>';
 		
 		while($row = $result->fetch_assoc()) {
 			/* Prints out the 'head values' or the order values */
-			echo '<tr>
-				<td>'.$row["orderId"].'</td>
-				<td>'.$row["orderDate"].'</td>
-				<td>'.$row["customerId"].'</td>
-				<td>'.$row["firstName"]." ".$row["lastName"].'</td>
-				<td>'.number_format($row["totalAmount"], 2).'</td>
-			</tr>';
+			echo '
+			<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Order Id</th>
+					<th scope="col">Order Date</th>
+					<th scope="col">Customer Id</th>
+					<th scope="col">Customer Name</th>
+					<th scope="col">Total Amount</th>
+				</tr>
+			</thead>';
+
+			echo '
+			<tbody>
+				<tr>
+					<td>'.$row["orderId"].'</td>
+					<td>'.$row["orderDate"].'</td>
+					<td>'.$row["customerId"].'</td>
+					<td>'.$row["firstName"]." ".$row["lastName"].'</td>
+					<td>'.number_format($row["totalAmount"], 2).'</td>
+				</tr>';
 			
+			/* Creates a table for the parts of the order */
 			echo '<tr>
-				<table>
+				<table class="table"">
 				<tr>
 					<th scope="col">Product Id</th>
                     <th scope="col">Quantity</th>
@@ -79,7 +82,7 @@ function printTable($connection) {
 				</tr>';
 			
 			$innerResult = getOrderProducts($connection, $row["customerId"]);
-			if ($innerResult->num_rows != 0) {	
+			if ($innerResult->num_rows != 0) {
 				while($innerRow = $innerResult->fetch_assoc()) {
 					echo '<tr>
 						<td>'.$innerRow["productId"].'</td>
@@ -88,38 +91,64 @@ function printTable($connection) {
 					</tr>';
 				}
 			}
-			echo "</table></tr>";
+			echo "</tr></table></table><div style='padding-bottom: 10px;'></div>";
 		}
-		echo "</table>";
 	}
-
-/* Creates and checks the connection */
-$connection = createConnection();
-/*  */
-printTable($connection);
-$connection->close();
-
-/**
-Useful code for formatting currency:
-	number_format(yourCurrencyVariableHere,2)
-**/
-
-
-/** Write query to retrieve all order headers **/
-
-/** For each order in the results
-		Print out the order header information
-		Write a query to retrieve the products in the order
-			- Use sqlsrv_prepare($connection, $sql, array( &$variable ) 
-				and sqlsrv_execute($preparedStatement) 
-				so you can reuse the query multiple times (just change the value of $variable)
-		For each product in the order
-			Write out product information 
-**/
-
-
-/** Close connection **/
 ?>
+
+<body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                <img alt="Brand" src="images/welcome2thecloud.png" style="width: 50px">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listprod.php">Products</a>
+                                </li>
+                                <li class="nav-item active">
+                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                </li>
+                        </ul>
+                </div>
+        </nav>
+        <div class="container-fluid">
+                <div class="row" id="Homepage">
+                        <div class="col-lg-16 col-md-12 col-sm-12" align="center">
+                                <div class="slide-content">
+								<h1 style="text-align: center">All Orders</h1>	
+								<?php
+									/* Creates and checks the connection */
+									$connection = createConnection();
+									/* Main Script for creating the tables */
+									printTable($connection);
+									/* Close the connection */
+									$connection->close();
+								?>
+							</div>
+                        </div>
+                </div>
+        </div>
+        <footer class="container mt-12">
+                <div class="row">
+                        <div class="col">
+                                <p class="text-center"><a
+                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
+                                                Nesbitt</a>, Copyright © 2019</p>
+                        </div>
+                </div>
+        </footer>
+</body>
+
+<!DOCTYPE html>
+<html>
+
+
 
 </body>
 </html>

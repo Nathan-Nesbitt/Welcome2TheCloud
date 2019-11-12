@@ -8,12 +8,13 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
-  /* This is the layout for the navbar */
-  .sticky {
-    position: fixed;
-    top: 0;
-    width: 100%;
+
+  body {
+    background-color: "#DOE3CC";
+  }
+
+  .navbar {
+    background-color: "#F7FFDD";
   }
   
   .container {
@@ -27,7 +28,6 @@
     font-size: 18px;
     min-height: 100%;
     /* Change this when we know the layout */
-    background: white;
     margin-bottom: 10px;
   }
   
