@@ -77,7 +77,7 @@ This is produced before hand using the `ssh-keygen -t rsa -b 4096 -C 'build@trav
 See section above, it is the same.
 
 #### On your server
-We also need to set up the server. You need MySQL and Apache/nginx installed, along with all of the required PHP modules. There is a lot of config that I am not including, assuming that you know how to set up a basic webserver.
+We also need to set up the server. You need MySQL and Apache/nginx installed, along with all of the required PHP modules (see the first section for some instructions). There is a lot of config that I am not including, assuming that you know how to set up a basic webserver.
 
 1. Create a new user, add the unencrypted SSH key to their account so they can remote in without a password.
 2. Create a folder in that users directory called Welcome2TheCloud

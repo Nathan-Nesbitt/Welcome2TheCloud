@@ -2,11 +2,11 @@ language: php
 php: '7.2'
 services:
 - mysql
-- apache2
 addons:
   ssh_known_hosts:
   - welcome2the.cloud:22
 before_install:
+- sudo apt-get install php-mysql 
 - openssl aes-256-cbc -K $encrypted_8aad41c1f77d_key -iv $encrypted_8aad41c1f77d_iv 
   -in .travis/deploy_rsa.enc -out .travis/deploy_rsa -d
 - eval "$(ssh-agent -s)"
@@ -14,6 +14,11 @@ before_install:
 - chmod 600 ~/.ssh/deploy_rsa
 - ssh-add ~/.ssh/deploy_rsa
 - chmod 755 .travis/deploy.sh
+- mysql -e 'CREATE DATABASE testDatabase;'
+- mysql -e 'CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';'
+- mysql -e 'GRANT ALL ON testDatabase.* TO 'username'@'localhost'; flush privileges;'
+- echo "<?php \$username = \"username\"; \$password = \"password\"; \$database = \"testDatabase\"; \$server = \"localhost\"; ?>" > src/include/db_credentials.php 
+- php src/loaddata.php
 before_script:
 - composer update
 script:
