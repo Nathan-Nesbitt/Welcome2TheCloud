@@ -1,0 +1,39 @@
+/*  
+    A CSS File for the listOrder file
+    Nathan Nesbitt, 2019
+*/
+
+/*
+Colour Scheme:
+  #cfcfea
+  #a89b9d
+  #7a7265
+  #c0b7b1
+  #8e6e53
+*/
+
+.order-dropdown {
+    background-color: #7a7265;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 70%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    border-radius: 5px;
+  }
+  
+  .order-dropdown-inner {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    width: 70%;
+  }
+
+  .order-info {
+      float: left;
+      text-align: left;
+  }

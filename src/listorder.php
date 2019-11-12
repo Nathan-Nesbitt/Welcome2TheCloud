@@ -5,6 +5,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
 <title>Order List - Welcome2TheCloud</title>
 <link rel="stylesheet" href="shop.css">
+<link rel="stylesheet" href="listOrder.css">
 <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
                 integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -50,28 +51,14 @@ function printTable($connection) {
 		
 		while($row = $result->fetch_assoc()) {
 			/* Prints out the 'head values' or the order values */
-			echo '
-			<table class="table">
-			<thead>
-				<tr>
-					<th scope="col">Order Id</th>
-					<th scope="col">Order Date</th>
-					<th scope="col">Customer Id</th>
-					<th scope="col">Customer Name</th>
-					<th scope="col">Total Amount</th>
-				</tr>
-			</thead>';
-
-			echo '
-			<tbody>
-				<tr>
-					<td>'.$row["orderId"].'</td>
-					<td>'.$row["orderDate"].'</td>
-					<td>'.$row["customerId"].'</td>
-					<td>'.$row["firstName"]." ".$row["lastName"].'</td>
-					<td>'.number_format($row["totalAmount"], 2).'</td>
-				</tr>';
-			
+			echo '<button type="button" class="order-dropdown">Order Number: '.$row["orderId"].'</button>
+			<div class="order-dropdown-inner">
+			<div class="order-info">
+				<H5><b>Order Date: </b>'.$row["orderDate"].'</H5>
+				<H5><b>Customer Id: </b>'.$row["customerId"].'</H5>
+				<H5><b>Name: </b>'.$row["firstName"]." ".$row["lastName"].'</H5>
+				<H5><b>Total Cost: </b>$'.number_format($row["totalAmount"], 2).'</H5>
+			</div>';
 			/* Creates a table for the parts of the order */
 			echo '<tr>
 				<table class="table"">
@@ -87,11 +74,11 @@ function printTable($connection) {
 					echo '<tr>
 						<td>'.$innerRow["productId"].'</td>
 						<td>'.$innerRow["quantity"].'</td>
-						<td>'.$innerRow["price"].'</td>
+						<td>$'.$innerRow["price"].'</td>
 					</tr>';
 				}
 			}
-			echo "</tr></table></table><div style='padding-bottom: 10px;'></div>";
+			echo "</tr></table></table></div>";
 		}
 	}
 ?>
@@ -120,8 +107,7 @@ function printTable($connection) {
         <div class="container-fluid">
                 <div class="row" id="Homepage">
                         <div class="col-lg-16 col-md-12 col-sm-12" align="center">
-                                <div class="slide-content">
-								<h1 style="text-align: center">All Orders</h1>	
+                                <div class="slide-content">	
 								<?php
 									/* Creates and checks the connection */
 									$connection = createConnection();
@@ -144,12 +130,23 @@ function printTable($connection) {
                 </div>
         </footer>
 </body>
+<script>
+	var dropdowns = document.getElementsByClassName("order-dropdown");
+	var i;
 
+	for (i = 0; i < dropdowns.length; i++) {
+		dropdowns[i].addEventListener("click", function() {
+    		this.classList.toggle("active");
+    		var content = this.nextElementSibling;
+    		if (content.style.display === "block") {
+      			content.style.display = "none";
+    		}
+			else {
+      			content.style.display = "block";
+    		}
+  		});
+	}
+</script>
 <!DOCTYPE html>
-<html>
-
-
-
-</body>
 </html>
 
