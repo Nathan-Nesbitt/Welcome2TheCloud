@@ -3,18 +3,27 @@
     Nathan Nesbitt, 2019
 */
 
+/*
+Colour Scheme:
+  #cfcfea
+  #a89b9d
+  #7a7265
+  #c0b7b1
+  #8e6e53
+*/
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
-  body {
-    background-color: "#DOE3CC";
+  .body {
+    background-color: #cfcfea; 
   }
 
   .navbar {
-    background-color: "#F7FFDD";
+    background-color: #a89b9d;
   }
   
   .container {
