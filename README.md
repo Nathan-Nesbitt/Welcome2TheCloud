@@ -11,14 +11,25 @@ If you want to see a live version of the site, it can be seen at Welcome2The.clo
 
 ## How to use this?
 
-### If you are just using this for testing and are pushing to my git repo:
+### If you are just using this for testing and are pushing to my git repo
+
 #### Setting up the environment
-1. Install mysql, php7, Apache2 on WSL
+1. Install mysql, php7.2, Apache2 on WSL
 2. Log into mysql as sudo `sudo mysql`
 3. Create a new user for this database using `CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';`
 4. Create a database for this account `CREATE DATABASE <database>`
 5. Allow the new user access to the database `GRANT ALL ON <database>.* TO '<username>'@'localhost';`
 6. Flush privileges to ensure that everything has been committed. `flush privileges;`
+
+#### Configuring apache to redirect to your file
+1. Download the files to a directory on your computer
+2. Soft link that directory to the apache serving folder `ln -s <FullPathToTheFolder> /var/www/html/<SomeFolderName>` 
+3. Open the apache conf file `sudo vi /etc/apache2/sites-available/000-default.conf`
+4. Change the file so the line `DocumentRoot /var/www/html/` reads `DocumentRoot /var/www/html/<SomeFolderName>/src`
+5. Add the line `DirectoryIndex shop.html` below the `DocumentRoot` line
+6. Run `sudo service apache2 start` to start the server
+
+**At this point you should be able to connect to the server by typing in localhost in a browser**
 
 #### Modifying the files
 ##### src/include/db_credentials.php
