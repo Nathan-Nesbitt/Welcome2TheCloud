@@ -24,7 +24,7 @@
 </head>
 
 <?php
-include 'include/db_connection.php';
+require_once 'include/db_connection.php';
 
 /* Function to get all orders from the database */
 function getOrders($connection) {
