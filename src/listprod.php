@@ -54,8 +54,8 @@
 			productId: " . $row["productId"]. " " .
 			 "productName: " . $row["productName"]. " " .
 			  "Price: " . $row["productPrice"] . " " .
-			   "Description: " . $row["productDesc"] . "</td>
-			    <td><a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . " &price=".number_format($row["productPrice"],2)."</a></td><br>";
+			   "Description: " . $row["productDesc"] . "<br>" . $row["productName"] . 
+			    "<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>Link</a>" . "<br>";
 			   	 
     	}
 	} else {
