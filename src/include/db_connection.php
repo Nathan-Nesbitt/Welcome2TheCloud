@@ -1,5 +1,5 @@
 <?php
-    include 'db_credentials.php';
+    require_once 'db_credentials.php';
 
     /* 
     Function that creates a connection to a database and check to be sure
@@ -7,9 +7,7 @@
     */
     function createConnection() {
 
-        /* We set the variables to be the global defined variables in this function. */
-        global $server, $username, $password, $database;
-        
+        list ($username, $password, $database, $server) = getDBLogin();
         // Create Connection (because OOP is better)
         $connection = new mysqli($server, $username, $password, $database);
         

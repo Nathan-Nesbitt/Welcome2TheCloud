@@ -1,3 +1,58 @@
+<?php
+
+	/* 
+	Include the custom OOP file for connecting to the DB means
+	we don't have to do all of the checks again. It's also better 
+	because we don't carry around the username and password variables
+	in every PHP script we write. 
+	*/
+	include 'include/db_connection.php';
+	
+	function getProducts($connection, $name) {
+		
+		if($name == "") {
+			$query = "SELECT * FROM product ";
+		}
+		else {
+			$query = "SELECT * FROM product WHERE productname LIKE "  . "'%$name%'";
+		}
+		$result = $connection-> query($query);
+		return $result;
+	} 
+
+	function printTableProd(){
+
+		/** Get product name to search for **/
+		if (isset($_GET['productName'])){
+			$name = $_GET['productName'];
+		}
+		else {
+			$name = "";
+		};
+		/* Creates and checks the connection (from db_connection) */
+		$connection = createConnection();
+
+		/* Gets the results */
+		$result = getProducts($connection, $name);
+	 
+		if ($result->num_rows > 0) {
+    		while($row = $result->fetch_assoc()) {
+				echo "<tr>
+					productId: " . $row["productId"]. " " .
+			 		"productName: " . $row["productName"]. " " .
+			  		"Price: " . $row["productPrice"] . " " .
+			   		"Description: " . $row["productDesc"] . "<br>" . $row["productName"] . 
+			    	"<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>Link</a>" . "<br>";
+    			}
+		}
+		else {
+			echo "0 results";
+		}
+		/** Close connection **/
+		$connection->close();
+	}
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,83 +67,9 @@
 <input type="text" name="productName" size="50">
 <input type="submit" value="Submit"><input type="reset" value="Reset"> (Leave blank for all products)
 </form>
-
 <?php
-
-	
-	include 'include/db_credentials.php';
-	
-	/** Get product name to search for **/
-	if (isset($_GET['productName'])){
-		$name = $_GET['productName'];
-	}
-	
-		
-	/** $name now contains the search string the user entered
-	 Use it to build a query and print out the results. **/
-	 /** Create and validate connection **/
-	 //connecting to database
-	 $mysqli = new mysqli($localhost, $username, $password, $database);
-	 if ($mysqli->connect_errno) {
-		 echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-	 }
-	 //echo $mysqli->host_info . "\n";
-	 if($name == "all"){
-		 $sql = "SELECT * FROM product ";
-	 }
-	 else{
-	 $sql = "SELECT * FROM product WHERE productname LIKE "  . "'%$name%'" ;
-	 }
-	 $result = mysqli_query($mysqli, $sql);
-	 
-	 if ($result->num_rows > 0) {
-	/** Print out the ResultSet **/
-	// output data of each row
-	/** 
-	For each product create a link of the form
-	addcart.php?id=<productId>&name=<productName>&price=<productPrice>
-	Note: As some product names contain special characters, you may need to encode URL parameter for product name like this: urlencode($productName)
-	**/
-    	while($row = $result->fetch_assoc()) {
-			echo "<tr>
-			productId: " . $row["productId"]. " " .
-			 "productName: " . $row["productName"]. " " .
-			  "Price: " . $row["productPrice"] . " " .
-			   "Description: " . $row["productDesc"] . "<br>" . $row["productName"] . 
-			    "<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>Link</a>" . "<br>";
-			   	 
-    	}
-	} else {
-		echo "0 results";
-		
-
-	
-
-
-}
-/** Close connection **/
-$conn->close();
-
-
-
-
-
-	
-   
-	
-	
-	
-
-	
-
-	
-	
-	
-
-	/**
-        Useful code for formatting currency:
-	       number_format(yourCurrencyVariableHere,2)
-     **/
+	/* Runs the main function to print the tables */
+	printTableProd();
 ?>
 
 </body>

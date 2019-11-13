@@ -36,11 +36,15 @@ If you want to see a live version of the site, it can be seen at Welcome2The.clo
 You need to fill out the src/include/db_credentials.php with the information for your database.
 ```{php}
 <?php
-	$username = "<username>";
-	$password = "<password>";
-	$database = "<database>";
-	$server = "localhost";
-?> 
+	function getDBLogin(){
+		$username = "<username>";
+		$password = "<password>";
+		$database = "<database>";
+		$server = "localhost";
+
+		return array($username, $password, $database, $server);
+	}
+?>
 ```
 The push script has been configured to ignore these files, as every push to the master will overwrite the website login information.
 

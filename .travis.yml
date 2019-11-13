@@ -17,7 +17,7 @@ before_install:
 - mysql -e 'CREATE DATABASE testDatabase;'
 - mysql -e "CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';"
 - mysql -e "GRANT ALL ON testDatabase.* TO 'username'@'localhost'; flush privileges;"
-- echo "<?php \$username = \"username\"; \$password = \"password\"; \$database = \"testDatabase\"; \$server = \"localhost\"; ?>" > src/include/db_credentials.php 
+- echo "<?php function getDBLogin(){ \$username = \"username\"; \$password = \"password\"; \$database = \"testDatabase\"; \$server = \"localhost\"; return array(\$username, \$password, \$database, \$server);} ?>" > src/include/db_credentials.php 
 - cd src
 - php loaddata.php
 - cd ../
