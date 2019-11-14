@@ -85,6 +85,7 @@ function saveOrderData($connection){
 		$OrderProductInsert->execute();
 	}
 
+	/* Updating the total for the ordersummary */
 	$updateOrderTotalQuery = $connection->prepare("UPDATE ordersummary SET totalAmount=? WHERE orderId=?");
 	$updateOrderTotalQuery->bind_param("ii", $totalPrice, $orderId);
 	
