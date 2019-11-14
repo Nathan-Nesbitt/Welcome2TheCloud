@@ -1,4 +1,18 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Table with database</title>
+<head>
+	<body>
+		<table>
+			<tr>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+				<th></th>
+			<tr>
+			<?php
 
 	/* 
 	Include the custom OOP file for connecting to the DB means
@@ -14,9 +28,14 @@
 			$query = "SELECT * FROM product ";
 		}
 		else {
-			$query = "SELECT * FROM product WHERE productname LIKE "  . "'%$name%'";
+			//prepared stmt functionality
+			$query = $connection->prepare("SELECT * FROM product WHERE productName LIKE ?");
+			$query->bind_param("s", $name);
+			$query->execute();
+			
 		}
-		$result = $connection-> query($query);
+		//$result = $connection->query($query);
+		$result = $query->get_result();
 		return $result;
 	} 
 
@@ -24,7 +43,7 @@
 
 		/** Get product name to search for **/
 		if (isset($_GET['productName'])){
-			$name = $_GET['productName'];
+			$name = "%".$_GET['productName']."%";
 		}
 		else {
 			$name = "";
@@ -37,16 +56,16 @@
 	 
 		if ($result->num_rows > 0) {
     		while($row = $result->fetch_assoc()) {
-				echo "<tr>
-					productId: " . $row["productId"]. " " .
-			 		"productName: " . $row["productName"]. " " .
-			  		"Price: " . $row["productPrice"] . " " .
-			   		"Description: " . $row["productDesc"] . "<br>" . $row["productName"] . 
-			    	"<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>Link</a>" . "<br>";
-    			}
+				
+				echo "<tr><td>" . $row["productId"] . "</td><td>" . $row["productName"] . "</td><td>" . $row["productDesc"] . "</td><td>" . $row["productPrice"] . "</td><td>" .
+					 "<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>add to cart</a>"  . "</td></tr>";
+		
+				}
+			echo "</table>";	
+				
 		}
 		else {
-			echo "0 results";
+			echo  "<tr><td>" . "0 results" .  "</td></tr>" ;
 		}
 		/** Close connection **/
 		$connection->close();
