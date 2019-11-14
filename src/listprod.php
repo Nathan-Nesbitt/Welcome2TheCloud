@@ -25,18 +25,21 @@
 	function getProducts($connection, $name) {
 		
 		if($name == "") {
-			$query = "SELECT * FROM product ";
+			$query =  "SELECT * FROM product";
+			$result = $connection-> query($query);
+			return $result;
+
 		}
 		else {
 			//prepared stmt functionality
 			$query = $connection->prepare("SELECT * FROM product WHERE productName LIKE ?");
 			$query->bind_param("s", $name);
 			$query->execute();
+			$result = $query->get_result();
+			return $result;
 			
 		}
-		//$result = $connection->query($query);
-		$result = $query->get_result();
-		return $result;
+		
 	} 
 
 	function printTableProd(){
