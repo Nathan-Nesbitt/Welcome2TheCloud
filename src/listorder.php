@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-<title>Order List - Welcome2TheCloud</title>
-<link rel="stylesheet" href="shop.css?<?php echo time(); ?>">
-<link rel="stylesheet" href="listOrder.css?<?php echo time(); ?>">
-<link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-                crossorigin="anonymous">
-        <link rel="stylesheet"
-                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-                crossorigin="anonymous"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+	<title>Order List - Welcome2TheCloud</title>
+	<link rel="stylesheet" href="shop.css?<?php echo time(); ?>">
+	<link rel="stylesheet" href="listOrder.css?<?php echo time(); ?>">
+	<link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
 </head>
 
 <?php
@@ -68,7 +67,7 @@ function printTable($connection) {
                     <th scope="col">Price</th>
 				</tr>';
 			
-			$innerResult = getOrderProducts($connection, $row["customerId"]);
+			$innerResult = getOrderProducts($connection, $row["orderId"]);
 			if ($innerResult->num_rows != 0) {
 				while($innerRow = $innerResult->fetch_assoc()) {
 					echo '<tr>
@@ -84,31 +83,34 @@ function printTable($connection) {
 ?>
 
 <body>
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
-                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                                <li class="nav-item">
-                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
-                                </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="listprod.php">Products</a>
-                                </li>
-                                <li class="nav-item active">
-                                        <a class="nav-link" href="listorder.php">Orders</a>
-                                </li>
-                        </ul>
-                </div>
-        </nav>
-        <div class="container-fluid">
-                <div class="row" id="Homepage">
-                        <div class="col-lg-16 col-md-12 col-sm-12" align="center">
-                                <div class="slide-content">	
-								<?php
+	<nav class="navbar sticky-top navbar-expand-lg navbar-light">
+		<img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="listprod.php">Products</a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="listorder.php">Orders</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="login.html">Login</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="row" id="Homepage">
+			<div class="col-lg-16 col-md-12 col-sm-12" align="center">
+				<div class="slide-content">
+					<?php
 									/* Creates and checks the connection */
 									$connection = createConnection();
 									/* Main Script for creating the tables */
@@ -116,37 +118,35 @@ function printTable($connection) {
 									/* Close the connection */
 									$connection->close();
 								?>
-							</div>
-                        </div>
-                </div>
-        </div>
-        <footer class="container mt-12">
-                <div class="row">
-                        <div class="col">
-                                <p class="text-center"><a
-                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
-                                                Nesbitt</a>, Copyright © 2019</p>
-                        </div>
-                </div>
-        </footer>
+				</div>
+			</div>
+		</div>
+	</div>
+	<footer class="container mt-12">
+		<div class="row">
+			<div class="col">
+				<p class="text-center"><a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
+						Nesbitt</a>, Copyright © 2019</p>
+			</div>
+		</div>
+	</footer>
 </body>
 <script>
 	var dropdowns = document.getElementsByClassName("order-dropdown");
 	var i;
 
 	for (i = 0; i < dropdowns.length; i++) {
-		dropdowns[i].addEventListener("click", function() {
-    		this.classList.toggle("active");
-    		var content = this.nextElementSibling;
-    		if (content.style.display === "block") {
-      			content.style.display = "none";
-    		}
-			else {
-      			content.style.display = "block";
-    		}
-  		});
+		dropdowns[i].addEventListener("click", function () {
+			this.classList.toggle("active");
+			var content = this.nextElementSibling;
+			if (content.style.display === "block") {
+				content.style.display = "none";
+			} else {
+				content.style.display = "block";
+			}
+		});
 	}
 </script>
 <!DOCTYPE html>
-</html>
 
+</html>
