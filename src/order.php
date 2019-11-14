@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Order Processing - Welcome2TheCloud</title>
-</head>
-<body>
-
 <?php
 
 include 'include/db_connection.php';
@@ -88,45 +80,128 @@ function saveOrderData($connection){
 	/* Updating the total for the ordersummary */
 	$updateOrderTotalQuery = $connection->prepare("UPDATE ordersummary SET totalAmount=? WHERE orderId=?");
 	$updateOrderTotalQuery->bind_param("ii", $totalPrice, $orderId);
+	$updateOrderTotalQuery->execute();
 	
-	$_SESSION['productList'] = null;
-
-	$connection->close();
+	
+	return $orderId;
 }
 
 function printOrder() {
 	$connection = createConnection();
-	saveOrderData($connection);
+	$orderId = saveOrderData($connection);
+
+	$getInfo = $connection->prepare("SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId AND O.orderId=?");
+	$getInfo->bind_param("i", $orderId);
+	$getInfo->execute();
+	$result = $getInfo->get_result()->fetch_assoc();
+
+	$getOrderInfo = $connection->prepare("SELECT * FROM orderproduct, product WHERE orderId = ? AND orderproduct.productId = product.productId");
+	$getOrderInfo->bind_param("i", $orderId);
+	$getOrderInfo->execute();
+	$orderInfo = $getOrderInfo->get_result();
+	echo "<div style='float: left; text-align:left'>
+		<h2>Your total is $".$result["totalAmount"]."</h2>";
+	echo "<h2>Your order reference number is: " . $result["orderId"] . "</h2>";
+	echo "<h2>Customer ID: " . $result["customerId"] ."</h2>";
+	echo "<h2>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h2>
+	</div>";
+
+	echo '
+				<table class="table"">
+				<tr>
+					<th scope="col">Product Id</th>
+                    <th scope="col">Quantity</th>
+					<th scope="col">Price</th>
+					<th scope="col">Product Name</th>
+				</tr>';
+
+	while ($row = $orderInfo->fetch_assoc()) {
+		echo '<tr>
+						<td>'.$row["productId"].'</td>
+						<td>'.$row["quantity"].'</td>
+						<td>$'.$row["price"].'</td>
+						<td>'.$row["productName"].'</td>
+					</tr>';
+	}
+	echo "</table>";
+
+
+	$_SESSION['productList'] = null;
+
+	$connection->close();
+
 }
 
-printOrder();
-	/**
-	// Use retrieval of auto-generated keys.
-	$sql = "INSERT INTO <TABLE> OUTPUT INSERTED.orderId VALUES( ... )";
-	$pstmt = sqlsrv_query( ... );
-	if(!sqlsrv_fetch($pstmt)){
-		//Use sqlsrv_errors();
-	}
-	$orderId = sqlsrv_get_field($pstmt,0);
-	**/
 
-/** Insert each item into OrderedProduct table using OrderId from previous INSERT **/
-
-/** Update total amount for order record **/
-
-/** For each entry in the productList is an array with key values: id, name, quantity, price **/
-
-/**
-	foreach ($productList as $id => $prod) {
-		\\$prod['id'], $prod['name'], $prod['quantity'], $prod['price']
-		...
-	}
-**/
-
-/** Print out order summary **/
-
-/** Clear session/cart **/
 ?>
+<!DOCTYPE html>
+<html>
+
+<head>
+        <meta charset='UTF-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+        <title>Homepage - Welcome2TheCloud</title>
+        <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
+        <link rel="stylesheet" href="shop.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+                integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+                crossorigin="anonymous">
+        <link rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
+</head>
+
+<body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                                <li class="nav-item active">
+                                        <a class="nav-link" href="#Homepage">Homepage<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listprod.php">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                </li>
+                        </ul>
+                </div>
+        </nav>
+        <div class="container-fluid">
+                <div class="row" id="Homepage">
+                        <div class="col-lg-12 col-md-12 col-sm-12" align="center">
+                                <div class="slide-content">
+									<?php 
+										printOrder();
+									?>				
+                                </div>
+                        </div>
+                </div>
+        </div>
+        <footer class="container mt-12">
+                <div class="row">
+                        <div class="col">
+                                <p class="text-center"><a
+                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
+                                                Nesbitt</a>, Copyright © 2019</p>
+                        </div>
+                </div>
+        </footer>
 </body>
-</html>
+
+<!DOCTYPE html>
+<html>
 
