@@ -67,7 +67,7 @@ function printTable($connection) {
                     <th scope="col">Price</th>
 				</tr>';
 			
-			$innerResult = getOrderProducts($connection, $row["customerId"]);
+			$innerResult = getOrderProducts($connection, $row["orderId"]);
 			if ($innerResult->num_rows != 0) {
 				while($innerRow = $innerResult->fetch_assoc()) {
 					echo '<tr>
