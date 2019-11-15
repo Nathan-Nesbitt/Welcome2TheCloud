@@ -12,8 +12,7 @@
         return array($userid, $password);
     }
 
-    function login($connection) {
-        list($userid, $password) = getUserValues();
+    function login($connection, $userid, $password) {
         $query = $connection->prepare("SELECT password FROM customer WHERE userid = ?");
         $query->bind_param("s", $userid); 
         $query->execute();
@@ -34,8 +33,13 @@
 
     }
 
+    /* Creates a connection */
     $connection = createConnection();
-    $loginResult = login($connection);
+    /* Gets the userid and password from the login page*/
+    list($userid, $password) = getUserValues();
+    /* Checks to see if the user and pass are correct */
+    $loginResult = login($connection, $userid, $password);
+    
     if($loginResult)
         echo "SUCCESS LOGGED IN";
     else
