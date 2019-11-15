@@ -22,6 +22,23 @@ function checkIfCustomer($connection, $custId) {
 	return FALSE;
 }
 
+/* Function to check to see if it is right password */
+function checkIfPassword($connection, $custId, $password) {
+
+	$query = $connection->prepare("SELECT password FROM customer WHERE customerId = ?");
+
+	$query->bind_param("i", $custId);
+	$query->execute();
+
+	$resultingPassword = $query->get_result()->fetch_assoc()["password"];
+
+	if ($resultingPassword == $password) {
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
 /** Get customer ID and Products **/
 function getGustomerID($connection) {
 	$custId = null;
@@ -55,7 +72,11 @@ function getGustomerID($connection) {
 function saveOrderData($connection){
 
 	list($custId, $productList) = getGustomerID($connection);
-	if($custId == FALSE || $productList == FALSE)
+	$rightPassword = checkIfPassword($connection, $custId, $_GET['password']);
+	if ($rightPassword == FALSE) {
+		echo "<h3>Wrong Password</h3>";
+	}
+	if($custId == FALSE || $productList == FALSE || $rightPassword == FALSE)
 		return FALSE;
 	$orderDate = date('Y-m-d H:i:s');
 
