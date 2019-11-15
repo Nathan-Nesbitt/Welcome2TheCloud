@@ -47,14 +47,14 @@ function createAccount($connection) {
 	list ($fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password) = getUserValues();
 	
 	/* Prepares the function so we can pass in the values from the user */
-	$query = $connection->prepare("INSERT INTO customer VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+	$query = $connection->prepare("INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	/* Passes the values into the query */
 	$query->bind_param("sssssssssss", $fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password);
 	
 	$query->execute();
 
 	/* Returns TRUE if successful, and FALSE if failed */
-	$result = $query->get_result();
+	$result = $query->get_result()->fetch_assoc();
 	return $result;
 }
 
