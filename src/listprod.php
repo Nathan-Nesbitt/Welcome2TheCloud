@@ -78,21 +78,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Nothing But Clouds</title>
-</head>
+        <link rel="stylesheet" href="shop.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+<head>        
 <body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">        
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listprod.php">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="createAccount.html">Create Account</a>
+                                </li>
+                        </ul>
+                </div>
+        </nav>               
+</body>
 
-<h1>Search for the products you want to buy:</h1>
+<!DOCTYPE html>
+<html>
+<head>
+ <body>
+	<h1>Search for the products you want to buy:</h1>
+	<form method="get" action="listprod.php">
+		<input type="text" name="productName" size="50">
+		<input type="submit" value="Submit"><input type="reset" value="Reset"> (Leave blank for all products)
 
-<form method="get" action="listprod.php">
-<input type="text" name="productName" size="50">
-<input type="submit" value="Submit"><input type="reset" value="Reset"> (Leave blank for all products)
-</form>
+	</form>
+ <body>
+ </bodyhead>
 <?php
 	/* Runs the main function to print the tables */
 	printTableProd();
 ?>
 
-</body>
-</html>
+	</body>
+	</html>
