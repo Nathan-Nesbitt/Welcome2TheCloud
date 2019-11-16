@@ -1,7 +1,7 @@
 <?php
 
 include 'include/db_connection.php';
-
+include 'login_scripts.php';
 
 /* Function to check to see if customer exists */
 
@@ -18,52 +18,46 @@ function checkIfCustomer($connection, $custId) {
 	if ($result->fetch_assoc()) {
 		return TRUE;
 	}
-	echo "Failed to get customer";
-	return FALSE;
-}
-
-/* Function to check to see if it is right password */
-function checkIfPassword($connection, $custId, $password) {
-
-	$query = $connection->prepare("SELECT password FROM customer WHERE customerId = ?");
-
-	$query->bind_param("i", $custId);
-	$query->execute();
-
-	$resultingPassword = $query->get_result()->fetch_assoc()["password"];
-
-	if ($resultingPassword == $password) {
-		return TRUE;
-	}
-
 	return FALSE;
 }
 
 /** Get customer ID and Products **/
-function getGustomerID($connection) {
+function getOrderData($connection) {
 	$custId = null;
 	if(isset($_GET['customerId'])){
 		$custId = $_GET['customerId'];
+	}
+	$password = null;
+	if(isset($_GET['password'])){
+		$password = $_GET['password'];
 	}
 	session_start();
 	$productList = null;
 	if (isset($_SESSION['productList'])){
 		$productList = $_SESSION['productList'];
 	}
-	/**
-		Determine if valid customer id was entered
-		Determine if there are products in the shopping cart
-		If either are not true, display an error message
-	**/
+	
+
 	/* Checks to see if the customer exists */
 	$customerValid = checkIfCustomer($connection, $custId);
 
-	if($customerValid && !is_null($productList)){
-		return array($custId, $productList);
+	/* Check to be sure that the password is right */
+	$rightPassword = idLogin($connection, $custId, $_GET['password']);
+	
+	if($customerValid == FALSE){
+		echo "<h3>No Customer</h3>";
+		return FALSE;
+	}
+	else if ($rightPassword == FALSE) {
+		echo "<h3>Wrong Password</h3>";
+		return FALSE;
+	}
+	else if(is_null($productList)){
+		echo "<h3>No Ordered Data</h3>";
+		return FALSE;
 	}
 	else {
-		echo 'ERROR: Customer ID not valid or Shopping Cart Empty';
-		return array(FALSE, FALSE);
+		return array($custId, $password, $productList);
 	}
 	
 }
@@ -71,13 +65,11 @@ function getGustomerID($connection) {
 /** Save order information to database**/
 function saveOrderData($connection){
 
-	list($custId, $productList) = getGustomerID($connection);
-	$rightPassword = checkIfPassword($connection, $custId, $_GET['password']);
-	if ($rightPassword == FALSE) {
-		echo "<h3>Wrong Password</h3>";
-	}
-	if($custId == FALSE || $productList == FALSE || $rightPassword == FALSE)
-		return FALSE;
+	list($custId, $password, $productList) = getOrderData($connection);
+	
+	if ($custId == FALSE)
+		return FALSE; 
+
 	$orderDate = date('Y-m-d H:i:s');
 
 	$orderSummaryQuery = $connection->prepare("INSERT INTO ordersummary (customerId, totalAmount, orderDate) VALUES (?, 0, ?)");
@@ -110,6 +102,9 @@ function saveOrderData($connection){
 function printOrder() {
 	$connection = createConnection();
 	$orderId = saveOrderData($connection);
+
+	if(!$orderId)
+		return FALSE;
 
 	$getInfo = $connection->prepare("SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId AND O.orderId=?");
 	$getInfo->bind_param("i", $orderId);
