@@ -41,11 +41,19 @@ function getUserValues() {
 	return array($fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password);
 }
 
+function createHashedPassword($password){
+	$options = ['cost'=>11];
+	return password_hash($password, PASSWORD_DEFAULT, $options);
+}
+
 /* Function to create the user in the database */
 function createAccount($connection) {
 	/* Gets the list of values from the function */
 	list ($fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password) = getUserValues();
 	
+	/* Creates a hashed password */
+	$password = createHashedPassword($password);
+
 	/* Prepares the function so we can pass in the values from the user */
 	$query = $connection->prepare("INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	/* Passes the values into the query */
@@ -54,7 +62,7 @@ function createAccount($connection) {
 	$query->execute();
 
 	/* Returns TRUE if successful, and FALSE if failed */
-	$result = $query->get_result()->fetch_assoc();
+	$result = $query->get_result();
 	return $result;
 }
 
