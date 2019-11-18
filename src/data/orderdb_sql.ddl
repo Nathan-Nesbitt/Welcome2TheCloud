@@ -24,7 +24,7 @@ CREATE TABLE customer (
     country             VARCHAR(40),
     userid              VARCHAR(20),
     password            CHAR(255),
-    token               CHAR(255),
+    token               VARCHAR(512),
     PRIMARY KEY (customerId)
 );
 
