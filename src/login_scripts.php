@@ -112,4 +112,8 @@
             }
         }
     }
+
+    function removeSessionToken(){
+        setcookie('loggedIn', NULL);
+    }
 ?>
