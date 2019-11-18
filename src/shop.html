@@ -81,14 +81,16 @@
 <script>
 // Function to show the current user if they are logged in //
 function checkUser() {
-        const cookieExists = Cookies.get("loggedIn");
+        var cookieExists = Cookies.get("loggedIn");
         if(cookieExists){
+                cookieExists = cookieExists.split(':');
                 // Gets the login element
                 var loginElement = document.getElementById("login-nav");
                 // Changes the href and the name so it says the logged in users name
-                loginElement.attr("href", 'customer.php');
-                loginElement.innerHTML = cookieExists[0]
+                loginElement.href = 'customer.php';
+                loginElement.innerHTML = cookieExists[0];
         }
 }
+checkUser();
 
 </script>
