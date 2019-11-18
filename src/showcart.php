@@ -74,7 +74,7 @@ function showCart() {
 					<a class="nav-link" href="listorder.php">Orders</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="login.html">Login</a>
+					<a id="login-nav" class="nav-link" href="login.html">Login</a>
 				</li>
 			</ul>
 		</div>
@@ -95,5 +95,21 @@ function showCart() {
 		</div>
 	</footer>
 </body>
-
 </html>
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+<script>
+// Function to show the current user if they are logged in //
+function checkUser() {
+        var cookieExists = Cookies.get("loggedIn");
+        if(cookieExists){
+                cookieExists = cookieExists.split(':');
+                // Gets the login element
+                var loginElement = document.getElementById("login-nav");
+                // Changes the href and the name so it says the logged in users name
+                loginElement.href = 'customer.php';
+                loginElement.innerHTML = cookieExists[0];
+        }
+}
+checkUser();
+</script>
