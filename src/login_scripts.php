@@ -1,13 +1,4 @@
 <?php 
-    function getUserValues() {
-        if (isset($_POST['userid'])){
-            $userid = $_POST['userid'];
-        }
-        if (isset($_POST['password'])){
-            $password = $_POST['password'];
-        }
-        return array($userid, $password);
-    }
 
     function login($connection, $userid, $password) {
         /* Function that checks to see if a user exists and the passwords match */
