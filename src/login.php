@@ -3,6 +3,16 @@
     require_once 'include/db_connection.php';
     require_once 'login_scripts.php';
 
+    function getUserValues() {
+        if (isset($_POST['userid'])){
+            $userid = $_POST['userid'];
+        }
+        if (isset($_POST['password'])){
+            $password = $_POST['password'];
+        }
+        return array($userid, $password);
+    }
+
     /* Creates a connection */
     $connection = createConnection();
     /* Gets the userid and password from the login page*/
