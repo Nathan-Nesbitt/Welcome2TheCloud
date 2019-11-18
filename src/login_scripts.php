@@ -28,35 +28,33 @@
     }
 
     /* Function to check to see if it is right password */
-function idLogin($connection, $custId, $password) {
+    function idLogin($connection, $custId, $password) {
 
-	$query = $connection->prepare("SELECT password FROM customer WHERE customerId = ?");
+        $query = $connection->prepare("SELECT password FROM customer WHERE customerId = ?");
 
-	$query->bind_param("i", $custId);
-	$query->execute();
+        $query->bind_param("i", $custId);
+        $query->execute();
 
-	$resultingPassword = $query->get_result()->fetch_assoc()["password"];
+        $resultingPassword = $query->get_result()->fetch_assoc()["password"];
 
-	if (password_verify($password, $resultingPassword)) {
-		return TRUE;
-	}
+        if (password_verify($password, $resultingPassword)) {
+            return TRUE;
+        }
 
-	return FALSE;
+        return FALSE;
 }
 
     function storeToken($connection, $user, $token) {
         /* Function to store the value for the token for a user in the database */
-
-        $query = $connection->prepare("UPDATE customer SET token=? WHERE userId=?");
+        $query = $connection->prepare("UPDATE customer SET token=? WHERE userid=?");
         $query->bind_param("ss", $token, $user);
         $query->execute();
-
     }
 
     function fetchToken($connection, $user){
         /* Function to get the token for some user from the database */
 
-        $query = $connection->prepare("SELECT token FROM customer WHERE userId=?");
+        $query = $connection->prepare("SELECT token FROM customer WHERE userid=?");
         $query->bind_param("s", $user);
         $query->execute();
         $token = $query->get_result()->fetch_assoc();
@@ -66,7 +64,7 @@ function idLogin($connection, $custId, $password) {
     function removeToken($connection, $user) {
         /* Function to remove the token for some user */
         
-        $query = $connection->prepare("UPDATE customer SET token=NULL WHERE userId=?");
+        $query = $connection->prepare("UPDATE customer SET token=NULL WHERE userid=?");
         $query->bind_param("s", $user);
         $query->execute();
     }
@@ -80,9 +78,8 @@ function idLogin($connection, $custId, $password) {
 
         /* Creates a random 255 length token */
         $token = bin2hex(random_bytes(255));
-        
         /* Stores the token in the database */
-        $token = storeToken($connection, $user, $token);
+        storeToken($connection, $user, $token);
 
         $cookie = $user . ':' . $token;
         $hash = hash_hmac('sha256', $cookie, $SECRET_KEY);
@@ -91,6 +88,8 @@ function idLogin($connection, $custId, $password) {
     }
 
     function checkToken($connection) {
+        /* Function that checks to see if the current user is logged in based on their cookie */
+
         $cookie = isset($_COOKIE['loggedIn']) ? $_COOKIE['loggedIn'] : '';
         /* 
             This should be moved to a better spot, it's only here for testing and should be changed ASAP
