@@ -11,12 +11,26 @@
         if (!$loggedIn){
             return FALSE;
         }
-        else {
-            echo 'Congrats! This is where the code goes if you want it in the body';
-            return TRUE;
+
+        // Get order information
+        $sql = "SELECT DATE(orderDate) as orderDay, SUM(totalAmount) as totAmount
+                FROM ordersummary
+                GROUP BY orderDay";
+        $result = $connection->query($sql);
+
+        
+        // Print out the table
+        echo '<table class="table" border="1">';
+        echo "<tr><th>Order Date</th><th>Total Order Amount</th></tr>";
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr><td>" . $row["orderDay"] . '</td><td>$' . $row["totAmount"] . '</td></tr>';
         }
 
-        // Write the rest of the code for the admin page //
+        echo "</table>";
+
+        $connection->close();
+        return TRUE;
 
     }
 ?>
