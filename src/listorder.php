@@ -83,29 +83,29 @@ function printTable($connection) {
 ?>
 
 <body>
-	<nav class="navbar sticky-top navbar-expand-lg navbar-light">
-		<img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
-		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav">
-				<li class="nav-item">
-					<a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="listprod.php">Products</a>
-				</li>
-				<li class="nav-item active">
-					<a class="nav-link" href="listorder.php">Orders</a>
-				</li>
-				<li class="nav-item">
-					<a id="login-nav" class="nav-link" href="login.html">Login</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
+<nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul id="navbar-ul" class="navbar-nav">
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listprod.php">Products</a>
+                                </li>
+                                <li class="nav-item active">
+                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a id="login-nav" class="nav-link" href="login.html">Login</a>
+                                </li>
+                        </ul>
+                </div>
+        </nav>
 	<div class="container-fluid">
 		<div class="row" id="Homepage">
 			<div class="col-lg-16 col-md-12 col-sm-12" align="center">
@@ -131,7 +131,34 @@ function printTable($connection) {
 		</div>
 	</footer>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script>
+	// Function to show the current user if they are logged in and change navbar //
+
+	function checkUser() {
+		var cookieExists = Cookies.get("loggedIn");
+		if (cookieExists) {
+
+			// Changes out the login for the Customer Page Navbar Button //
+			cookieExists = cookieExists.split(':');
+			// Gets the login element //
+			var loginElement = document.getElementById("login-nav");
+			// Changes the href and the name so it says the logged in users name
+			loginElement.href = 'customer.php';
+			loginElement.innerHTML = cookieExists[0];
+
+			// Add Admin Navbar Button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+			$("#navbar-ul").append(newLi);
+
+			// Add the logout navbar button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+			$("#navbar-ul").append(newLi);
+		}
+	}
+	
+	checkUser();
+
 	var dropdowns = document.getElementsByClassName("order-dropdown");
 	var i;
 
@@ -147,23 +174,4 @@ function printTable($connection) {
 		});
 	}
 </script>
-<!DOCTYPE html>
 </html>
-
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
-<script>
-// Function to show the current user if they are logged in //
-function checkUser() {
-        var cookieExists = Cookies.get("loggedIn");
-        if(cookieExists){
-                cookieExists = cookieExists.split(':');
-                // Gets the login element
-                var loginElement = document.getElementById("login-nav");
-                // Changes the href and the name so it says the logged in users name
-                loginElement.href = 'customer.php';
-                loginElement.innerHTML = cookieExists[0];
-        }
-}
-checkUser();
-
-</script>
