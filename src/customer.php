@@ -50,7 +50,7 @@
 <head>
     <meta charset='UTF-8' />
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-    <title>Admin - Welcome2TheCloud</title>
+    <title>Customer - Welcome2TheCloud</title>
     <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
     <link rel="stylesheet" href="shop.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
