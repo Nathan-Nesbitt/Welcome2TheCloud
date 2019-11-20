@@ -68,7 +68,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul id="navbar-ul" class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#Homepage">Homepage<span class="sr-only"></span></a>
+                    <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="listprod.php">Products</a>
