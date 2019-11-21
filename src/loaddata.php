@@ -2,10 +2,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>
+<body> 
+
 <?php
 	include 'include/db_connection.php';
-	
+	require_once 'login_scripts.php';
+
+	# Set any cookies to null to prevent the 'stuck logged in' bug
+	removeSessionToken();
+
 	# Let's make a connection to the database
 	$connection = createConnection();
 	echo("<h1>Connecting to database.</h1>");

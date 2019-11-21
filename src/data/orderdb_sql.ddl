@@ -23,7 +23,8 @@ CREATE TABLE customer (
     postalCode          VARCHAR(20),
     country             VARCHAR(40),
     userid              VARCHAR(20),
-    password            VARCHAR(30),
+    password            CHAR(255),
+    token               VARCHAR(512),
     PRIMARY KEY (customerId)
 );
 
@@ -63,8 +64,8 @@ CREATE TABLE product (
     productId           INT NOT NULL AUTO_INCREMENT,
     productName         VARCHAR(40),
     productPrice        DECIMAL(10,2),
-    productImageURL     VARCHAR(100),
-    productImage        LONGBLOB,
+    productImageURL     TEXT,
+    productImage        BLOB,
     productDesc         VARCHAR(1000),
     categoryId          INT,
     PRIMARY KEY (productId),
@@ -137,51 +138,27 @@ CREATE TABLE review (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO category(categoryName) VALUES ('Beverages');
-INSERT INTO category(categoryName) VALUES ('Condiments');
-INSERT INTO category(categoryName) VALUES ('Dairy Products');
-INSERT INTO category(categoryName) VALUES ('Produce');
-INSERT INTO category(categoryName) VALUES ('Meat/Poultry');
-INSERT INTO category(categoryName) VALUES ('Seafood');
-INSERT INTO category(categoryName) VALUES ('Confections');
-INSERT INTO category(categoryName) VALUES ('Grains/Cereals');
+INSERT INTO category(categoryName) VALUES ('High-level');
+INSERT INTO category(categoryName) VALUES ('Mid-level');
+INSERT INTO category(categoryName) VALUES ('Low-level');
 
 
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Chai', 1, '10 boxes x 20 bags',18.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Chang',1,'24 - 12 oz bottles',19.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Aniseed Syrup',2,'12 - 550 ml bottles',10.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Chef Anton''s Cajun Seasoning',2,'48 - 6 oz jars',22.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Chef Anton''s Gumbo Mix',2,'36 boxes',21.35);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Grandma''s Boysenberry Spread',2,'12 - 8 oz jars',25.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Uncle Bob''s Organic Dried Pears',4,'12 - 1 lb pkgs.',30.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Northwoods Cranberry Sauce',2,'12 - 12 oz jars',40.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Mishi Kobe Niku',5,'18 - 500 g pkgs.',97.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Ikura',6,'12 - 200 ml jars',31.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Queso Cabrales',3,'1 kg pkg.',21.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Queso Manchego La Pastora',3,'10 - 500 g pkgs.',38.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Tofu',4,'40 - 100 g pkgs.',23.25);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Genen Shouyu',2,'24 - 250 ml bottles',15.50);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Pavlova',7,'32 - 500 g boxes',17.45);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Alice Mutton',5,'20 - 1 kg tins',39.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Carnarvon Tigers',6,'16 kg pkg.',62.50);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Teatime Chocolate Biscuits',7,'10 boxes x 12 pieces',9.20);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Sir Rodney''s Marmalade',7,'30 gift boxes',81.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Sir Rodney''s Scones',7,'24 pkgs. x 4 pieces',10.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Gustaf''s Knackebread',8,'24 - 500 g pkgs.',21.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Sasquatch Ale',1,'24 - 12 oz bottles',14.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Steeleye Stout',1,'24 - 12 oz bottles',18.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Inlagd Sill',6,'24 - 250 g  jars',19.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Boston Crab Meat',6,'24 - 4 oz tins',18.40);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Jack''s New England Clam Chowder',6,'12 - 12 oz cans',9.65);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Singaporean Hokkien Fried Mee',8,'32 - 1 kg pkgs.',14.00);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Louisiana Fiery Hot Pepper Sauce',2,'32 - 8 oz bottles',21.05);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Laughing Lumberjack Lager',1,'24 - 12 oz bottles',14.00);
-    
-INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Arnold', 'Anderson', 'a.anderson@gmail.com', '204-111-2222', '103 AnyWhere Street', 'Winnipeg', 'MB', 'R3X 45T', 'Canada', 'arnold' , 'test');
-INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Bobby', 'Brown', 'bobby.brown@hotmail.ca', '572-342-8911', '222 Bush Avenue', 'Boston', 'MA', '22222', 'United States', 'bobby' , 'bobby');
-INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Candace', 'Cole', 'cole@charity.org', '333-444-5555', '333 Central Crescent', 'Chicago', 'IL', '33333', 'United States', 'candace' , 'password');
-INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Darren', 'Doe', 'oe@doe.com', '250-807-2222', '444 Dover Lane', 'Kelowna', 'BC', 'V1V 2X9', 'Canada', 'darren' , 'pw');
-INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Elizabeth', 'Elliott', 'engel@uiowa.edu', '555-666-7777', '555 Everwood Street', 'Iowa City', 'IA', '52241', 'United States', 'beth' , 'test');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cirrus', 1, 'Cirrus is one of the most common types of clouds that can be seen at any time of the year. They’re thin and wispy with a silky sheen appearance.', 23.00, 'images/Cirrus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cirrocumulus', 1, 'Cirrocumulus clouds exhibit features from both cumulus and cirrus clouds but should not be confused with altocumulus clouds. While the two can look similar, cirrocumulus does not have shading and some parts of altocumulus are darker than the rest. Cirrocumulus cloud comes after cirrus cloud during warm frontal system.', 12.00, 'images/Cirrocumulus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cirrostratus', 2, 'Cirrostratus clouds have a sheet-like appearance that can look like a curly blanket covering the sky. They’re quite translucent which makes it easy for the sun or the moon to peer through. Their color varies from light gray to white and the fibrous bands can vary widely in thickness. Purely white cirrostratus clouds signify these have stored misture, indicating the presence of a warm frontal system.', 24.00, 'images/Cirrostratus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Altocumulus', 2, 'Altocumulus clouds form at a lower altitude so they’re largely made of water droplets though they may retain ice crystals when forming higher up. They usually appear between lower stratus clouds and higher cirrus clouds, and normally precede altostratus when a warm frontal system is advancing.', 9.00, 'images/Altocumulus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Altostratus', 2, 'They’re uniformly gray, smooth, and mostly featureless which is why they’re sometimes called ‘boring clouds’. You’ll commonly see this types of clouds in an advancing warm frontal system, preceding nimbostratus clouds.', 24.00, 'images/Altostratus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Nimbostratus', 2, 'The name Nimbostratus comes from the Latin words nimbus which means “rain” and stratus for “spread out”. These gloomy clouds are the heavy rain bearers out there forming thick and dark layers of clouds that can completely block out the sun. Though they belong to the middle-level category, they may sometimes descend to lower altitudes.', 22.00, 'images/Nimbostratus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Stratus', 3, 'Stratus clouds are composed of thin layers of clouds covering a large area of the sky. This is simply mist or fog when it forms close to the ground.',12.00, 'images/Stratus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cumulus', 3, 'The most recognizable out of all the types of clouds. These adorable ‘piles of cotton’ form a large mass with a well-defined rounded edge.',13.00, 'images/Cumulus.jpg');
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cumulonimbus', 3, 'Cumulonimbus is fluffy and white like cumulus but the cloud formations are far larger. It’s a vertical developing type of cloud whose base grows from one to up to eight kilometers, hence it’s commonly called a tower cloud.',13.00, LOAD_FILE('/var/lib/mysql-files/Cumulonimbus.jpg'));
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Stratocumulus', 3, 'Stratocumulus looks like a thick white blanket of stretched out cotton.',14.00, 'images/Stratocumulus.jpg');
+
+INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Arnold', 'Anderson', 'a.anderson@gmail.com', '204-111-2222', '103 AnyWhere Street', 'Winnipeg', 'MB', 'R3X 45T', 'Canada', 'arnold' , '$2y$11$azpjt5DO6BW.HxXUkw/bruI/BPmwBCDppr2DDcP1EOEHHIFZbtDcW');
+INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Bobby', 'Brown', 'bobby.brown@hotmail.ca', '572-342-8911', '222 Bush Avenue', 'Boston', 'MA', '22222', 'United States', 'bobby' , '$2y$11$azpjt5DO6BW.HxXUkw/bruI/BPmwBCDppr2DDcP1EOEHHIFZbtDcW');
+INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Candace', 'Cole', 'cole@charity.org', '333-444-5555', '333 Central Crescent', 'Chicago', 'IL', '33333', 'United States', 'candace' , '$2y$11$azpjt5DO6BW.HxXUkw/bruI/BPmwBCDppr2DDcP1EOEHHIFZbtDcW');
+INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Darren', 'Doe', 'oe@doe.com', '250-807-2222', '444 Dover Lane', 'Kelowna', 'BC', 'V1V 2X9', 'Canada', 'darren' , '$2y$11$azpjt5DO6BW.HxXUkw/bruI/BPmwBCDppr2DDcP1EOEHHIFZbtDcW');
+INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Elizabeth', 'Elliott', 'engel@uiowa.edu', '555-666-7777', '555 Everwood Street', 'Iowa City', 'IA', '52241', 'United States', 'beth' , '$2y$11$azpjt5DO6BW.HxXUkw/bruI/BPmwBCDppr2DDcP1EOEHHIFZbtDcW');
 
 
 INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (1, '2019-10-15 10:25:55', 91.70);
@@ -204,12 +181,12 @@ INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (2, '2019-1
 SET @newOrderId = LAST_INSERT_ID();
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 3, 4, 10);
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 8, 3, 40);
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 13, 3, 23.25);
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 28, 2, 21.05);
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 29, 4, 14);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 7, 3, 23.25);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 2, 2, 21.05);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 1, 4, 14);
 
 INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (5, '2019-10-15 10:25:55', 277.40);
 SET @newOrderId = LAST_INSERT_ID();
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 5, 4, 21.35);
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 19, 2, 81);
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 20, 3, 10);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 9, 2, 81);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@newOrderId, 2, 3, 10);
