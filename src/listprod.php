@@ -61,8 +61,9 @@
     		while($row = $result->fetch_assoc()) {
 				
 				echo "<tr><td>" . $row["productId"] . "</td><td>" . $row["productName"] . "</td><td>" . $row["productDesc"] . "</td><td>" . $row["productPrice"] . "</td><td>" .
-					 "<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>add to cart</a>"  . "</td></tr>";
-		
+					 "<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>add to cart</a>"  . 
+					 "<a href='product.php?id= ".$row["productId"] . "'>PPPPPRRRRODUCTS</a>" . "</td></tr>";
+						//remember to change product above back to add to cart and delete this :)
 				}
 			echo "</table>";	
 				
@@ -111,7 +112,7 @@
 <head>
  <body>
 	<h1>Search for the products you want to buy:</h1>
-	<form method="get" action="listprod.php">
+	<form method="get" action="listprod.php"> 
 		<input type="text" name="productName" size="50">
 		<input type="submit" value="Submit"><input type="reset" value="Reset"> (Leave blank for all products)
 
