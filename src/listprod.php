@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Table with database</title>
-<head>
-	<body>
-		<table>
-			<tr>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-				<th></th>
-			<tr>
-			<?php
-
-	/* 
+<?php
+/* 
 	Include the custom OOP file for connecting to the DB means
 	we don't have to do all of the checks again. It's also better 
 	because we don't carry around the username and password variables
@@ -60,9 +45,13 @@
 		if ($result->num_rows > 0) {
     		while($row = $result->fetch_assoc()) {
 				
-				echo "<tr><td>" . $row["productId"] . "</td><td>" . $row["productName"] . "</td><td>" . $row["productDesc"] . "</td><td>" . $row["productPrice"] . "</td><td>" .
-					 "<a href='addcart.php?id= ".$row["productId"]."&name=".urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). "'>add to cart</a>"  . 
-					 "<a href='product.php?id= ".$row["productId"] . "'>see more</a>" . "</td></tr>";
+				echo "<tr><td>" . $row["productId"] . "</td><td><a href='product.php?id= "
+					. $row["productId"] . "'>" . $row["productName"] . 
+					"</a></td><td class='d-none d-sm-block'>" . $row["productDesc"] . 
+					"</td><td>" . $row["productPrice"] . "</td><td>" .
+					"<a href='addcart.php?id= ".$row["productId"] . "&name=" . 
+					urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). 
+					"'><button class='btn btn-success mb-2'>add to cart</button></a></td></tr>";
 						
 				}
 			echo "</table>";	
@@ -78,51 +67,113 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
-        <link rel="stylesheet" href="shop.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-<head>        
+	<meta charset='UTF-8' />
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+	<title>Products - Welcome2TheCloud</title>
+	<link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
+	<link rel="stylesheet" href="shop.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+	</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+	</script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+	</script>
+</head>
+
 <body>
-        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
-                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">        
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                                <li class="nav-item">
-                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
-                                </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="listprod.php">Products</a>
-                                </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="listorder.php">Orders</a>
-                                </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="createAccount.html">Create Account</a>
-                                </li>
-                        </ul>
-                </div>
-        </nav>               
+	<nav class="navbar sticky-top navbar-expand-lg navbar-light">
+		<img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+			aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul id="navbar-ul" class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+				</li>
+				<li class="nav-item active">
+					<a class="nav-link" href="listprod.php">Products</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="listorder.php">Orders</a>
+				</li>
+				<li class="nav-item">
+					<a id="login-nav" class="nav-link" href="login.html">Login</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<div class="row" id="Homepage">
+			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
+				<div class="slide-content">
+					<div class="col-lg-6 col-md-6 col-sm-6 form-group">
+						<form method="get" action="listprod.php">
+							<div class="form-group">
+								<input type="text"
+									placeholder="Enter the product you want here...(Leave blank for all products)"
+									class="form-control" name="productName">
+							</div>
+							<div class="form-group">
+								<input type="submit" class="btn btn-primary mb-2" value="Submit">
+								<input type="reset" class="btn btn-primary mb-2" value="Reset">
+							</div>
+						</form>
+					</div>
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<table class="table">
+							<tr>
+								<th>ID</th>
+								<th>Name</th>
+								<th class="d-none d-sm-block">Description</th>
+								<th>Price</th>
+								<th></th>
+							<tr>
+								<?php
+								/* Runs the main function to print the tables */
+								printTableProd();
+							?>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
 </body>
 
-<!DOCTYPE html>
-<html>
-<head>
- <body>
-	<h1>Search for the products you want to buy:</h1>
-	<form method="get" action="listprod.php"> 
-		<input type="text" name="productName" size="50">
-		<input type="submit" value="Submit"><input type="reset" value="Reset"> (Leave blank for all products)
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+<script>
+	// Function to show the current user if they are logged in and change navbar //
 
-	</form>
- <body>
- </bodyhead>
-<?php
-	/* Runs the main function to print the tables */
-	printTableProd();
-?>
+	function checkUser() {
+		var cookieExists = Cookies.get("loggedIn");
+		if (cookieExists) {
 
-	</body>
-	</html>
+			// Changes out the login for the Customer Page Navbar Button //
+			cookieExists = cookieExists.split(':');
+			// Gets the login element //
+			var loginElement = document.getElementById("login-nav");
+			// Changes the href and the name so it says the logged in users name
+			loginElement.href = 'customer.php';
+			loginElement.innerHTML = cookieExists[0];
+
+			// Add Admin Navbar Button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+			$("#navbar-ul").append(newLi);
+
+			// Add the logout navbar button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+			$("#navbar-ul").append(newLi);
+		}
+	}
+	checkUser();
+</script>
