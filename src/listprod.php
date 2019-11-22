@@ -45,7 +45,7 @@
 		if ($result->num_rows > 0) {
     		while($row = $result->fetch_assoc()) {
 				
-				echo "<tr><td>" . $row["productId"] . "</td><td><a href='product.php?id= "
+				echo "<tr><td class='d-none d-sm-block'>" . $row["productId"] . "</td><td><a href='product.php?id= "
 					. $row["productId"] . "'>" . $row["productName"] . 
 					"</a></td><td class='d-none d-sm-block'>" . $row["productDesc"] . 
 					"</td><td>" . $row["productPrice"] . "</td><td>" .
@@ -116,7 +116,7 @@
 		<div class="row" id="Homepage">
 			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
 				<div class="slide-content">
-					<div class="col-lg-6 col-md-6 col-sm-6 form-group">
+					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
 						<form method="get" action="listprod.php">
 							<div class="form-group">
 								<input type="text"
@@ -129,10 +129,10 @@
 							</div>
 						</form>
 					</div>
-					<div class="col-lg-12 col-md-12 col-sm-12">
+					<div class="col-lg-12 col-md-12 col-sm-16">
 						<table class="table">
 							<tr>
-								<th>ID</th>
+								<th class="d-none d-sm-block">ID</th>
 								<th>Name</th>
 								<th class="d-none d-sm-block">Description</th>
 								<th>Price</th>
