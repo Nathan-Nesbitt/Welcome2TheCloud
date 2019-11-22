@@ -1,5 +1,6 @@
 <?php
 	function getDBLogin(){
+
 		$username = "";
 		$password = "";
 		$database = "";
