@@ -104,24 +104,7 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </script>
-<script>
-        $('#create-product-form').submit(
-                // This handles the Contact-Us form submission//
-                function (e) {
-                        e.preventDefault();
-                        data = $(this).closest('form').serialize();
-                        $.ajax({
-                                url: 'addProduct.php',
-                                type: 'post',
-                                data: data,
-                                success: function () {
-                                        // Redirects the page to the home
-                                        window.location = "/listProd.php"
-                                }
-                        });
-                }
-        )
-</script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script>
     function checkUser() {
             var cookieExists = Cookies.get("loggedIn");

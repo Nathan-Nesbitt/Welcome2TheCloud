@@ -69,7 +69,7 @@ function displayImage(){
     
 
         if($row["productImageURL"] == null){
-            
+
             // Makes a call to the display image php file, which creates an image //
             echo "<img src='displayImage.php?id=".$row["productId"] . "'>";
             $connection->close();
