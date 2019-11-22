@@ -10,6 +10,8 @@ function getUserValues() {
     $productImageURL = NULL;
     $productImage = NULL;
     $productImageImage = NULL;
+    $productImageURLImage = NULL;
+
 
 	if (isset($_POST['productName'])){
 		$productName = $_POST['productName'];
@@ -19,7 +21,7 @@ function getUserValues() {
 	}
 	if (isset($_POST['productDesc'])){
 		$productDesc = $_POST['productDesc'];
-	}
+    }
 	if (isset($_POST['categoryId'])){
 		$categoryId = $_POST['categoryId'];
     }
@@ -35,20 +37,25 @@ function getUserValues() {
 
 /* Function to create the user in the database */
 function createAccount($connection) {
+
 	/* Gets the list of values from the function */
 	list ($productName, $productPrice, $productDesc, $categoryId, $productImageURLImage, $productImageImage) = getUserValues();
 
+    // Directory for the images
     $photoDir = "images/";
     
     // Since we will run into issues with file conflicts, 
-    // the image url becomes an md5 hash with the current time
-    if($productImageURLImage){
+    // the image url becomes the current unix time + image name 
+    if($productImageURLImage['name'] != ""){
         $productImageURL =  $photoDir . time() . $productImageURLImage['name'];
         move_uploaded_file($productImageURLImage["tmp_name"] , $productImageURL);
     }
     
-    if($productImageImage){
+    if($productImageImage['name'] != ""){
+        // Since we will run into issues with file conflicts, 
+        // the image url becomes the current unix time + image name
         $productImage = $photoDir . time() . $productImageImage["name"];
+        move_uploaded_file($productImageImage["tmp_name"] , $productImage);
         $productImageImage = file_get_contents($productImage);
     }
 
@@ -56,9 +63,8 @@ function createAccount($connection) {
 	$query = $connection->prepare("INSERT INTO product (productName, productPrice, productImageURL, productImage, productDesc, categoryId) VALUES (?, ?, ?, ?, ?, ?)");
 	/* Passes the values into the query */
 	$query->bind_param("sisssi", $productName, $productPrice, $productImageURL, $productImageImage, $productDesc, $categoryId);
-    
 
-	$result = $query->execute();
+    $result = $query->execute();
 
 	/* Returns TRUE if successful, and FALSE if failed */
 	return array($result);
@@ -84,5 +90,7 @@ function mainCreateFunction() {
 	}
 
 mainCreateFunction();
+header('Location:/listprod.php');
+
 
 ?>
