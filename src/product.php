@@ -71,13 +71,14 @@ function displayImage(){
         if($row["productImageURL"] == null){
             
             // Makes a call to the display image php file, which creates an image //
-            echo "<img src='displayImage.php?id=".$row["productId"] . "'>";
+            
+            echo "<img class=resize src='displayImage.php?id=".$row["productId"] . "'>";
             $connection->close();
             
         }
     
         else{
-            echo "<img src=" .$row["productImageURL"] . ">";
+            echo "<img class=resize src=" .$row["productImageURL"] . ">";
             $connection->close();
         }
      
@@ -125,7 +126,29 @@ function displayImage(){
                 </div>
         </nav>               
 </body>
-<footer class="container mt-12">
+</html>
+</html>
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="image.css">
+    <title> Product Display </title>
+    </head>
+    <body>
+        <div>
+        <?php
+        displayImage();
+        ?>
+        </div>
+        <div>
+            <?php
+            displayDetail();
+            echo "<button onclick=" . "location.href='listprod.php'" . ">continue shopping</botton>"
+            //echo "<a href= 'listprod.php?'> continue searching</a>";
+            ?>
+        </div>
+    </body>
+    <footer class="container mt-12">
     <div class="row">
         <div class="col">
             <p class="text-center">View the code at <a
@@ -133,22 +156,5 @@ function displayImage(){
         </div>
     </div>
 </footer>
-
-</html>
-</html>
-<!DOCTYPE html>
-<html>
-    <head>
-    <title> Product Display </title>
-    </head>
-    <body>
-        <?php
-
-        displayImage();
-        displayDetail();
-        echo "<a href= 'listprod.php?'> continue searching</a>";
-
-    ?>
-    </body>
     </html>
 
