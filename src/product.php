@@ -81,6 +81,17 @@ function displayImage(){
             echo "<img class=resize src=" .$row["productImageURL"] . ">";
             $connection->close();
         }
+
+ function getInfoForCart($connection){
+    
+    $s = getId();
+        
+    $query = $connection->prepare("SELECT * FROM product WHERE productId = ?");
+    $query->bind_param("i", $s);
+    $query->execute();
+    $result = $query->get_result();
+    return $result; 
+ }
      
 }
 
@@ -143,9 +154,19 @@ function displayImage(){
         <div>
             <?php
             displayDetail();
-            echo "<button onclick=" . "location.href='listprod.php'" . ">continue shopping</botton>"
-            //echo "<a href= 'listprod.php?'> continue searching</a>";
             ?>
+        </div>
+        <div>
+            <?php
+            $connection = createConnection();
+            $result = getInfoForCart($connection);
+            $row = $result->fetch_assoc();
+            
+            echo "<a href='addcart.php?id= ".$row["productId"] . "&name=" . 
+					urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). 
+                    "'><button class='btn btn-success mb-1'>add to cart</button></a></td></tr>"
+                    ?>
+        <a href="listprod.php"><button class='btn btn-primary mb-1'>Continue Shopping</button></a>
         </div>
     </body>
     <footer class="container mt-12">
