@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>w2tdotc - Product Information</title>
+    <title>Product Information - Welcome2TheCloud</title>
 </head>
+
 <body>
 
 
 
-<?php
+    <?php
 
 // Get product name to search for
 // TODO: Retrieve and display info for the product
@@ -110,4 +112,13 @@ echo "<a href= 'listprod.php?'> continue searching</a>";
 
 ?>
 </body>
+<footer class="container mt-12">
+    <div class="row">
+        <div class="col">
+            <p class="text-center">View the code at <a
+                    href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+        </div>
+    </div>
+</footer>
+
 </html>

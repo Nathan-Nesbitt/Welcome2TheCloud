@@ -99,13 +99,12 @@
     </div>
     </div>
     <footer class="container mt-12">
-        <div class="row">
-            <div class="col">
-                <p class="text-center"><a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
-                        Nesbitt</a>, Copyright © 2019</p>
-            </div>
-        </div>
-    </footer>
+		<div class="row">
+			<div class="col">
+				<p class="text-center">View the code at <a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+			</div>
+		</div>
+	</footer>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
     <script>
         // Function to show the current user if they are logged in and change navbar //

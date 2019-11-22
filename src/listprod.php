@@ -51,7 +51,7 @@
 					"</td><td>" . $row["productPrice"] . "</td><td>" .
 					"<a href='addcart.php?id= ".$row["productId"] . "&name=" . 
 					urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). 
-					"'><button class='btn btn-success mb-2'>add to cart</button></a></td></tr>";
+					"'><button class='btn btn-success mb-1'>add to cart</button></a></td></tr>";
 						
 				}
 			echo "</table>";	
@@ -148,6 +148,13 @@
 		</div>
 	</div>
 	</div>
+	<footer class="container mt-12">
+		<div class="row">
+			<div class="col">
+				<p class="text-center">View the code at <a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+			</div>
+		</div>
+	</footer>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>

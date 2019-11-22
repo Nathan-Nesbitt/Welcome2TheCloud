@@ -51,46 +51,48 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="center">
                         <div class="slide-content">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <h1>Enter your customer id to complete the transaction:</h1>
+                                        <h2>Please complete the following to complete your transaction:</h2>
 
-                                    <form method="get" action="order.php">
-                                    <input type="text" name="customerId" placeholder="customerId">
-                                    <input type="password" name="password" placeholder="password">
-                                    <input type="submit" value="Submit"><input type="reset" value="Reset">
-                                    </form>
+                                        <form method="get" action="order.php">
+                                                <div class="form-group">
+                                                        <input type="text" class="form-control" name="customerId" placeholder="customerId">
+                                                </div>
+                                                <div class="form-group">
+                                                        <input type="password" class="form-control" name="password" placeholder="password">
+                                                </div>
+                                                <input type="submit" class="btn btn-success mb-2" value="Submit">
+                                                <input type="reset" class="btn btn-danger mb-2" value="Reset">
+                                        </form>
                                 </div>
                         </div>
                 </div>
         </div>
         </div>
         <footer class="container mt-12">
-                <div class="row">
-                        <div class="col">
-                                <p class="text-center"><a
-                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
-                                                Nesbitt</a>, Copyright © 2019</p>
-                        </div>
-                </div>
-        </footer>
+		<div class="row">
+			<div class="col">
+				<p class="text-center">View the code at <a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+			</div>
+		</div>
+	</footer>
 </body>
 
 <!DOCTYPE html>
 <html>
-        
+
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script>
-// Function to show the current user if they are logged in //
-function checkUser() {
-        var cookieExists = Cookies.get("loggedIn");
-        if(cookieExists){
-                cookieExists = cookieExists.split(':');
-                // Gets the login element
-                var loginElement = document.getElementById("login-nav");
-                // Changes the href and the name so it says the logged in users name
-                loginElement.href = 'customer.php';
-                loginElement.innerHTML = cookieExists[0];
+        // Function to show the current user if they are logged in //
+        function checkUser() {
+                var cookieExists = Cookies.get("loggedIn");
+                if (cookieExists) {
+                        cookieExists = cookieExists.split(':');
+                        // Gets the login element
+                        var loginElement = document.getElementById("login-nav");
+                        // Changes the href and the name so it says the logged in users name
+                        loginElement.href = 'customer.php';
+                        loginElement.innerHTML = cookieExists[0];
+                }
         }
-}
-checkUser();
-
+        checkUser();
 </script>
