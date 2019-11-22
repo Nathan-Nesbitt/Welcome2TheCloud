@@ -26,11 +26,11 @@ function getDetails($connection) {
     
     $s = getId();
         
-        $query = $connection->prepare("SELECT productDesc FROM product WHERE productId = ?");
-        $query->bind_param("i", $s);
-        $query->execute();
-        $result = $query->get_result();
-        return $result;      
+    $query = $connection->prepare("SELECT productDesc FROM product WHERE productId = ?");
+    $query->bind_param("i", $s);
+    $query->execute();
+    $result = $query->get_result();
+    return $result;      
 
 }
 
