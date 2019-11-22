@@ -1,10 +1,10 @@
 <?php
 	function getDBLogin(){
 
-		$username = "";
-		$password = "";
-		$database = "";
-		$server = "";
+		$username = "ev";
+		$password = "eaoe51";
+		$database = "dbw2tc";
+		$server = "localhost";
 
 		return array($username, $password, $database, $server);
 	}

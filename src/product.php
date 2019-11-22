@@ -87,7 +87,7 @@ function displayImage(){
         $connection = createConnection();
         $result = alt_getImage($connection);
         $row = $result->fetch_assoc();
-        echo "working on it....";
+        echo $row["productImage"];
         //insert code to apend data retrieved from query to jpeg extension?
         $connection->close();
         }
@@ -106,11 +106,40 @@ function displayImage(){
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.php with product id as parameter.
 
 // TODO: Add links to Add to Cart and Continue Shopping
-displayImage();
-displayDetail();
-echo "<a href= 'listprod.php?'> continue searching</a>";
+
 
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>w2tdotc - Product Information</title>
+        <link rel="stylesheet" href="shop.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+</head>
+<body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">        
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listprod.php">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="createAccount.html">Create Account</a>
+                                </li>
+                        </ul>
+                </div>
+        </nav>               
 </body>
 <footer class="container mt-12">
     <div class="row">
@@ -122,3 +151,20 @@ echo "<a href= 'listprod.php?'> continue searching</a>";
 </footer>
 
 </html>
+</html>
+<!DOCTYPE html>
+<html>
+    <head>
+    <title> Product Display </title>
+    </head>
+    <body>
+        <?php
+
+        displayImage();
+        displayDetail();
+        echo "<a href= 'listprod.php?'> continue searching</a>";
+
+    ?>
+    </body>
+    </html>
+
