@@ -65,7 +65,7 @@ CREATE TABLE product (
     productName         VARCHAR(40),
     productPrice        DECIMAL(10,2),
     productImageURL     TEXT,
-    productImage        BLOB,
+    productImage        LONGBLOB,
     productDesc         VARCHAR(1000),
     categoryId          INT,
     PRIMARY KEY (productId),
@@ -151,7 +151,7 @@ INSERT product(productName, categoryId, productDesc, productPrice, productImageU
 INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Nimbostratus', 2, 'The name Nimbostratus comes from the Latin words nimbus which means “rain” and stratus for “spread out”. These gloomy clouds are the heavy rain bearers out there forming thick and dark layers of clouds that can completely block out the sun. Though they belong to the middle-level category, they may sometimes descend to lower altitudes.', 22.00, 'images/Nimbostratus.jpg');
 INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Stratus', 3, 'Stratus clouds are composed of thin layers of clouds covering a large area of the sky. This is simply mist or fog when it forms close to the ground.',12.00, 'images/Stratus.jpg');
 INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cumulus', 3, 'The most recognizable out of all the types of clouds. These adorable ‘piles of cotton’ form a large mass with a well-defined rounded edge.',13.00, 'images/Cumulus.jpg');
-INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cumulonimbus', 3, 'Cumulonimbus is fluffy and white like cumulus but the cloud formations are far larger. It’s a vertical developing type of cloud whose base grows from one to up to eight kilometers, hence it’s commonly called a tower cloud.',13.00, LOAD_FILE('/var/lib/mysql-files/Cumulonimbus.jpg'));
+INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Cumulonimbus', 3, 'Cumulonimbus is fluffy and white like cumulus but the cloud formations are far larger. It’s a vertical developing type of cloud whose base grows from one to up to eight kilometers, hence it’s commonly called a tower cloud.',13.00, 'images/Cumulonimbus.jpg');
 INSERT product(productName, categoryId, productDesc, productPrice, productImageURL) VALUES ('Stratocumulus', 3, 'Stratocumulus looks like a thick white blanket of stretched out cotton.',14.00, 'images/Stratocumulus.jpg');
 
 INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Arnold', 'Anderson', 'a.anderson@gmail.com', '204-111-2222', '103 AnyWhere Street', 'Winnipeg', 'MB', 'R3X 45T', 'Canada', 'arnold' , '$2y$11$azpjt5DO6BW.HxXUkw/bruI/BPmwBCDppr2DDcP1EOEHHIFZbtDcW');
