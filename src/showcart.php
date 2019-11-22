@@ -5,8 +5,8 @@ function showCart() {
 	$productList = null;
 	if (isset($_SESSION['productList'])){
 		$productList = $_SESSION['productList'];
-		echo("<h1>Your Shopping Cart</h1>");
-		echo("<table><tr><th>Product Id</th><th>Product Name</th><th>Quantity</th>");
+		echo("<div align='center'><h1>Shopping Cart</h1></div>");
+		echo("<div class='row justify-content-md-center'><div class='col-sm-8'><table class='table'><tr><th>Id</th><th>Product Name</th><th>Quantity</th>");
 		echo("<th>Price</th><th>Subtotal</th></tr>");
 
 		$total =0;
@@ -23,11 +23,11 @@ function showCart() {
 			$total = $total +$prod['quantity']*$price;
 		}
 		echo("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td><td align=\"right\">$" . number_format($total,2) ."</td></tr>");
-		echo("</table>");
+		echo("</table></div>");
 
-		echo("<button><a href=\"checkout.php\">Check Out</a></button>");
+		echo("</div><div align='center'><a href=\"checkout.php\"><button class='btn btn-primary mb-1'>Check Out</button></a></button>");
 	} else{
-		echo("<H1>Your shopping cart is empty!</H1>");
+		echo("<div align='center'><H1>Your shopping cart is empty!</H1>");
 	}
 }
 ?>
@@ -79,18 +79,19 @@ function showCart() {
                         </ul>
                 </div>
         </nav>
-	<div class="row" id="Side-Slideshow">
-		<div class="col-lg-16 col-md-12 col-sm-12" align="center">
+	<div class="row">
+		<div class="col-lg-12">
+
 			<?php showCart(); ?>
-			<button><a href="listprod.php">Continue Shopping</a></button>
+				<a href="listprod.php"><button class='btn btn-primary mb-1'>Continue Shopping</button></a>
+			</div>
 		</div>
 	</div>
 	</div>
 	<footer class="container mt-12">
 		<div class="row">
 			<div class="col">
-				<p class="text-center"><a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
-						Nesbitt</a>, Copyright © 2019</p>
+				<p class="text-center">View the code at <a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
 			</div>
 		</div>
 	</footer>
