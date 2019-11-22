@@ -162,25 +162,29 @@
 	// Function to show the current user if they are logged in and change navbar //
 
 	function checkUser() {
-		var cookieExists = Cookies.get("loggedIn");
-		if (cookieExists) {
+        var cookieExists = Cookies.get("loggedIn");
+        if(cookieExists){
 
-			// Changes out the login for the Customer Page Navbar Button //
-			cookieExists = cookieExists.split(':');
-			// Gets the login element //
-			var loginElement = document.getElementById("login-nav");
-			// Changes the href and the name so it says the logged in users name
-			loginElement.href = 'customer.php';
-			loginElement.innerHTML = cookieExists[0];
+                // Changes out the login for the Customer Page Navbar Button //
+                cookieExists = cookieExists.split(':');
+                // Gets the login element //
+                var loginElement = document.getElementById("login-nav");
+                // Changes the href and the name so it says the logged in users name
+                loginElement.href = 'customer.php';
+                loginElement.innerHTML = cookieExists[0];
 
-			// Add Admin Navbar Button //
-			newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
-			$("#navbar-ul").append(newLi);
+                // Add Admin Navbar Button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+                $("#navbar-ul").append(newLi);
+                
+                // Add the logout navbar button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
+                $("#navbar-ul").append(newLi);
 
-			// Add the logout navbar button //
-			newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-			$("#navbar-ul").append(newLi);
-		}
-	}
-	checkUser();
+                // Add the logout navbar button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                $("#navbar-ul").append(newLi);
+        }
+}
+checkUser();
 </script>

@@ -9,7 +9,7 @@
 
 
 
-    <?php
+<?php
 
 // Get product name to search for
 // TODO: Retrieve and display info for the product
@@ -29,27 +29,13 @@ function getImage($connection){
 
     $s = getId();
 
-    $query = $connection->prepare("SELECT productImageURL FROM product WHERE productId = ?");
-    $query->bind_param("i", $s);
-    $query->execute();
-    $result = $query->get_result();
-    $check = true;
-    return $result;
-
-}
-
-function alt_getImage($connection){
-
-    $s = getId();
-
-    $query = $connection->prepare("SELECT productImage FROM product WHERE productId = ?");
+    $query = $connection->prepare("SELECT productImageURL, productId FROM product WHERE productId = ?");
     $query->bind_param("i", $s);
     $query->execute();
     $result = $query->get_result();
     return $result;
 
 }
-
 
 function getDetails($connection) {
     
@@ -74,6 +60,7 @@ function displayDetail(){
 
 }
 
+
 function displayImage(){
 
     $connection = createConnection();
@@ -82,19 +69,16 @@ function displayImage(){
     
 
         if($row["productImageURL"] == null){
-        $connection->close();
-        echo "no image found ";
-        $connection = createConnection();
-        $result = alt_getImage($connection);
-        $row = $result->fetch_assoc();
-        echo "working on it....";
-        //insert code to apend data retrieved from query to jpeg extension?
-        $connection->close();
+            
+            // Makes a call to the display image php file, which creates an image //
+            echo "<img src='displayImage.php?id=".$row["productId"] . "'>";
+            $connection->close();
+            
         }
     
         else{
-        echo "<img src=" .$row["productImageURL"] . ">";
-        $connection->close();
+            echo "<img src=" .$row["productImageURL"] . ">";
+            $connection->close();
         }
      
 }
