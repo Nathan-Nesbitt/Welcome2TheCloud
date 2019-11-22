@@ -71,13 +71,14 @@ function displayImage(){
         if($row["productImageURL"] == null){
 
             // Makes a call to the display image php file, which creates an image //
-            echo "<img src='displayImage.php?id=".$row["productId"] . "'>";
+            
+            echo "<img class=resize src='displayImage.php?id=".$row["productId"] . "'>";
             $connection->close();
             
         }
     
         else{
-            echo "<img src=" .$row["productImageURL"] . ">";
+            echo "<img class=resize src=" .$row["productImageURL"] . ">";
             $connection->close();
         }
      
@@ -90,13 +91,64 @@ function displayImage(){
 // TODO: Retrieve any image stored directly in database. Note: Call displayImage.php with product id as parameter.
 
 // TODO: Add links to Add to Cart and Continue Shopping
-displayImage();
-displayDetail();
-echo "<a href= 'listprod.php?'> continue searching</a>";
+
 
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>w2tdotc - Product Information</title>
+        <link rel="stylesheet" href="shop.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+</head>
+<body>
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light">
+                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">        
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                                <li class="nav-item">
+                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listprod.php">Products</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                </li>
+                                <li class="nav-item">
+                                        <a class="nav-link" href="createAccount.html">Create Account</a>
+                                </li>
+                        </ul>
+                </div>
+        </nav>               
 </body>
-<footer class="container mt-12">
+</html>
+</html>
+<!DOCTYPE html>
+<html>
+    <head>
+    <link rel="stylesheet" href="image.css">
+    <title> Product Display </title>
+    </head>
+    <body>
+        <div>
+        <?php
+        displayImage();
+        ?>
+        </div>
+        <div>
+            <?php
+            displayDetail();
+            echo "<button onclick=" . "location.href='listprod.php'" . ">continue shopping</botton>"
+            //echo "<a href= 'listprod.php?'> continue searching</a>";
+            ?>
+        </div>
+    </body>
+    <footer class="container mt-12">
     <div class="row">
         <div class="col">
             <p class="text-center">View the code at <a
@@ -104,5 +156,5 @@ echo "<a href= 'listprod.php?'> continue searching</a>";
         </div>
     </div>
 </footer>
+    </html>
 
-</html>
