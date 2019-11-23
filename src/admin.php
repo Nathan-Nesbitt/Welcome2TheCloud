@@ -125,6 +125,10 @@
                 newLi = '<li class="nav-item active"><a class="nav-link" href="admin.php">Admin</a></li>';
                 $("#navbar-ul").append(newLi);
 
+                // Add the add product navbar button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
+                $("#navbar-ul").append(newLi);
+
                 // Add the logout navbar button //
                 newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
                 $("#navbar-ul").append(newLi);

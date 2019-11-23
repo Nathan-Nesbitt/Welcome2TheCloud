@@ -4,7 +4,7 @@
 <head>
         <meta charset='UTF-8' />
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-        <title>Grocery CheckOut Line - Welcome2TheCloud</title>
+        <title>Checkout - Welcome2TheCloud</title>
         <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
         <link rel="stylesheet" href="shop.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -31,12 +31,12 @@
                         <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
+                        <ul id="navbar-ul" class="navbar-nav">
                                 <li class="nav-item">
                                         <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
                                 </li>
                                 <li class="nav-item">
-                                        <a class="nav-link" href="listprod.php">Products</a>
+                                        <a class="nav-link active" href="listprod.php">Products</a>
                                 </li>
                                 <li class="nav-item">
                                         <a class="nav-link" href="listorder.php">Orders</a>
@@ -51,14 +51,14 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="center">
                         <div class="slide-content">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <h2>Please complete the following to complete your transaction:</h2>
-
                                         <form method="get" action="order.php">
                                                 <div class="form-group">
-                                                        <input type="text" class="form-control" name="customerId" placeholder="customerId">
+                                                        <input type="text" class="form-control" name="customerId"
+                                                                placeholder="customerId">
                                                 </div>
                                                 <div class="form-group">
-                                                        <input type="password" class="form-control" name="password" placeholder="password">
+                                                        <input type="password" class="form-control" name="password"
+                                                                placeholder="password">
                                                 </div>
                                                 <input type="submit" class="btn btn-success mb-2" value="Submit">
                                                 <input type="reset" class="btn btn-danger mb-2" value="Reset">
@@ -69,30 +69,44 @@
         </div>
         </div>
         <footer class="container mt-12">
-		<div class="row">
-			<div class="col">
-				<p class="text-center">View the code at <a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
-			</div>
-		</div>
-	</footer>
+                <div class="row">
+                        <div class="col">
+                                <p class="text-center">View the code at <a
+                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a>
+                                </p>
+                        </div>
+                </div>
+        </footer>
 </body>
-
-<!DOCTYPE html>
-<html>
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script>
-        // Function to show the current user if they are logged in //
         function checkUser() {
                 var cookieExists = Cookies.get("loggedIn");
                 if (cookieExists) {
+
+                        // Changes out the login for the Customer Page Navbar Button //
                         cookieExists = cookieExists.split(':');
-                        // Gets the login element
+                        // Gets the login element //
                         var loginElement = document.getElementById("login-nav");
                         // Changes the href and the name so it says the logged in users name
                         loginElement.href = 'customer.php';
                         loginElement.innerHTML = cookieExists[0];
+
+                        // Add Admin Navbar Button //
+                        newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+                        $("#navbar-ul").append(newLi);
+
+                        // Add the add product navbar button //
+                        newLi =
+                                '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
+                        $("#navbar-ul").append(newLi);
+
+                        // Add the logout navbar button //
+                        newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                        $("#navbar-ul").append(newLi);
                 }
         }
         checkUser();
 </script>
+</html>
