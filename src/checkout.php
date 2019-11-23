@@ -51,6 +51,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="center">
                         <div class="slide-content">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <h3>Enter your username and password to complete the transaction</h3>
                                         <form method="post" action="order.php">
                                                 <div class="form-group">
                                                         <input type="text" class="form-control" name="Username"
