@@ -5,82 +5,99 @@ include 'login_scripts.php';
 
 /* Function to check to see if customer exists */
 
-function checkIfCustomer($connection, $custId) {
-
-	$query = $connection->prepare("SELECT * FROM customer WHERE customerId = ?");
-	/* Passes the values into the query */
-	$query->bind_param("i", $custId);
-	
-	$query->execute();
-	/* Returns TRUE if successful, and FALSE if failed */
-	$result = $query->get_result();
-
-	if ($result->fetch_assoc()) {
-		return TRUE;
-	}
-	return FALSE;
-}
-
-/** Get customer ID and Products **/
 function getOrderData($connection) {
-	$custId = null;
-	if(isset($_POST['Username'])){
-		$custId = $_POST['Username'];
-	}
+
+	/** 
+	 * 
+	 * Get userID, password, and products from the posted page 
+	 * Returns list(userID, password, list of products) if successful, FALSE for any if failed
+	 * 
+	 * **/
+
+	$userid = null;
 	$password = null;
+	$productList = null;
+	
+	if(isset($_POST['Username'])){
+		$userid = $_POST['Username'];
+	}
 	if(isset($_POST['password'])){
 		$password = $_POST['password'];
 	}
 	session_start();
-	$productList = null;
 	if (isset($_SESSION['productList'])){
 		$productList = $_SESSION['productList'];
 	}
 	
-
-	/* Checks to see if the customer exists */
-	$customerValid = checkIfCustomer($connection, $custId);
-
-	/* Check to be sure that the password is right */
-	$rightPassword = idLogin($connection, $custId, $_POST['password']);
-	
-	if($customerValid == FALSE){
-		echo "<h3>No Customer</h3>";
-		return FALSE;
-	}
-	else if ($rightPassword == FALSE) {
-		echo "<h3>Wrong Password</h3>";
-		return FALSE;
-	}
-	else if(is_null($productList)){
-		echo "<h3>No Ordered Data</h3>";
-		return FALSE;
-	}
-	else {
-		return array($custId, $password, $productList);
-	}
+	return array($userid, $password, $productList);
 	
 }
 
-/** Save order information to database**/
-function saveOrderData($connection){
-
-	list($custId, $password, $productList) = getOrderData($connection);
+function checkUserInput($connection, $userid, $password, $productList) {
 	
-	if ($custId == FALSE)
-		return FALSE; 
+	/**
+	 * Function that checks the user input to see if userID exists,
+	 * password matches for that user, and that the product list exists
+	 * 
+	 * Returns: FALSE if any of these fail and prints to screen. TRUE if no error.
+	 * 
+	 * **/
 
+	$rightPassword = login($connection, $userid, $password);
+	if ($rightPassword == FALSE) {
+		echo "<h3>Wrong Password or Username</h3>";
+		return FALSE;
+	}
+
+	if(is_null($productList)){
+		echo "<h3>No Ordered Data</h3>";
+		return FALSE;
+	}
+	
+	return TRUE;
+}
+
+function getCustomerInfo($connection, $userid) {
+	/**
+	 * Gets all customer info for some user based on their userID
+	 * 
+	 * Returns: Result from query.
+	 */
+
+	$getCustomerInfo = $connection->prepare("SELECT customerId, firstName, lastName, email, phonenum, address, city, state, postalCode, country FROM customer WHERE userid=?");
+	$getCustomerInfo->bind_param("s", $userid);
+	$getCustomerInfo->execute();
+	$result = $getCustomerInfo->get_result()->fetch_assoc();
+
+	return $result;
+}
+
+function createOrderSummary($connection, $userid) {
+	/**
+	 * Creates a new order for a certain user based on their username
+	 * 
+	 * Returns: orderId
+	 */
+	$customerInfo = getCustomerInfo($connection, $userid);
+	
 	$orderDate = date('Y-m-d H:i:s');
 
 	$orderSummaryQuery = $connection->prepare("INSERT INTO ordersummary (customerId, totalAmount, orderDate) VALUES (?, 0, ?)");
-	/* Passes the values into the query */
-	$orderSummaryQuery->bind_param("is", $custId, $orderDate);
+	$orderSummaryQuery->bind_param("is", $customerInfo["customerId"], $orderDate);
 	$orderSummaryQuery->execute();
 
 	/* Gets the newly created order ID from the ordersummary table */
 	$orderId = $orderSummaryQuery->insert_id;
-	
-	/* For all of the elements in the cart, we add them to the database */
+
+	return $orderId;
+}
+
+function addProductsToCart($connection, $productList, $orderId) {
+	/**
+	 * Adds all products to a cart using the productlist and orderId
+	 * 
+	 * Returns: None
+	 */
 	foreach ($productList as $product) {
 		$price = doubleval($product['price']);
 		$totalPrice = doubleval($price) * doubleval($product['quantity']);
@@ -94,7 +111,24 @@ function saveOrderData($connection){
 	$updateOrderTotalQuery = $connection->prepare("UPDATE ordersummary SET totalAmount=? WHERE orderId=?");
 	$updateOrderTotalQuery->bind_param("ii", $totalPrice, $orderId);
 	$updateOrderTotalQuery->execute();
+}
+
+/** Save order information to database**/
+function saveOrderData($connection){
+
+	/**
+	 * Calls all required functions to load the data into the database
+	 */
 	
+	list($userid, $password, $productList) = getOrderData($connection);
+
+	$success = checkUserInput($connection, $userid, $password, $productList);
+	if(!$success)
+		return FALSE;
+
+	$orderId = createOrderSummary($connection, $userid);
+
+	addProductsToCart($connection, $productList, $orderId);
 	
 	return $orderId;
 }
@@ -201,9 +235,7 @@ function printOrder() {
 		<div class="row" id="Homepage">
 			<div class="col-lg-12 col-md-12 col-sm-12" align="center">
 				<div class="slide-content">
-					<?php 
-										printOrder();
-									?>
+					<?php printOrder(); ?>
 				</div>
 			</div>
 		</div>
