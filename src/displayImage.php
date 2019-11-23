@@ -21,7 +21,8 @@ function alt_getImage($connection){
 function createImage($connection, $id){
     if ($id != null){
         $result = alt_getImage($connection);
-            
+        if (mysqli_num_rows($result) == 0)
+            return FALSE;
         $row = $result->fetch_assoc();
         echo $row["productImage"]; 
         $connection->close();
@@ -32,6 +33,8 @@ $id = $_GET['id'];
 
 $connection = createConnection();
 
-createImage($connection, $id);
+$success = createImage($connection, $id);
+if(!$success)
+    echo "FAILED TO LOAD IMAGE";
 
 ?>
