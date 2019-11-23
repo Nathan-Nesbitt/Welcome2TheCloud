@@ -51,10 +51,10 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="center">
                         <div class="slide-content">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <form method="get" action="order.php">
+                                        <form method="post" action="order.php">
                                                 <div class="form-group">
-                                                        <input type="text" class="form-control" name="customerId"
-                                                                placeholder="customerId">
+                                                        <input type="text" class="form-control" name="Username"
+                                                                placeholder="Username">
                                                 </div>
                                                 <div class="form-group">
                                                         <input type="password" class="form-control" name="password"

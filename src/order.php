@@ -24,12 +24,12 @@ function checkIfCustomer($connection, $custId) {
 /** Get customer ID and Products **/
 function getOrderData($connection) {
 	$custId = null;
-	if(isset($_GET['customerId'])){
-		$custId = $_GET['customerId'];
+	if(isset($_POST['Username'])){
+		$custId = $_POST['Username'];
 	}
 	$password = null;
-	if(isset($_GET['password'])){
-		$password = $_GET['password'];
+	if(isset($_POST['password'])){
+		$password = $_POST['password'];
 	}
 	session_start();
 	$productList = null;
@@ -42,7 +42,7 @@ function getOrderData($connection) {
 	$customerValid = checkIfCustomer($connection, $custId);
 
 	/* Check to be sure that the password is right */
-	$rightPassword = idLogin($connection, $custId, $_GET['password']);
+	$rightPassword = idLogin($connection, $custId, $_POST['password']);
 	
 	if($customerValid == FALSE){
 		echo "<h3>No Customer</h3>";
