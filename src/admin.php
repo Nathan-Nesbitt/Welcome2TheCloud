@@ -3,6 +3,12 @@
     require_once 'include/db_connection.php';
     require_once 'login_scripts.php';
 
+    function getUsers($connection) {
+        $query = $connection->prepare("SELECT customerId, firstName, lastName, userid from customer");
+        $query->execute();
+        return $query->get_result();
+    }
+
     function mainAdmin() {
         $connection = createConnection();
 
@@ -20,6 +26,7 @@
 
         
         // Print out the table
+        echo '<h2>Orders</h2>';
         echo '<table class="table" border="1">';
         echo "<tr><th>Order Date</th><th>Total Order Amount</th></tr>";
 
@@ -29,6 +36,14 @@
 
         echo "</table>";
 
+        $result = getUsers($connection);
+        echo '<h2>Customers</h2>';
+        echo '<table class="table" border="1">';
+        echo "<tr><th>User ID</th><th>Name</th><th>Username</th></tr>";
+        while ( $row = $result->fetch_assoc() ){
+            echo "<tr><td>".$row["customerId"].'</td><td>'.$row["firstName"]." ".$row["lastName"].'</td><td>'.$row["userid"].'</td></tr>';
+        }
+        echo "</table>";
         echo "<a href='/loaddata.php'><button class='btn btn-danger mb-1'>Reload Database</button></a>";
 
         $connection->close();
