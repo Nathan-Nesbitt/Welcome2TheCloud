@@ -19,10 +19,10 @@ function getOrderData($connection) {
 	$productList = null;
 	
 	if(isset($_POST['Username'])){
-		$userid = $_POST['Username'];
+		$userid = trim(htmlspecialchars($_POST['Username']));
 	}
 	if(isset($_POST['password'])){
-		$password = $_POST['password'];
+		$password = trim(htmlspecialchars($_POST['password']));
 	}
 	session_start();
 	if (isset($_SESSION['productList'])){

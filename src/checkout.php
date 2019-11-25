@@ -55,11 +55,11 @@
                                         <form method="post" action="order.php">
                                                 <div class="form-group">
                                                         <input type="text" class="form-control" name="Username"
-                                                                placeholder="Username">
+                                                                placeholder="Username" required>
                                                 </div>
                                                 <div class="form-group">
                                                         <input type="password" class="form-control" name="password"
-                                                                placeholder="password">
+                                                                placeholder="password" required>
                                                 </div>
                                                 <input type="submit" class="btn btn-success mb-2" value="Submit">
                                                 <input type="reset" class="btn btn-danger mb-2" value="Reset">
