@@ -24,19 +24,29 @@
 
         // Print out table
         echo '<table class = "table" border="1">';
+        echo '<form method="post" id="update-account-form" action="updateAccount.php">';
         echo "<tr><th>Id</th><td>". $userInfo["customerId"] ."</td></tr>";
-        echo "<tr><th>First Name</th><td>" . $userInfo["firstName"] . "</td></tr>";
-        echo "<tr><th>Last Name</th><td>" . $userInfo["lastName"] . "</td></tr>";
-        echo "<tr><th>Email</th><td>" . $userInfo["email"] . "</td></tr>";
-        echo "<tr><th>Phone</th><td>" . $userInfo["phonenum"] . "</td></tr>";
-        echo "<tr><th>Address</th><td>" . $userInfo["address"] . "</td></tr>";
-        echo "<tr><th>City</th><td>" . $userInfo["city"] . "</td></tr>";
-        echo "<tr><th>State</th><td>" . $userInfo["state"] . "</td></tr>";
-        echo "<tr><th>Postal Code</th><td>" . $userInfo["postalCode"] . "</td></tr>";
-        echo "<tr><th>Country</th><td>" . $userInfo["country"] . "</td></tr>";
-        echo "<tr><th>User id</th><td>" . $userInfo["userid"] . "</td></tr>";
-        echo "</table>";
+        echo "<tr><th>First Name</th><td><input type='text' class='form-control' name='FirstName' value='" . $userInfo["firstName"] . "'></td></tr>";
+        echo "<tr><th>Last Name</th><td><input type='text' class='form-control' name='LastName' value='" . $userInfo["lastName"] . "'></td></tr>";
+        echo "<tr><th>Email</th><td><input type='email' class='form-control' name='email' value='" . $userInfo["email"] . "'></td></tr>";
+        echo "<tr><th>Phone</th><td><input type='tel' pattern='^\d{3}-\d{3}-\d{4}$' class='form-control' name='phonenum' value='" . $userInfo["phonenum"] . "'></td></tr>";
+        echo "<tr><th>Address</th><td><input type='text' class='form-control' name='address' value='" . $userInfo["address"] . "'></td></tr>";
+        echo "<tr><th>City</th><td><input type='text' class='form-control' name='city' value='" . $userInfo["city"] . "'></td></tr>";
+        echo "<tr><th>State</th><td><input type='text' class='form-control' maxlength='6' name='state' value='" . $userInfo["state"] . "'></td></tr>";
+        echo "<tr><th>Postal Code</th><td><input type='text' class='form-control' name='postalCode' value='" . $userInfo["postalCode"] . "'></td></tr>";
+        echo "<tr><th>Country</th><td><input type='text' class='form-control' name='country' value='" . $userInfo["country"] . "'></td></tr>";
+        echo "<tr><th>User id</th><td><input type='text' class='form-control' name='userid' value='" . $userInfo["userid"] . "'></td></tr>";
+        echo '</table><input type="submit" class="btn btn-primary mb-2" value="Update Information"></form>';
 
+        echo '<form method="post" id="update-account-form" action="updateAccount.php">';
+        echo '<div class="form-group">';
+        echo '<input type="text" class="form-control" name="password" placeholder="Old Password" required>';
+        echo '</div><div class="form-group">';
+        echo '<input type="text" class="form-control" name="newPassword" placeholder="New Password" required>';
+        echo '</div><div class="form-group">';
+        echo '<input type="submit" class="btn btn-primary mb-2" value="Change Password">';
+        echo '</div></form>';
+        
         $connection->close();
         return TRUE;
 
