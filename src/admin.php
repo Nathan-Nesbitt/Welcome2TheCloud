@@ -29,7 +29,7 @@
 
         echo "</table>";
 
-        echo "<a href='/loadData.php'><button class='btn btn-danger mb-1'>Reload Database</button></a>";
+        echo "<a href='/loaddata.php'><button class='btn btn-danger mb-1'>Reload Database</button></a>";
 
         $connection->close();
         return TRUE;
