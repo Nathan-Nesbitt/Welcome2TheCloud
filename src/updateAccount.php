@@ -106,6 +106,7 @@ function mainCreateFunction() {
         /* Closes the connection to the database */
 		$connection->close();
 
+		header('Location:/customer.php');
 	}
 
 mainCreateFunction();
