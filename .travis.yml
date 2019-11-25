@@ -17,6 +17,7 @@ before_install:
 - mysql -e 'CREATE DATABASE testDatabase;'
 - mysql -e "CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';"
 - mysql -e "GRANT ALL ON testDatabase.* TO 'username'@'localhost'; flush privileges;"
+- mysql -u root --default-character-set=utf8 testDatabase < src/data/orderdb_sql.ddl
 - echo "<?php function getDBLogin(){ \$username = \"username\"; \$password = \"password\"; \$database = \"testDatabase\"; \$server = \"localhost\"; return array(\$username, \$password, \$database, \$server);} ?>" > src/include/db_credentials.php 
 - cd src
 - php loaddata.php
