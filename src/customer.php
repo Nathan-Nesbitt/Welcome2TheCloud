@@ -40,9 +40,9 @@
 
         echo '<form method="post" id="update-account-form" action="updateAccount.php">';
         echo '<div class="form-group">';
-        echo '<input type="text" class="form-control" name="password" placeholder="Old Password" required>';
+        echo '<input type="password" class="form-control" name="password" placeholder="Old Password" required>';
         echo '</div><div class="form-group">';
-        echo '<input type="text" class="form-control" name="newPassword" placeholder="New Password" required>';
+        echo '<input type="password" class="form-control" name="newPassword" placeholder="New Password" required>';
         echo '</div><div class="form-group">';
         echo '<input type="submit" class="btn btn-primary mb-2" value="Change Password">';
         echo '</div></form>';
