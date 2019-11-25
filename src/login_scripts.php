@@ -52,11 +52,11 @@
         return $token["token"];
     }
 
-    function removeToken($connection, $user) {
+    function removeToken($connection, $userid) {
         /* Function to remove the token for some user */
         
         $query = $connection->prepare("UPDATE customer SET token=NULL WHERE userid=?");
-        $query->bind_param("s", $user);
+        $query->bind_param("s", $userid);
         $query->execute();
     }
 
@@ -104,7 +104,10 @@
         }
     }
 
-    function removeSessionToken(){
+    function removeSessionToken($connection){
+        $cookie = $_COOKIE["loggedIn"];
+        $userId = explode(":", $cookie)[0];
         setcookie('loggedIn', NULL);
+        removeToken($connection, $userId);
     }
 ?>
