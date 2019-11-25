@@ -97,9 +97,9 @@
                                                                         placeholder="Username" required>
                                                         </div>
                                                         <div class="form-group">
-                                                                <input type="text" class="form-control" name="password"
+                                                                <input type="password" class="form-control" name="password"
                                                                         placeholder="Password" required>
-                                                        </div>
+                                                        </div><p id="error-response"></p>
                                                         <input type="submit" class="btn btn-primary mb-2"
                                                                 value="Submit">
                                                 </div>
@@ -135,9 +135,13 @@
                                 url: 'createAccount.php',
                                 type: 'post',
                                 data: data,
+                                datatype: 'json',
                                 success: function () {
                                         // Redirects the page to the home
                                         window.location = "/"
+                                },
+                                error: function () {
+                                        document.getElementById("error-response").textContent = "Please enter valid data! Your request was denied!";
                                 }
                         });
                 }
