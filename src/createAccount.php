@@ -96,7 +96,7 @@ function mainCreateFunction() {
 			header('Error-Message: Incorrect Field', true, 500);
 			echo '{ "success": "FALSE", "Issue":"Wrong Field Value." }';
 		}
-			
+		$connection->close();	
 	}
 
 header('Content-type: application/json');

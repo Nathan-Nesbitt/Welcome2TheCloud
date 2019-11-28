@@ -50,14 +50,22 @@
         <div class="container-fluid">
                 <div class="row" id="Homepage">
                         <div class="col-lg-16 col-md-12 col-sm-12" align="center">
-                                <div class="slide-content">
-                                </div>
-                        </div>
-                </div>
-                <div class="row" id="ID1">
-                        <div class="col-lg-12 col-md-12 col-sm-12" align="center">
-                                <div class="slide-content">
-
+                                <div class="slide-content row">
+                                                <?php
+                                                        include 'include/db_connection.php';
+                                                        
+                                                        $connection = createConnection();
+                                                        $query = $connection->prepare("SELECT * FROM product");
+                                                        $query->execute();
+                                                        $result = $query->get_result();
+                                                        while($row = $result->fetch_assoc()){
+                                                                echo '<div class="col-md-3 col-sm-6 col-xs-6 text-center">';
+                                                                echo '<a href="product.php?id='.$row["productId"].'">';
+                                                                echo '<img src="'.$row["productImageURL"].'" style="width: 100%; height: 80%;">';
+                                                                echo '<p>'.$row["productName"].'</p>';
+                                                                echo '</a></div>';
+                                                        }
+                                                ?>
                                 </div>
                         </div>
                 </div>
