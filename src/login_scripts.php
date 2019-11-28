@@ -36,27 +36,30 @@
 }
 
     function storeToken($connection, $user, $token) {
-        /* Function to store the value for the token for a user in the database */
-        $query = $connection->prepare("UPDATE customer SET token=? WHERE userid=?");
-        $query->bind_param("ss", $token, $user);
+        /* Function to store the value for the token for a user in the database 
+            Returns the id for the insertion.
+        */
+        $query = $connection->prepare("INSERT INTO tokens (userid, token) VALUES (?, ?) ");
+        $query->bind_param("ss", $user, $token);
         $query->execute();
+        return $query->insert_id;
     }
 
-    function fetchToken($connection, $user){
-        /* Function to get the token for some user from the database */
+    function fetchToken($connection, $user, $tokenId){
+        /* Function to get the token and id for some user from the database */
 
-        $query = $connection->prepare("SELECT token FROM customer WHERE userid=?");
-        $query->bind_param("s", $user);
+        $query = $connection->prepare("SELECT token FROM tokens WHERE userid=? and tokenId=?");
+        $query->bind_param("si", $user, $tokenId);
         $query->execute();
         $token = $query->get_result()->fetch_assoc();
         return $token["token"];
     }
 
-    function removeToken($connection, $userid) {
+    function removeToken($connection, $userid, $tokenId) {
         /* Function to remove the token for some user */
         
-        $query = $connection->prepare("UPDATE customer SET token=NULL WHERE userid=?");
-        $query->bind_param("s", $userid);
+        $query = $connection->prepare("DELETE from tokens WHERE userid=? and tokenId=?");
+        $query->bind_param("si", $userid, $tokenId);
         $query->execute();
     }
 
@@ -70,9 +73,9 @@
         /* Creates a random 255 length token */
         $token = bin2hex(random_bytes(255));
         /* Stores the token in the database */
-        storeToken($connection, $user, $token);
+        $tokenID = storeToken($connection, $user, $token);
 
-        $cookie = $user . ':' . $token;
+        $cookie = $user . ':'. $tokenID .':' . $token;
         $hash = hash_hmac('sha256', $cookie, $SECRET_KEY);
         $cookie .= ':' . $hash;
         setcookie('loggedIn', $cookie);
@@ -90,14 +93,14 @@
 
         /* This checks to see if the cookie exists */
         if ($cookie) {
-            list ($user, $token, $hash) = explode(':', $cookie);
+            list ($user, $tokenID, $token, $hash) = explode(':', $cookie);
             
             /* This checks to see if the hash matches */
-            if (!hash_equals(hash_hmac('sha256', $user . ':' . $token, $SECRET_KEY), $hash)) {
+            if (!hash_equals(hash_hmac('sha256', $user . ':'.$tokenID .':' . $token, $SECRET_KEY), $hash)) {
                 return false;
             }
             /* Gets the token and checks if the user's token matches that of the user */
-            $usertoken = fetchToken($connection, $user);
+            $usertoken = fetchToken($connection, $user, $tokenID);
             if (hash_equals($usertoken, $token)) {
                 return true;
             }
@@ -107,7 +110,8 @@
     function removeSessionToken($connection){
         $cookie = $_COOKIE["loggedIn"];
         $userId = explode(":", $cookie)[0];
+        $tokenId = explode(":", $cookie)[1];
         setcookie('loggedIn', NULL);
-        removeToken($connection, $userId);
+        removeToken($connection, $userId, $tokenId);
     }
 ?>
