@@ -44,7 +44,6 @@
 		$connection = createConnection();
 
 		$query = $connection->prepare("SELECT categoryName FROM category");
-		$query->bind_param("s", $cat);
 		$query->execute();
 		$result = $query->get_result();
 
@@ -154,14 +153,15 @@
 		<div class="row" id="Homepage">
 			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
 				<div class="slide-content">
+					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16" style="padding-top=10px; padding-bottom:10px;">
+						<h2>Browse by category</h2>
+						<?php
+							displayCats();
+						?>
+					</div>
 					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
-					<div>
-								Browse by category
-								<?php
-								displayCats();
-								?>
-								</div>
 						<form method="get" action="listprod.php">
+						<h2> Or search for a product</h2>
 							<div class="form-group">
 								<input type="text"
 									placeholder="Enter the product you want here...(Leave blank for all products)"
@@ -186,8 +186,8 @@
 								/* Runs the main function to print the tables */
 								printTableProd();
 							?>
-							
-								
+
+
 					</div>
 				</div>
 			</div>
@@ -195,15 +195,16 @@
 	</div>
 	</div>
 	<div>
-		
-	
-	<footer class="container mt-12">
-		<div class="row">
-			<div class="col">
-				<p class="text-center">View the code at <a href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+
+
+		<footer class="container mt-12">
+			<div class="row">
+				<div class="col">
+					<p class="text-center">View the code at <a
+							href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+				</div>
 			</div>
-		</div>
-	</footer>
+		</footer>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
@@ -211,31 +212,29 @@
 	// Function to show the current user if they are logged in and change navbar //
 
 	function checkUser() {
-        var cookieExists = Cookies.get("loggedIn");
-        if(cookieExists){
+		var cookieExists = Cookies.get("loggedIn");
+		if (cookieExists) {
 
-                // Changes out the login for the Customer Page Navbar Button //
-                cookieExists = cookieExists.split(':');
-                // Gets the login element //
-                var loginElement = document.getElementById("login-nav");
-                // Changes the href and the name so it says the logged in users name
-                loginElement.href = 'customer.php';
-                loginElement.innerHTML = cookieExists[0];
+			// Changes out the login for the Customer Page Navbar Button //
+			cookieExists = cookieExists.split(':');
+			// Gets the login element //
+			var loginElement = document.getElementById("login-nav");
+			// Changes the href and the name so it says the logged in users name
+			loginElement.href = 'customer.php';
+			loginElement.innerHTML = cookieExists[0];
 
-                // Add Admin Navbar Button //
-                newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
-                $("#navbar-ul").append(newLi);
-                
-                // Add the logout navbar button //
-                newLi = '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
-                $("#navbar-ul").append(newLi);
+			// Add Admin Navbar Button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+			$("#navbar-ul").append(newLi);
 
-                // Add the logout navbar button //
-                newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-                $("#navbar-ul").append(newLi);
-        }
-}
-checkUser();
+			// Add the logout navbar button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
+			$("#navbar-ul").append(newLi);
 
-
+			// Add the logout navbar button //
+			newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+			$("#navbar-ul").append(newLi);
+		}
+	}
+	checkUser();
 </script>
