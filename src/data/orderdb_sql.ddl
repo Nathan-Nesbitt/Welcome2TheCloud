@@ -9,6 +9,7 @@ DROP TABLE category;
 DROP TABLE ordersummary;
 DROP TABLE paymentmethod;
 DROP TABLE customer;
+DROP TABLE tokens;
 
 
 CREATE TABLE customer (
@@ -24,8 +25,14 @@ CREATE TABLE customer (
     country             VARCHAR(40),
     userid              VARCHAR(20) UNIQUE,
     password            CHAR(255),
-    token               VARCHAR(512),
     PRIMARY KEY (customerId)
+);
+
+CREATE TABLE tokens (
+    tokenId INT NOT NULL AUTO_INCREMENT,
+    userid VARCHAR(20) NOT NULL,
+    token VARCHAR(512),
+    PRIMARY KEY (tokenID)
 );
 
 CREATE TABLE paymentmethod (
