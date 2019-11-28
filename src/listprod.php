@@ -28,7 +28,7 @@
 	} 
 	//function to return product lists by category
 	function getCats ($connection, $cat){
-		$query = $connection->prepare("SELECT productName, productPrice 
+		$query = $connection->prepare("SELECT * 
 									   FROM product, category 
 									   WHERE product.categoryId = category.categoryId 
 									   AND categoryName = ?");
@@ -39,20 +39,30 @@
 	}
 
 	//function for displaying products by category via drop downs
-	function displayCats($connection){
+	function displayCats(){
 
-		//high-level
-		$cat = "High-level";
-		$result = getCats($connection,$cat);
+		$connection = createConnection();
+
+		$query = $connection->prepare("SELECT categoryName FROM category");
+		$query->bind_param("s", $cat);
+		$query->execute();
+		$result = $query->get_result();
+
 		while($row = $result->fetch_assoc()){
-			echo '<button type = "button" class = "cat_dropdown" > High-level </button>
-			div class = "cat_dropdown_inner">
-			div class = "cat_info">
-				<H5>' .$row["productName"] . '</H5>
-				<H5>' .$row["productPrice"] . '</H5>
-			</div>';
-		}
+			$cat = $row["categoryName"];
+			$resultTwo = getCats($connection, $cat);
+			echo '<link rel="stylesheet" href="listprod.css">
+					<div class="dropdown">
+						<button class="dropbtn">' . $cat . '</button>
+							<div class="dropdown-content">';
+							while($row = $resultTwo->fetch_assoc()){
+								echo "<a href='product.php?id= " .
+									  $row["productId"] . "'>" .
+									  $row["productName"] . "</a>";
+							}
+							echo'</div></div>';
 
+		}	
 	}
 
 	function printTableProd(){
@@ -145,6 +155,12 @@
 			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
 				<div class="slide-content">
 					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
+					<div>
+								Browse by category
+								<?php
+								displayCats();
+								?>
+								</div>
 						<form method="get" action="listprod.php">
 							<div class="form-group">
 								<input type="text"
@@ -169,14 +185,18 @@
 								<?php
 								/* Runs the main function to print the tables */
 								printTableProd();
-								displayCats($connection);
 							?>
+							
+								
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	</div>
+	<div>
+		
+	
 	<footer class="container mt-12">
 		<div class="row">
 			<div class="col">
@@ -216,4 +236,6 @@
         }
 }
 checkUser();
+
+
 </script>
