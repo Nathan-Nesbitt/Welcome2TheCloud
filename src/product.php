@@ -110,6 +110,8 @@ function displayImage(){
     <html>
 
     <head>
+        <meta charset='UTF-8' />
+	    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
         <title>w2tdotc - Product Information</title>
         <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
         <link rel="stylesheet" href="shop.css">
@@ -153,8 +155,37 @@ function displayImage(){
                 </ul>
             </div>
         </nav>
+        <div class="container-fluid">
+		<div class="row" id="Homepage">
+			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
+				<div class="slide-content">
+					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
+						<form method="get" action="product.php">
+						</form>
+                    </div>
+                    <div>
+								<?php							                              
+                                displayImage();
+                            ?>
+                    </div>
+                            <div>
+                                <?php                                                          
+                                    displayDetail();                                                                                         
+                                ?>
+                                </div>
+                                <div>
+                                    <?php                               
+                                    $connection = createConnection();
+                                    $result = getInfoForCart($connection);
+                                    $row = $result->fetch_assoc();
+                                    
+                                    echo "<a href='addcart.php?id= ".$row["productId"] . "&name=" . 
+                                            urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). 
+                                            "'><button class='btn btn-success mb-1'>add to cart</button></a></td></tr>"
+                                            ?>
+                                <a href="listprod.php"><button class='btn btn-primary mb-1'>Continue Shopping</button></a>
+					</div>
     </body>
-
     </html>
 
 </html>
@@ -167,28 +198,7 @@ function displayImage(){
 </head>
 
 <body>
-    <div>
-        <?php
-        displayImage();
-        ?>
-    </div>
-    <div>
-        <?php
-            displayDetail();
-            ?>
-    </div>
-    <div>
-        <?php
-            $connection = createConnection();
-            $result = getInfoForCart($connection);
-            $row = $result->fetch_assoc();
-            
-            echo "<a href='addcart.php?id= ".$row["productId"] . "&name=" . 
-					urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). 
-                    "'><button class='btn btn-success mb-1'>add to cart</button></a></td></tr>"
-                    ?>
-        <a href="listprod.php"><button class='btn btn-primary mb-1'>Continue Shopping</button></a>
-    </div>
+    
 </body>
 <footer class="container mt-12">
     <div class="row">

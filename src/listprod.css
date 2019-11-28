@@ -1,0 +1,23 @@
+.cat_dropdown {
+    background-color: #7a7265;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.cat_dropdown_inner {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+.cat_info{
+    float: left;
+    text-align: left;
+}

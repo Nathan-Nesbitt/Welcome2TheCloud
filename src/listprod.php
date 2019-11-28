@@ -26,6 +26,34 @@
 		}
 		
 	} 
+	//function to return product lists by category
+	function getCats ($connection, $cat){
+		$query = $connection->prepare("SELECT productName, productPrice 
+									   FROM product, category 
+									   WHERE product.categoryId = category.categoryId 
+									   AND categoryName = ?");
+		$query->bind_param("s", $cat);
+		$query->execute();
+		$result = $query->get_result();
+		return $result;
+	}
+
+	//function for displaying products by category via drop downs
+	function displayCats($connection){
+
+		//high-level
+		$cat = "High-level";
+		$result = getCats($connection,$cat);
+		while($row = $result->fetch_assoc()){
+			echo '<button type = "button" class = "cat_dropdown" > High-level </button>
+			div class = "cat_dropdown_inner">
+			div class = "cat_info">
+				<H5>' .$row["productName"] . '</H5>
+				<H5>' .$row["productPrice"] . '</H5>
+			</div>';
+		}
+
+	}
 
 	function printTableProd(){
 
@@ -141,6 +169,7 @@
 								<?php
 								/* Runs the main function to print the tables */
 								printTableProd();
+								displayCats($connection);
 							?>
 					</div>
 				</div>
