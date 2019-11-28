@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <title>Product Information - Welcome2TheCloud</title>
-</head>
-
 <body>
 
 
@@ -54,7 +50,7 @@ function displayDetail(){
     $result = getDetails($connection);
     $row = $result->fetch_assoc();
     
-    echo $row["productDesc"];
+    echo "<p class='text-center'>" . $row["productDesc"] . "</p>";
 
     $connection->close();
 
@@ -110,9 +106,10 @@ function displayImage(){
     <html>
 
     <head>
+        <title>Product Information - Welcome2TheCloud</title>
         <meta charset='UTF-8' />
-	    <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
-        <title>w2tdotc - Product Information</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
+        <link rel="stylesheet" href="image.css">
         <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
         <link rel="stylesheet" href="shop.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -156,25 +153,21 @@ function displayImage(){
             </div>
         </nav>
         <div class="container-fluid">
-		<div class="row" id="Homepage">
-			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
-				<div class="slide-content">
-					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
-						<form method="get" action="product.php">
-						</form>
-                    </div>
-                    <div>
-								<?php							                              
+            <div class="row" id="Homepage">
+                <div class="col-lg-12 col-md-12 col-sm-12 text-center" style="padding-top:20px;">
+                    <div class="column">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <?php							                              
                                 displayImage();
                             ?>
-                    </div>
-                            <div>
-                                <?php                                                          
-                                    displayDetail();                                                                                         
-                                ?>
-                                </div>
-                                <div>
-                                    <?php                               
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <?php                                                          
+                                displayDetail();                                                                                         
+                            ?>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <?php                               
                                     $connection = createConnection();
                                     $result = getInfoForCart($connection);
                                     $row = $result->fetch_assoc();
@@ -183,62 +176,54 @@ function displayImage(){
                                             urlencode($row["productName"]) . "&price=".number_format($row["productPrice"],2). 
                                             "'><button class='btn btn-success mb-1'>add to cart</button></a></td></tr>"
                                             ?>
-                                <a href="listprod.php"><button class='btn btn-primary mb-1'>Continue Shopping</button></a>
-					</div>
+                            <a href="listprod.php"><button class='btn btn-primary mb-1'>Continue
+                                    Shopping</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
     </body>
+
     </html>
-
-</html>
-<!DOCTYPE html>
-<html>
-
-<head>
-    <link rel="stylesheet" href="image.css">
-    <title> Product Display </title>
-</head>
-
-<body>
-    
-</body>
-<footer class="container mt-12">
-    <div class="row">
-        <div class="col">
-            <p class="text-center">View the code at <a
-                    href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+    <footer class="container mt-12">
+        <div class="row">
+            <div class="col">
+                <p class="text-center">View the code at <a
+                        href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a></p>
+            </div>
         </div>
-    </div>
-</footer>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-</script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
-<script>
-    function checkUser() {
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
+    <script>
+        function checkUser() {
             var cookieExists = Cookies.get("loggedIn");
-            if(cookieExists){
+            if (cookieExists) {
 
-                    // Changes out the login for the Customer Page Navbar Button //
-                    cookieExists = cookieExists.split(':');
-                    // Gets the login element //
-                    var loginElement = document.getElementById("login-nav");
-                    // Changes the href and the name so it says the logged in users name
-                    loginElement.href = 'customer.php';
-                    loginElement.innerHTML = cookieExists[0];
+                // Changes out the login for the Customer Page Navbar Button //
+                cookieExists = cookieExists.split(':');
+                // Gets the login element //
+                var loginElement = document.getElementById("login-nav");
+                // Changes the href and the name so it says the logged in users name
+                loginElement.href = 'customer.php';
+                loginElement.innerHTML = cookieExists[0];
 
-                    // Add Admin Navbar Button //
-                    newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
-                    $("#navbar-ul").append(newLi);
-                    
-                    // Add the logout navbar button //
-                    newLi = '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
-                    $("#navbar-ul").append(newLi);
+                // Add Admin Navbar Button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
+                $("#navbar-ul").append(newLi);
 
-                    // Add the logout navbar button //
-                    newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-                    $("#navbar-ul").append(newLi);
+                // Add the logout navbar button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
+                $("#navbar-ul").append(newLi);
+
+                // Add the logout navbar button //
+                newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+                $("#navbar-ul").append(newLi);
             }
         }
-    checkUser();
-</script>
+        checkUser();
+    </script>
 
 </html>
