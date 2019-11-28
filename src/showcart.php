@@ -7,7 +7,7 @@ function showCart() {
 		$productList = $_SESSION['productList'];
 		echo("<div align='center'><h1>Shopping Cart</h1></div>");
 		echo("<div class='row justify-content-md-center'><div class='col-sm-8'><table class='table'><tr><th>Id</th><th>Product Name</th><th>Quantity</th>");
-		echo("<th>Price</th><th>Subtotal</th></tr>");
+		echo("<th>Price</th><th>Subtotal</th><th>Remove</th></tr>");
 
 		$total =0;
 		foreach ($productList as $id => $prod) {
@@ -18,8 +18,9 @@ function showCart() {
 			$price = $prod['price'];
 
 			echo("<td align=\"right\">$" . number_format($price ,2) ."</td>");
-			echo("<td align=\"right\">$" . number_format($prod['quantity']*$price, 2) . "</td></tr>");
-			echo("</tr>");
+			echo("<td align=\"right\">$" . number_format($prod['quantity']*$price, 2) . "</td>");
+			echo('<td><a href="removeCart.php?id=' . substr($id, 1) . '">Click here</a>');
+			echo("</tr></tr>");
 			$total = $total +$prod['quantity']*$price;
 		}
 		echo("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td><td align=\"right\">$" . number_format($total,2) ."</td></tr>");
