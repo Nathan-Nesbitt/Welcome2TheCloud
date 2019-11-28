@@ -19,7 +19,7 @@ function showCart() {
 
 			echo("<td align=\"right\">$" . number_format($price ,2) ."</td>");
 			echo("<td align=\"right\">$" . number_format($prod['quantity']*$price, 2) . "</td>");
-			echo('<td><a href="removeCart.php?id=' . substr($id, 1) . '">Click here</a>');
+			echo('<td><a href="removeCart.php?id=' . substr($id, 1) . '">&#10060;</a>');
 			echo("</tr></tr>");
 			$total = $total +$prod['quantity']*$price;
 		}
