@@ -153,8 +153,9 @@ function printOrder() {
 		<h2>Your total is $".$result["totalAmount"]."</h2>";
 	echo "<h2>Your order reference number is: " . $result["orderId"] . "</h2>";
 	echo "<h2>Customer ID: " . $result["customerId"] ."</h2>";
-	echo "<h2>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h2>
-	</div>";
+	echo "<h2>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h2>";
+	echo "<h2>Shipping to: " . $result["address"] . ", " . $result["city"] . ", " . $result["state"] . ", " . $result["country"] . "</h2>";
+	echo "</div>";
 
 	echo '
 				<table class="table"">
