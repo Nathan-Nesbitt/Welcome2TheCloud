@@ -27,7 +27,7 @@ require_once 'include/db_connection.php';
 
 /* Function to get all orders from the database */
 function getOrders($connection) {
-	$query = "SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId";
+	$query = "SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId ORDER BY O.orderId";
 	$result = $connection-> query($query);
 	return $result;
 }
