@@ -36,10 +36,10 @@
                                         <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
                                 </li>
                                 <li class="nav-item">
-                                        <a class="nav-link active" href="listprod.php">Products</a>
+                                        <a class="nav-link" href="listprod.php">Products</a>
                                 </li>
                                 <li class="nav-item">
-                                        <a class="nav-link" href="listorder.php">Orders</a>
+                                        <a class="nav-link active" href="listorder.php">Orders</a>
                                 </li>
                                 <li class="nav-item">
                                         <a id="login-nav" class="nav-link" href="login.html">Login</a>
@@ -94,13 +94,14 @@
                         loginElement.href = 'customer.php';
                         loginElement.innerHTML = cookieExists[0];
 
-                        // Add Admin Navbar Button //
-                        newLi = '<li class="nav-item"><a class="nav-link" href="admin.php">Admin</a></li>';
-                        $("#navbar-ul").append(newLi);
-
-                        // Add the add product navbar button //
-                        newLi =
-                                '<li class="nav-item"><a class="nav-link" href="addProduct.html">Add a Product</a></li>';
+                         // Add Admin Navbar Button //
+                
+                        newLi = '<li class="nav-item dropdown">';
+                        newLi += '<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>';
+                        newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
+                        newLi += '<a class="dropdown-item" href="/admin.php">Admin Overview</a>';
+                        newLi += '<a class="dropdown-item" href="/addProduct.html">Add Product</a>';
+                        newLi += '</li>';
                         $("#navbar-ul").append(newLi);
 
                         // Add the logout navbar button //
