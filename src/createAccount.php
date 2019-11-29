@@ -42,6 +42,18 @@ function getUserValues() {
 		$country = trim(htmlspecialchars($_POST['country']));
 	}
 
+	if (isset($_POST['paymentType'])){
+		$paymentType = trim(htmlspecialchars($_POST['paymentType']));
+	}
+	
+	if (isset($_POST['paymentNumber'])){
+		$paymentNumber = trim(htmlspecialchars($_POST['paymentNumber']));
+	}
+	
+	if (isset($_POST['paymentExpiryDate'])){
+		$paymentExpiryDate = trim(htmlspecialchars($_POST['paymentExpiryDate']));
+	}
+
 	if (isset($_POST['userid'])){
 		$userid = trim(htmlspecialchars($_POST['userid']));
 	}
@@ -50,7 +62,10 @@ function getUserValues() {
 		$password = trim(htmlspecialchars($_POST['password']));
 	}
 	
-	return array($fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password);
+	return array($fname, $lname, $email, $phonenum, 
+		$address, $city, $state, $postalCode,
+		 $country, $paymentType, $paymentNumber,
+		  $paymentExpiryDate, $userid, $password);
 }
 
 function createHashedPassword($password){
@@ -58,10 +73,21 @@ function createHashedPassword($password){
 	return password_hash($password, PASSWORD_DEFAULT, $options);
 }
 
+function createPayment($connection, $paymentType, $paymentNumber, $paymentExpiryDate, $customerId){
+	$query = $connection->prepare("INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES (?, ?, ?, ?)");
+	/* Passes the values into the query */
+	$query->bind_param("sssi", $paymentType, $paymentNumber, $paymentExpiryDate, $customerId);
+	$query->execute();
+	
+}
+
 /* Function to create the user in the database */
 function createAccount($connection) {
 	/* Gets the list of values from the function */
-	list ($fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password) = getUserValues();
+	list ($fname, $lname, $email, $phonenum, 
+	$address, $city, $state, $postalCode,
+	 $country, $paymentType, $paymentNumber,
+	  $paymentExpiryDate, $userid, $password) = getUserValues();
 	
 	// If the user failed to validate //
 	if ($fname == FALSE)
@@ -76,6 +102,8 @@ function createAccount($connection) {
 	$query->bind_param("sssssssssss", $fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password);
 	
 	$query->execute();
+	/* Creates a credit card entry */
+	createPayment($connection, $paymentType, $paymentNumber, $paymentExpiryDate, $query->insert_id);
 
 	/* Returns TRUE if successful, and FALSE if failed */
 	return array(TRUE, $userid);
