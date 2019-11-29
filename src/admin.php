@@ -3,6 +3,13 @@
     require_once 'include/db_connection.php';
     require_once 'login_scripts.php';
 
+    function getOrderInfo($connection) {
+        $query = $connection->prepare("SELECT COUNT(*) AS numberOrders, SUM(totalAmount) as totAmount
+                                        FROM ordersummary");
+        $query->execute();
+        return $query->get_result()->fetch_assoc();
+    }
+    
     function getUsers($connection) {
         $query = $connection->prepare("SELECT customerId, firstName, lastName, userid from customer");
         $query->execute();
@@ -44,7 +51,18 @@
             echo "<tr><td>".$row["customerId"].'</td><td>'.$row["firstName"]." ".$row["lastName"].'</td><td>'.$row["userid"].'</td></tr>';
         }
         echo "</table>";
+        
+        $orderInfo = getOrderInfo($connection);
+        echo '<h2>Total Sales</h2>';
+        echo '<table class="table" border="1">';
+        echo "<tr><th>Total Orders</th><th>Total Sales</th></tr>";
+        echo "<tr><td>" . $orderInfo["numberOrders"] . "</td><td>$" . $orderInfo["totAmount"] . "</td></tr>";
+        echo "</table>";
+        
+        
         echo "<a href='/loaddata.php'><button class='btn btn-danger mb-1'>Reload Database</button></a>";
+
+
 
         $connection->close();
         return TRUE;
