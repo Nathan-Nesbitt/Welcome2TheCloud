@@ -143,18 +143,31 @@ function printOrder() {
 	$getInfo = $connection->prepare("SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId AND O.orderId=?");
 	$getInfo->bind_param("i", $orderId);
 	$getInfo->execute();
-	$result = $getInfo->get_result()->fetch_assoc();
+	$result = $getInfo->get_result()->fetch_assoc(); 
 
 	$getOrderInfo = $connection->prepare("SELECT * FROM orderproduct, product WHERE orderId = ? AND orderproduct.productId = product.productId");
 	$getOrderInfo->bind_param("i", $orderId);
 	$getOrderInfo->execute();
 	$orderInfo = $getOrderInfo->get_result();
+
+	$custId = $result["customerId"];
+	$getPaymentInfo = $connection->prepare("SELECT paymentType, paymentNumber FROM paymentmethod WHERE customerId=?");
+	$getPaymentInfo->bind_param("i", $custId);
+	$getPaymentInfo->execute();
+	$paymentInfo = $getPaymentInfo->get_result()->fetch_assoc();
+
 	echo "<div style='float: left; text-align:left'>
 		<h2>Your total is $".$result["totalAmount"]."</h2>";
 	echo "<h2>Your order reference number is: " . $result["orderId"] . "</h2>";
 	echo "<h2>Customer ID: " . $result["customerId"] ."</h2>";
 	echo "<h2>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h2>";
 	echo "<h2>Shipping to: " . $result["address"] . ", " . $result["city"] . ", " . $result["state"] . ", " . $result["country"] . "</h2>";
+	if ($paymentInfo["paymentType"] !== '') {
+		echo "<h2>Payment Type: " . $paymentInfo["paymentType"] . "</h2>";
+	}
+	if (strlen($paymentInfo["paymentNumber"]) > 12) {
+		echo "<h2>Payment Number: " . "************" . substr($paymentInfo["paymentNumber"], 12) . "</h2>";
+	}
 	echo "</div>";
 
 	echo '
