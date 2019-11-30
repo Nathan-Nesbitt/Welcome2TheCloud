@@ -7,19 +7,22 @@ function showCart() {
 		$productList = $_SESSION['productList'];
 		echo("<div align='center'><h1>Shopping Cart</h1></div>");
 		echo("<div class='row justify-content-md-center'><div class='col-sm-8'><table class='table'><tr><th>Id</th><th>Product Name</th><th>Quantity</th>");
-		echo("<th class='d-none d-sm-block'>Price</th><th>Subtotal</th><th>Remove</th></tr>");
+		echo("<th class='d-none d-sm-block'>Price</th><th>Subtotal</th><th>Remove</th><th>Update</th></tr>");
 
 		$total =0;
 		foreach ($productList as $id => $prod) {
 			echo("<tr><td>". $prod['id'] . "</td>");
 			echo("<td>" . $prod['name'] . "</td>");
 
-			echo("<td align=\"center\">". $prod['quantity'] . "</td>");
+			echo('<form method="post" action="updateQuantity.php?id=' . substr($id, 1) . '">');
+			echo('<td align="center"><input name="new_quantity" type="number" min="1" value="' .$prod['quantity'] . '">');
+			//echo("<td align=\"center\">". $prod['quantity'] . "</td>");
 			$price = $prod['price'];
 
 			echo("<td class='d-none d-sm-block' align=\"right\">$" . number_format($price ,2) ."</td>");
 			echo("<td align=\"right\">$" . number_format($prod['quantity']*$price, 2) . "</td>");
-			echo('<td><a href="removeCart.php?id=' . substr($id, 1) . '">&#10060;</a>');
+			echo('<td><a href="removeCart.php?id=' . substr($id, 1) . '">&#10060;</a></td>');
+			echo('<td><input type="submit" value="Update"></form></td>');
 			echo("</tr></tr>");
 			$total = $total +$prod['quantity']*$price;
 		}
