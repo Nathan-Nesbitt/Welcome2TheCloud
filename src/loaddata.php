@@ -92,9 +92,6 @@
 					<a class="nav-link" href="listprod.php">Products</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="listorder.php">Orders</a>
-				</li>
-				<li class="nav-item">
 					<a id="login-nav" class="nav-link" href="login.html">Login</a>
 				</li>
 			</ul>

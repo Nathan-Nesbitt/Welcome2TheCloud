@@ -141,9 +141,6 @@
 					<a class="nav-link" href="listprod.php">Products</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="listorder.php">Orders</a>
-				</li>
-				<li class="nav-item">
 					<a id="login-nav" class="nav-link" href="login.html">Login</a>
 				</li>
 			</ul>
@@ -210,31 +207,40 @@
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script>
 	// Function to show the current user if they are logged in and change navbar //
-
 	function checkUser() {
-		var cookieExists = Cookies.get("loggedIn");
-		if (cookieExists) {
+			var cookieExists = Cookies.get("loggedIn");
+			if(cookieExists){
 
-			// Changes out the login for the Customer Page Navbar Button //
-			cookieExists = cookieExists.split(':');
-			// Gets the login element //
-			var loginElement = document.getElementById("login-nav");
-			// Changes the href and the name so it says the logged in users name
-			loginElement.href = 'customer.php';
-			loginElement.innerHTML = cookieExists[0];
+					// Changes out the login for the Customer Page Navbar Button //
+					cookieExists = cookieExists.split(':');
+					// Gets the login element //
+					var loginElement = document.getElementById("login-nav");
+					loginElement.remove();
+					
+					// Add Admin Navbar Dropdown //
+					
+					newLi = '<li class="nav-item dropdown">';
+					newLi += '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>';
+					newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
+					newLi += '<a class="dropdown-item" href="/admin.php">Admin Overview</a>';
+					newLi += '<a class="dropdown-item" href="/addProduct.html">Add Product</a>';
+					newLi += '<a class="dropdown-item" href="/listorder.php">All Orders</a>';
+					newLi += '</li>';
+					$("#navbar-ul").append(newLi);
 
-			newLi = '<li class="nav-item dropdown">';
-			newLi += '<a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>';
-			newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
-			newLi += '<a class="dropdown-item" href="/admin.php">Admin Overview</a>';
-			newLi += '<a class="dropdown-item" href="/addProduct.html">Add Product</a>';
-			newLi += '</li>';
-			$("#navbar-ul").append(newLi);
+					// Adds User Navbar Dropdown //
+					newLi = '<li class="nav-item dropdown">';
+					newLi += '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+cookieExists[0]+'</a>';
+					newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
+					newLi += '<a class="dropdown-item" href="/customer.php">User Summary</a>';
+					newLi += '<a class="dropdown-item" href="/showcart.php">View Cart</a>';
+					newLi += '</li>';
+					$("#navbar-ul").append(newLi);
 
-			// Add the logout navbar button //
-			newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-			$("#navbar-ul").append(newLi);
-		}
+					// Add the logout navbar button //
+					newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+					$("#navbar-ul").append(newLi);
+			}
 	}
 	checkUser();
 </script>
