@@ -24,6 +24,7 @@
 
 <?php
 require_once 'include/db_connection.php';
+include 'login_scripts.php';
 
 /* Function to get all orders from the database */
 function getOrders($connection) {
@@ -45,7 +46,13 @@ function getOrderProducts($connection, $orderId) {
 
 /* Main function for this page, prints out all orders and all products */
 function printTable($connection) {
-	
+
+		// Checks to see if the user is logged in //
+		$loggedIn = checkToken($connection);
+		if (!$loggedIn){
+			return FALSE;
+		}
+
 		$result = getOrders($connection);
 		
 		while($row = $result->fetch_assoc()) {
@@ -79,6 +86,7 @@ function printTable($connection) {
 			}
 			echo "</tr></table></table></div>";
 		}
+		return TRUE;
 	}
 ?>
 
@@ -97,9 +105,6 @@ function printTable($connection) {
                                 <li class="nav-item">
                                         <a class="nav-link" href="listprod.php">Products</a>
                                 </li>
-                                <li class="nav-item active">
-                                        <a class="nav-link" href="listorder.php">Orders</a>
-                                </li>
                                 <li class="nav-item">
                                         <a id="login-nav" class="nav-link" href="login.html">Login</a>
                                 </li>
@@ -114,7 +119,9 @@ function printTable($connection) {
 									/* Creates and checks the connection */
 									$connection = createConnection();
 									/* Main Script for creating the tables */
-									printTable($connection);
+									$result = printTable($connection);
+									if (!$result)
+                            			header('Location:/'); 
 									/* Close the connection */
 									$connection->close();
 								?>
@@ -135,34 +142,46 @@ function printTable($connection) {
 </script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@beta/dist/js.cookie.min.js"></script>
 <script>
-    function checkUser() {
-            var cookieExists = Cookies.get("loggedIn");
-            if(cookieExists){
+    // Function to show the current user if they are logged in and change navbar //
 
-                    // Changes out the login for the Customer Page Navbar Button //
-                    cookieExists = cookieExists.split(':');
-                    // Gets the login element //
-                    var loginElement = document.getElementById("login-nav");
-                    // Changes the href and the name so it says the logged in users name
-                    loginElement.href = 'customer.php';
-                    loginElement.innerHTML = cookieExists[0];
+	function checkUser() {
+			var cookieExists = Cookies.get("loggedIn");
+			if(cookieExists){
 
-                    newLi = '<li class="nav-item dropdown">';
+					// Changes out the login for the Customer Page Navbar Button //
+					cookieExists = cookieExists.split(':');
+					// Gets the login element //
+					var loginElement = document.getElementById("login-nav");
+					loginElement.remove();
+					
+					// Add Admin Navbar Dropdown //
+					
+					newLi = '<li class="nav-item dropdown">';
 					newLi += '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>';
 					newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
 					newLi += '<a class="dropdown-item" href="/admin.php">Admin Overview</a>';
 					newLi += '<a class="dropdown-item" href="/addProduct.html">Add Product</a>';
+					newLi += '<a class="dropdown-item" href="/listorder.php">All Orders</a>';
 					newLi += '</li>';
 					$("#navbar-ul").append(newLi);
 
-                    // Add the logout navbar button //
-                    newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
-                    $("#navbar-ul").append(newLi);
-            }
-        }
-    checkUser();
+					// Adds User Navbar Dropdown //
+					newLi = '<li class="nav-item dropdown">';
+					newLi += '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'+cookieExists[0]+'</a>';
+					newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
+					newLi += '<a class="dropdown-item" href="/customer.php">User Summary</a>';
+					newLi += '<a class="dropdown-item" href="/showcart.php">View Cart</a>';
+					newLi += '</li>';
+					$("#navbar-ul").append(newLi);
 
-	var dropdowns = document.getElementsByClassName("order-dropdown");
+					// Add the logout navbar button //
+					newLi = '<li class="nav-item"><a class="nav-link" href="logout.php">Logout</a></li>';
+					$("#navbar-ul").append(newLi);
+			}
+	}
+checkUser();
+
+var dropdowns = document.getElementsByClassName("order-dropdown");
 	var i;
 
 	for (i = 0; i < dropdowns.length; i++) {
