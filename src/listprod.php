@@ -234,6 +234,7 @@
 					newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
 					newLi += '<a class="dropdown-item" href="/customer.php">User Summary</a>';
 					newLi += '<a class="dropdown-item" href="/showcart.php">View Cart</a>';
+					newLi += '<a class="dropdown-item" href="/listUserOrder.php">My Orders</a>';
 					newLi += '</li>';
 					$("#navbar-ul").append(newLi);
 
