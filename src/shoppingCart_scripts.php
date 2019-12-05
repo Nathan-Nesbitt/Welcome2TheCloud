@@ -53,6 +53,22 @@ function addItemToCart() {
 	header('Location: showcart.php');
 }
 
+function changeQuantity() {
+    $productList = getCurrentItems();
+
+    echo var_dump($productList);
+    $new_quantity = (int) $_POST["new_quantity"];
+    $id = " " . $_GET["id"];
+
+    if ($new_quantity > 0) {
+        $productList[$id]["quantity"] = $new_quantity;
+    }
+
+    $_SESSION["productList"] = $productList;
+
+    header("Location: showcart.php");
+}
+
 function removeItemFromCart() {
     session_start();
     $productList = getCurrentItems();
