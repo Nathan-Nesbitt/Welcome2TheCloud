@@ -1,6 +1,6 @@
 <?php
 
-require_once 'shoppingCart_scripts.php';
-addItemToCart();
+require_once 'objects/ShoppingCart.php';
+ShoppingCart::addItemToCart();
 
 ?>

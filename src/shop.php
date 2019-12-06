@@ -50,11 +50,10 @@
                                 <div class="slide-content row">
                                                 <?php
                                                         include 'include/db_connection.php';
-                                                        
+                                                        include 'objects/Product.php';
+
                                                         $connection = createConnection();
-                                                        $query = $connection->prepare("SELECT * FROM product");
-                                                        $query->execute();
-                                                        $result = $query->get_result();
+                                                        $result = Product::getProducts($connection);
                                                         while($row = $result->fetch_assoc()){
                                                                 echo '<div class="col-md-3 col-sm-6 col-xs-6 text-center">';
                                                                 echo '<a href="product.php?id='.$row["productId"].'">';
@@ -62,6 +61,7 @@
                                                                 echo '<p>'.$row["productName"].'</p>';
                                                                 echo '</a></div>';
                                                         }
+                                                        $connection->close();
                                                 ?>
                                 </div>
                         </div>
