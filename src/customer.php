@@ -1,26 +1,27 @@
 <?php
 
     require_once 'include/db_connection.php';
-    require_once 'login_scripts.php';
+    require_once 'objects/Login.php';
+    require_once 'objects/Admin.php';
 
-
-    function mainAdmin() {
-        $connection = createConnection();
-        $loggedIn = checkToken($connection);
+    function getUserInfo($connection){
+        
+        $loggedIn = Login::checkToken($connection);
         if (!$loggedIn){
             echo 'You are not logged in!';
             return FALSE;
         }
 
-        // Get the userID
+        // Get the userID //
         $cookie = $_COOKIE["loggedIn"];
         $userId = explode(":", $cookie)[0];
         
-        // Collect user information
-        $getUserInfoQuery = $connection->prepare("SELECT * FROM customer WHERE userid = ?");
-        $getUserInfoQuery->bind_param("s", $userId);
-        $getUserInfoQuery->execute();
-        $userInfo = $getUserInfoQuery->get_result()->fetch_assoc();
+        return Admin::getUserById($connection, $userId);
+    }
+
+    function mainAdmin() {
+        $connection = createConnection();
+        $userInfo = getUserInfo($connection);
 
         // Print out table
         echo '<table class = "table" border="1">';

@@ -1,7 +1,7 @@
 <?php
 require_once 'include/db_connection.php';
-require_once 'login_scripts.php';
-require_once 'account_scripts.php';
+require_once 'objects/Login.php';
+require_once 'objects/Account.php';
 
 function getUserValues() {
 	/**
@@ -95,11 +95,11 @@ function mainCreateFunction() {
 
 	$connection = createConnection();
 
-	list($success, $userid) = createAccount($connection);
+	list($success, $userid) = Account->createAccount($connection);
 
 	// If the account is successfully created, log the account in //
 	if ($success) {
-		createToken($connection, $userid);
+		Login->createToken($connection, $userid);
 		// These allow for the AJAX redirection on the other page //
 		header("HTTP/1.1 200 OK");
 		echo '{ "success": "TRUE" }';

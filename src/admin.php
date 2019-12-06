@@ -1,20 +1,20 @@
 <?php
 
     require_once 'include/db_connection.php';
-    require_once 'login_scripts.php';
-    require_once 'admin_scripts.php';
+    require_once 'objects/Login.php';
+    require_once 'objects/Admin.php';
 
     function mainAdmin() {
         $connection = createConnection();
 
         // Checks to see if the user is logged in //
-        $loggedIn = checkToken($connection);
+        $loggedIn = Login::checkToken($connection);
         if (!$loggedIn){
             return FALSE;
         }
 
         // Get daily order information //
-        $result = getOrderAmountByDay($connection);
+        $result = Admin::getOrderAmountByDay($connection);
         
         // Print out the table
         echo '<h2>Orders</h2>';
@@ -26,7 +26,7 @@
         echo "</table>";
 
         // Get all users //
-        $result = getUsers($connection);
+        $result = Admin::getUsers($connection);
         echo '<h2>Customers</h2>';
         echo '<table class="table" border="1">';
         echo "<tr><th>User ID</th><th>Name</th><th>Username</th></tr>";
@@ -36,7 +36,7 @@
         echo "</table>";
 
         // Get number of orders and the total price //
-        $orderInfo = getOrderAmountAndTotalPrice($connection);
+        $orderInfo = Admin::getOrderAmountAndTotalPrice($connection);
         echo '<h2>Total Sales</h2>';
         echo '<table class="table" border="1">';
         echo "<tr><th>Total Orders</th><th>Total Sales</th></tr>";
