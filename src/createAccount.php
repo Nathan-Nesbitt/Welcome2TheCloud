@@ -1,10 +1,28 @@
 <?php
 require_once 'include/db_connection.php';
 require_once 'login_scripts.php';
+require_once 'account_scripts.php';
 
-
-/* Function to get the values from the form */
 function getUserValues() {
+	/**
+	 * Function to get the values from the form.
+	 * Returns: List of form values, if failed/not recieved the values are null
+	 */
+
+	$fname = null; 
+	$lname= null; 
+	$email= null; 
+	$phonenum= null;
+	$address= null; 
+	$city= null; 
+	$state= null; 
+	$postalCode= null;
+	$country= null; 
+	$paymentType= null;
+	$paymentNumber= null;
+	$paymentExpiryDate= null; 
+	$userid= null; 
+	$password= null;
 
 	if (isset($_POST['FirstName'])){
 		$fname = trim(htmlspecialchars($_POST['FirstName']));
@@ -68,63 +86,30 @@ function getUserValues() {
 		  $paymentExpiryDate, $userid, $password);
 }
 
-function createHashedPassword($password){
-	$options = ['cost'=>11];
-	return password_hash($password, PASSWORD_DEFAULT, $options);
-}
-
-function createPayment($connection, $paymentType, $paymentNumber, $paymentExpiryDate, $customerId){
-	$query = $connection->prepare("INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES (?, ?, ?, ?)");
-	/* Passes the values into the query */
-	$query->bind_param("sssi", $paymentType, $paymentNumber, $paymentExpiryDate, $customerId);
-	$query->execute();
-	
-}
-
-/* Function to create the user in the database */
-function createAccount($connection) {
-	/* Gets the list of values from the function */
-	list ($fname, $lname, $email, $phonenum, 
-	$address, $city, $state, $postalCode,
-	 $country, $paymentType, $paymentNumber,
-	  $paymentExpiryDate, $userid, $password) = getUserValues();
-	
-	// If the user failed to validate //
-	if ($fname == FALSE)
-		return FALSE;
-
-	/* Creates a hashed password */
-	$password = createHashedPassword($password);
-
-	/* Prepares the function so we can pass in the values from the user */
-	$query = $connection->prepare("INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-	/* Passes the values into the query */
-	$query->bind_param("sssssssssss", $fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $userid, $password);
-	
-	$query->execute();
-	/* Creates a credit card entry */
-	createPayment($connection, $paymentType, $paymentNumber, $paymentExpiryDate, $query->insert_id);
-
-	/* Returns TRUE if successful, and FALSE if failed */
-	return array(TRUE, $userid);
-}
-
-/* Main function for this page, prints out all orders and all products */
 function mainCreateFunction() {
-		/* Creates the connection to the database */
-		$connection = createConnection();
-		list($success, $userid) = createAccount($connection);
-		// If the account is successfully created, log the account in
-		if ($success) {
-			createToken($connection, $userid);
-			header("HTTP/1.1 200 OK");
-			echo '{ "success": "TRUE" }';
-		}
-		else {
-			header('Error-Message: Incorrect Field', true, 500);
-			echo '{ "success": "FALSE", "Issue":"Wrong Field Value." }';
-		}
-		$connection->close();	
+	/**
+	 * Main function for this page, prints out all orders and all products
+	 * Returns: Nothing
+	 * 
+	 */
+
+	$connection = createConnection();
+
+	list($success, $userid) = createAccount($connection);
+
+	// If the account is successfully created, log the account in //
+	if ($success) {
+		createToken($connection, $userid);
+		// These allow for the AJAX redirection on the other page //
+		header("HTTP/1.1 200 OK");
+		echo '{ "success": "TRUE" }';
+	}
+	else {
+		// These allow for the AJAX redirection on the other page //
+		header('Error-Message: Incorrect Field', true, 500);
+		echo '{ "success": "FALSE", "Issue":"Wrong Field Value." }';
+	}
+	$connection->close();	
 	}
 
 header('Content-type: application/json');
