@@ -1,55 +1,19 @@
 <?php
-/* 
-	Include the custom OOP file for connecting to the DB means
-	we don't have to do all of the checks again. It's also better 
-	because we don't carry around the username and password variables
-	in every PHP script we write. 
-	*/
-	include 'include/db_connection.php';
-	
-	function getProducts($connection, $name) {
-		
-		if($name == "") {
-			$query =  "SELECT * FROM product";
-			$result = $connection-> query($query);
-			return $result;
 
-		}
-		else {
-			//prepared stmt functionality
-			$query = $connection->prepare("SELECT * FROM product WHERE productName LIKE ?");
-			$query->bind_param("s", $name);
-			$query->execute();
-			$result = $query->get_result();
-			return $result;
-			
-		}
-		
-	} 
-	//function to return product lists by category
-	function getCats ($connection, $cat){
-		$query = $connection->prepare("SELECT * 
-									   FROM product, category 
-									   WHERE product.categoryId = category.categoryId 
-									   AND categoryName = ?");
-		$query->bind_param("s", $cat);
-		$query->execute();
-		$result = $query->get_result();
-		return $result;
-	}
+	include 'include/db_connection.php';
+	include 'product_scripts.php';
+	include 'category_scripts.php';
 
 	//function for displaying products by category via drop downs
-	function displayCats(){
+	function displayProductByCategory(){
 
 		$connection = createConnection();
 
-		$query = $connection->prepare("SELECT categoryName FROM category");
-		$query->execute();
-		$result = $query->get_result();
+		$result = getCategories($connection);
 
 		while($row = $result->fetch_assoc()){
 			$cat = $row["categoryName"];
-			$resultTwo = getCats($connection, $cat);
+			$resultTwo = getProductsByCategory($connection, $cat);
 			echo '<link rel="stylesheet" href="listprod.css">
 					<div class="dropdown">
 						<button class="dropbtn">' . $cat . '</button>
@@ -61,7 +25,8 @@
 							}
 							echo'</div></div>';
 
-		}	
+		}
+		$connection->close();
 	}
 
 	function printTableProd(){
@@ -153,7 +118,7 @@
 					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16" style="padding-top=10px; padding-bottom:10px;">
 						<h2>Browse by category</h2>
 						<?php
-							displayCats();
+							displayProductByCategory();
 						?>
 					</div>
 					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
