@@ -4,101 +4,30 @@
 <body>
 
 
-
-    <?php
-
-// Get product name to search for
-// TODO: Retrieve and display info for the product
-// $id = $_GET['id'];
-
-
-
+<?php
 include 'include/db_connection.php';
+require_once 'objects/Product.php';
 
 function getId(){
     if(isset($_GET['id']))
-    $selected = $_GET['id'];
+        $selected = $_GET['id'];
     return $selected;
 }
 
-function getImage($connection){
-
-    $s = getId();
-
-    $query = $connection->prepare("SELECT productImageURL, productId FROM product WHERE productId = ?");
-    $query->bind_param("i", $s);
-    $query->execute();
-    $result = $query->get_result();
-    return $result;
-
-}
-
-function getDetails($connection) {
-    
-    $s = getId();
-        
-    $query = $connection->prepare("SELECT productDesc FROM product WHERE productId = ?");
-    $query->bind_param("i", $s);
-    $query->execute();
-    $result = $query->get_result();
-    return $result;      
-
-}
-
-function displayDetail(){
-    $connection = createConnection();
-    $result = getDetails($connection);
+function displayDetail($connection, $productId){
+    $result = Product::getDetails($connection, $productId);
     $row = $result->fetch_assoc();
     
     echo "<p class='text-center'>" . $row["productDesc"] . "</p>";
-
-    $connection->close();
-
 }
 
 
-function displayImage(){
+function displayImage($connection, $productId){
 
-    $connection = createConnection();
-    $result = getImage($connection);
+    $result = Product::getImage($connection, $productId);
     $row = $result->fetch_assoc();
-    
-
-        if($row["productImageURL"] == null){
-
-            // Makes a call to the display image php file, which creates an image //
-            
-            echo "<img class=resize src='displayImage.php?id=".$row["productId"] . "'>";
-            $connection->close();
-            
-        }
-    
-        else{
-            echo "<img class=resize src=" .$row["productImageURL"] . ">";
-            $connection->close();
-        }
-
- function getInfoForCart($connection){
-    
-    $s = getId();
-        
-    $query = $connection->prepare("SELECT * FROM product WHERE productId = ?");
-    $query->bind_param("i", $s);
-    $query->execute();
-    $result = $query->get_result();
-    return $result; 
- }
-     
+    echo "<img class=resize src=" .$row["productImageURL"] . ">";
 }
-
-
-
-// TODO: If there is a productImageURL, display using IMG tag
-
-// TODO: Retrieve any image stored directly in database. Note: Call displayImage.php with product id as parameter.
-
-// TODO: Add links to Add to Cart and Continue Shopping
-
 
 ?>
 
@@ -154,19 +83,20 @@ function displayImage(){
                 <div class="col-lg-12 col-md-12 col-sm-12 text-center" style="padding-top:20px;">
                     <div class="column">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-                            <?php							                              
-                                displayImage();
+                            <?php
+                                $productId = getId();
+                                $connection = createConnection();							                              
+                                displayImage($connection, $productId);
                             ?>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <?php                                                          
-                                displayDetail();                                                                                         
+                                displayDetail($connection, $productId);                                                                                         
                             ?>
                         </div>
                         <div class="col-lg-12 col-md-12 col-sm-12">
                             <?php                               
-                                    $connection = createConnection();
-                                    $result = getInfoForCart($connection);
+                                    $result = Product::getInfoForCart($connection, $productId);
                                     $row = $result->fetch_assoc();
                                     
                                     echo "<a href='addcart.php?id= ".$row["productId"] . "&name=" . 

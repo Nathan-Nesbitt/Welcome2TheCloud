@@ -36,7 +36,7 @@ class Account {
 		
 		$query->execute();
 		/* Creates a credit card entry */
-		self->createPayment($connection, $paymentType, $paymentNumber, $paymentExpiryDate, $query->insert_id);
+		self::createPayment($connection, $paymentType, $paymentNumber, $paymentExpiryDate, $query->insert_id);
 	
 		/* Returns TRUE if successful, and FALSE if failed */
 		return array(TRUE, $userid);

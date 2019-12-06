@@ -1,5 +1,7 @@
 <?php
 
+require_once "Account.php";
+
 class Admin extends Account {
     function getOrderAmountAndTotalPrice($connection) {
         $query = $connection->prepare("SELECT COUNT(*) AS numberOrders, SUM(totalAmount) as totAmount

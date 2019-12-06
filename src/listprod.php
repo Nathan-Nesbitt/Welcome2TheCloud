@@ -1,19 +1,19 @@
 <?php
 
 	include 'include/db_connection.php';
-	include 'product_scripts.php';
-	include 'category_scripts.php';
+	include 'objects/Product.php';
+	include 'objects/Category.php';
 
 	//function for displaying products by category via drop downs
 	function displayProductByCategory(){
 
 		$connection = createConnection();
 
-		$result = getCategories($connection);
+		$result = Category::getCategories($connection);
 
 		while($row = $result->fetch_assoc()){
 			$cat = $row["categoryName"];
-			$resultTwo = getProductsByCategory($connection, $cat);
+			$resultTwo = Product::getProductsByCategory($connection, $cat);
 			echo '<link rel="stylesheet" href="listprod.css">
 					<div class="dropdown">
 						<button class="dropbtn">' . $cat . '</button>
@@ -42,7 +42,7 @@
 		$connection = createConnection();
 
 		/* Gets the results */
-		$result = getProducts($connection, $name);
+		$result = Product::getProducts($connection, $name);
 	 
 		if ($result->num_rows > 0) {
     		while($row = $result->fetch_assoc()) {

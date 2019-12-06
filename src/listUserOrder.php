@@ -24,7 +24,7 @@
 
 <?php
 require_once 'include/db_connection.php';
-include 'login_scripts.php';
+include 'objects/Login.php';
 
 /* Function to get all orders from the database */
 function getOrders($connection, $userId) {
@@ -50,7 +50,7 @@ function getOrderProducts($connection, $orderId) {
 function printTable($connection) {
 
 		// Checks to see if the user is logged in //
-		$loggedIn = checkToken($connection);
+		$loggedIn = Login::checkToken($connection);
 		if (!$loggedIn){
 			return FALSE;
         }

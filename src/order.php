@@ -1,7 +1,9 @@
 <?php
 
 include 'include/db_connection.php';
-include 'login_scripts.php';
+include 'objects/Login.php';
+include 'objects/Customer.php';
+
 
 /* Function to check to see if customer exists */
 
@@ -42,8 +44,7 @@ function checkUserInput($connection, $userid, $password, $productList) {
 	 * Returns: FALSE if any of these fail and prints to screen. TRUE if no error.
 	 * 
 	 * **/
-
-	$rightPassword = login($connection, $userid, $password);
+	$rightPassword = Login::loginUser($connection, $userid, $password);
 	if ($rightPassword == FALSE) {
 		echo "<h3>Wrong Password or Username</h3>";
 		return FALSE;

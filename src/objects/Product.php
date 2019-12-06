@@ -31,9 +31,9 @@ class Product {
     function createProduct($connection, $productName, $productPrice, $productDesc, $categoryId, $productImageURLImage) {
     /* Function to create the product in the database */
         
-        $productImageURL = self->addImageToSystem($productImageURLImage);
+        $productImageURL = self::addImageToSystem($productImageURLImage);
     
-        $result = self->addProductToDatabase($connection,  $productName, $productPrice, $productImageURL, $productDesc, $categoryId);
+        $result = self::addProductToDatabase($connection,  $productName, $productPrice, $productImageURL, $productDesc, $categoryId);
         
         return $result;
     }
@@ -69,6 +69,33 @@ class Product {
     
         return $result;
     }
+    
+    function getImage($connection, $productId){
+    
+        $query = $connection->prepare("SELECT productImageURL, productId FROM product WHERE productId = ?");
+        $query->bind_param("i", $productId);
+        $query->execute();
+        $result = $query->get_result();
+        return $result;
+    
+    }
+
+    function getDetails($connection, $productId) {
+        $query = $connection->prepare("SELECT productDesc FROM product WHERE productId = ?");
+        $query->bind_param("i", $productId);
+        $query->execute();
+        $result = $query->get_result();
+        return $result;      
+    
+    }
+
+    function getInfoForCart($connection, $productId){
+        $query = $connection->prepare("SELECT * FROM product WHERE productId = ?");
+        $query->bind_param("i", $productId);
+        $query->execute();
+        $result = $query->get_result();
+        return $result; 
+    }    
 }
 
 

@@ -1,18 +1,18 @@
 <?php
 	include 'include/db_connection.php';
-	require_once 'login_scripts.php';
+	require_once 'objects/Login.php';
 
 	function loadData() {
 		# Let's make a connection to the database
 		$connection = createConnection();
 
-		$loggedIn = checkToken($connection);
+		$loggedIn = Login::checkToken($connection);
 		if (!$loggedIn){
 			return FALSE;
 		}
 		
 		# Set any cookies to null to prevent the 'stuck logged in' bug
-		removeSessionToken($connection);
+		Login::removeSessionToken($connection);
 
 		echo("<h1>Connecting to database.</h1>");
 		# If there is no connection made we can quit, as there is an error

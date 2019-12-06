@@ -1,8 +1,8 @@
 <?php 
 
-class Login{
+class Login {
 
-    function login($connection, $userid, $password) {
+    public function loginUser($connection, $userid, $password) {
         /* Function that checks to see if a user exists and the passwords match */
 
         /* Gets the hashed password from the entered user */
@@ -75,7 +75,7 @@ class Login{
         /* Creates a random 255 length token */
         $token = bin2hex(random_bytes(255));
         /* Stores the token in the database */
-        $tokenID = storeToken($connection, $user, $token);
+        $tokenID = self::storeToken($connection, $user, $token);
 
         $cookie = $user . ':'. $tokenID .':' . $token;
         $hash = hash_hmac('sha256', $cookie, $SECRET_KEY);
@@ -102,7 +102,7 @@ class Login{
                 return false;
             }
             /* Gets the token and checks if the user's token matches that of the user */
-            $usertoken = fetchToken($connection, $user, $tokenID);
+            $usertoken = self::fetchToken($connection, $user, $tokenID);
             if (hash_equals($usertoken, $token)) {
                 return true;
             }
@@ -114,7 +114,7 @@ class Login{
         $userId = explode(":", $cookie)[0];
         $tokenId = explode(":", $cookie)[1];
         setcookie('loggedIn', NULL);
-        removeToken($connection, $userId, $tokenId);
+        self::removeToken($connection, $userId, $tokenId);
     }
 }
     

@@ -30,7 +30,7 @@ class ShoppingCart{
 		 * Returns: 
 		 **/
 	
-		$productList = getCurrentItems();
+		$productList = self::getCurrentItems();
 	
 		// Add new product selected
 		// Get product information
@@ -60,7 +60,7 @@ class ShoppingCart{
 		 * Returns: 
 		 **/
 	
-		$productList = getCurrentItems();
+		$productList = self::getCurrentItems();
 	
 		echo var_dump($productList);
 		$new_quantity = (int) $_POST["new_quantity"];
@@ -77,7 +77,7 @@ class ShoppingCart{
 	
 	function removeItemFromCart() {
 		session_start();
-		$productList = getCurrentItems();
+		$productList = self::getCurrentItems();
 		foreach ($productList as $key => $value) {
 			echo "<br/>";
 			echo "Key: " . $key;

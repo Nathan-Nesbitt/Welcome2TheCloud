@@ -1,6 +1,6 @@
 <?php
 require_once 'include/db_connection.php';
-require_once 'login_scripts.php';
+require_once 'objects/Login.php';
 
 
 /* Function to get the values from the form */
@@ -54,7 +54,7 @@ function createHashedPassword($password){
 function updatePassword($connection, $password, $newPassword, $userId) {
     
     // If the old password doesn't match DB, quit //
-    if(!login($connection, $userId, $password))
+    if(!Login::loginUser($connection, $userId, $password))
         return FALSE;
     
     $newPassword = createHashedPassword($newPassword);
@@ -82,7 +82,7 @@ function mainCreateFunction() {
         list ($fname, $lname, $email, $phonenum, $address, $city, $state, $postalCode, $country, $newUserid, $password, $newPassword) = getUserValues();
     
         // Checks to see if the user is logged in as a valid user, quits if they aren't // 
-        if(!checkToken($connection))
+        if(!Login::checkToken($connection))
             return FALSE;
 
         // Gets the userID from the cookie
@@ -99,8 +99,8 @@ function mainCreateFunction() {
         
 		// If the account userID is successfully changed, reload the account with the new token
         if ($updateUserInfoSuccess && $userId != $newUserid){
-            removeSessionToken($connection);
-            createToken($connection, $newUserid);
+            Login::removeSessionToken($connection);
+            Login::createToken($connection, $newUserid);
         }
 
         /* Closes the connection to the database */
