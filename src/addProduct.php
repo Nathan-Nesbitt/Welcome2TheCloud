@@ -1,7 +1,7 @@
 <?php
 require_once 'include/db_connection.php';
-require_once 'login_scripts.php';
-require_once 'product_scripts.php';
+require_once 'objects/Login.php';
+require_once 'objects/Product.php';
 
 
 
@@ -13,9 +13,8 @@ function getUserValues() {
 
     $productName = NULL;
     $productPrice = NULL;
-    $productImageURL = NULL;
-    $productImage = NULL;
-    $productImageImage = NULL;
+    $productDesc = NULL;
+    $categoryId = NULL;
     $productImageURLImage = NULL;
 
 
@@ -34,11 +33,8 @@ function getUserValues() {
     if (isset($_FILES['productImageURL'])){
 		$productImageURLImage = $_FILES['productImageURL'];
     }
-    if (isset($_FILES['productImage'])){
-        $productImageImage = $_FILES['productImage'];
-    }
 	
-	return array($productName, $productPrice, $productDesc, $categoryId, $productImageURLImage, $productImageImage);
+	return array($productName, $productPrice, $productDesc, $categoryId, $productImageURLImage);
 }
 
 
@@ -52,16 +48,18 @@ function mainCreateFunction() {
         $connection = createConnection();
         
         // Checks to see if the person is logged in and quits if they're not //
-        $loggedIn = checkToken($connection);
+        $loggedIn = Login::checkToken($connection);
         if (!$loggedIn){
             return false;
         }
+        list($productName, $productPrice, $productDesc, $categoryId, $productImageURLImage) = getUserValues();
 
-		$success = createProduct($connection);
+		$success = Product::createProduct($connection, $productName, $productPrice, $productDesc, $categoryId, $productImageURLImage);
 		// If the account is successfully created, log the account in
-		if ($success)
-			echo "Success!";
-
+		if ($success){
+            echo "Success!";
+            return true;
+        }
 	}
 
 $result = mainCreateFunction();

@@ -58,7 +58,6 @@ CREATE TABLE product (
     productName         VARCHAR(40),
     productPrice        DECIMAL(10,2),
     productImageURL     TEXT,
-    productImage        LONGBLOB,
     productDesc         VARCHAR(1000),
     categoryId          INT,
     PRIMARY KEY (productId),
