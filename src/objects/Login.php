@@ -1,5 +1,7 @@
 <?php 
 
+class Login{
+
     function login($connection, $userid, $password) {
         /* Function that checks to see if a user exists and the passwords match */
 
@@ -33,7 +35,7 @@
         }
 
         return FALSE;
-}
+    }
 
     function storeToken($connection, $user, $token) {
         /* Function to store the value for the token for a user in the database 
@@ -114,4 +116,6 @@
         setcookie('loggedIn', NULL);
         removeToken($connection, $userId, $tokenId);
     }
+}
+    
 ?>
