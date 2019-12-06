@@ -1,10 +1,16 @@
 <?php
 require_once 'include/db_connection.php';
 require_once 'login_scripts.php';
+require_once 'product_scripts.php';
 
 
-/* Function to get the values from the form */
+
 function getUserValues() {
+    /**
+     * Function to get the values from the form 
+     * Returns: List with all elements from the form, if any fail -> element is null
+     */
+
     $productName = NULL;
     $productPrice = NULL;
     $productImageURL = NULL;
@@ -35,43 +41,12 @@ function getUserValues() {
 	return array($productName, $productPrice, $productDesc, $categoryId, $productImageURLImage, $productImageImage);
 }
 
-/* Function to create the user in the database */
-function createAccount($connection) {
 
-	/* Gets the list of values from the function */
-	list ($productName, $productPrice, $productDesc, $categoryId, $productImageURLImage, $productImageImage) = getUserValues();
-
-    // Directory for the images
-    $photoDir = "images/";
-    
-    // Since we will run into issues with file conflicts, 
-    // the image url becomes the current unix time + image name 
-    if($productImageURLImage['name'] != ""){
-        $productImageURL =  $photoDir . time() . $productImageURLImage['name'];
-        move_uploaded_file($productImageURLImage["tmp_name"] , $productImageURL);
-    }
-    
-    if($productImageImage['name'] != ""){
-        // Since we will run into issues with file conflicts, 
-        // the image url becomes the current unix time + image name
-        $productImage = $photoDir . time() . $productImageImage["name"];
-        move_uploaded_file($productImageImage["tmp_name"] , $productImage);
-        $productImageImage = file_get_contents($productImage);
-    }
-
-	/* Prepares the function so we can pass in the values from the user */
-	$query = $connection->prepare("INSERT INTO product (productName, productPrice, productImageURL, productImage, productDesc, categoryId) VALUES (?, ?, ?, ?, ?, ?)");
-	/* Passes the values into the query */
-	$query->bind_param("sisssi", $productName, $productPrice, $productImageURL, $productImageImage, $productDesc, $categoryId);
-
-    $result = $query->execute();
-
-	/* Returns TRUE if successful, and FALSE if failed */
-	return array($result);
-}
-
-/* Main function for this page, prints out all orders and all products */
 function mainCreateFunction() {
+    /**
+     *  Main function for this page, prints out all orders and all products
+     *  Returns: Null if successful, False if not logged in
+     */
 
         /* Creates the connection to the database */
         $connection = createConnection();
@@ -79,18 +54,17 @@ function mainCreateFunction() {
         // Checks to see if the person is logged in and quits if they're not //
         $loggedIn = checkToken($connection);
         if (!$loggedIn){
-            return FALSE;
+            return false;
         }
 
-		list($success) = createAccount($connection);
+		$success = createProduct($connection);
 		// If the account is successfully created, log the account in
 		if ($success)
 			echo "Success!";
 
 	}
 
-mainCreateFunction();
+$result = mainCreateFunction();
 header('Location:/listprod.php');
-
 
 ?>
