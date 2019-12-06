@@ -1,39 +1,5 @@
 <?php
-// Get the current list of products
-function showCart() {
-	session_start();
-	$productList = null;
-	if (isset($_SESSION['productList'])){
-		$productList = $_SESSION['productList'];
-		echo("<div align='center'><h1>Shopping Cart</h1></div>");
-		echo("<div class='row justify-content-md-center'><div class='col-sm-8'><table class='table'><tr><th class='d-none d-sm-block'>Id</th><th>Product Name</th><th>Quantity</th>");
-		echo("<th class='d-none d-sm-block'>Price</th><th>Subtotal</th><th>Remove</th><th>Update</th></tr>");
-
-		$total =0;
-		foreach ($productList as $id => $prod) {
-			echo("<tr><td class='d-none d-sm-block'>". $prod['id'] . "</td>");
-			echo("<td>" . $prod['name'] . "</td>");
-
-			echo('<form method="post" action="updateQuantity.php?id=' . substr($id, 1) . '">');
-			echo('<td align="center"><input class = "form-control" name="new_quantity" type="number" min="1" value="' .$prod['quantity'] . '">');
-			//echo("<td align=\"center\">". $prod['quantity'] . "</td>");
-			$price = $prod['price'];
-
-			echo("<td class='d-none d-sm-block' align=\"right\">$" . number_format($price ,2) ."</td>");
-			echo("<td align=\"right\">$" . number_format($prod['quantity']*$price, 2) . "</td>");
-			echo('<td><a href="removeCart.php?id=' . substr($id, 1) . '">&#10060;</a></td>');
-			echo('<td><input type="submit" value="Update"></form></td>');
-			echo("</tr></tr>");
-			$total = $total +$prod['quantity']*$price;
-		}
-		echo("<tr><td colspan=\"4\" align=\"right\"><b>Order Total</b></td><td align=\"right\">$" . number_format($total,2) ."</td></tr>");
-		echo("</table></div>");
-
-		echo("</div><div align='center'><a href=\"checkout.php\"><button class='btn btn-primary mb-1'>Check Out</button></a></button>");
-	} else{
-		echo("<div align='center'><H1>Your shopping cart is empty!</H1>");
-	}
-}
+require_once 'shoppingCart_scripts.php';
 ?>
 
 <!DOCTYPE html>
@@ -60,30 +26,32 @@ function showCart() {
 </head>
 
 <body>
-<nav class="navbar sticky-top navbar-expand-lg navbar-light">
-                <img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul id="navbar-ul" class="navbar-nav">
-                                <li class="nav-item">
-                                        <a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
-                                </li>
-                                <li class="nav-item">
-                                        <a class="nav-link" href="listprod.php">Products</a>
-                                </li>
-                                <li class="nav-item">
-                                        <a id="login-nav" class="nav-link" href="login.html">Login</a>
-                                </li>
-                        </ul>
-                </div>
+		<nav class="navbar sticky-top navbar-expand-lg navbar-light">
+			<img alt="Brand" src="images/Welcome2TheCloud.png" style="width: 50px">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul id="navbar-ul" class="navbar-nav">
+					<li class="nav-item">
+							<a class="nav-link" href="/">Homepage<span class="sr-only"></span></a>
+					</li>
+					<li class="nav-item">
+							<a class="nav-link" href="listprod.php">Products</a>
+					</li>
+					<li class="nav-item">
+							<a id="login-nav" class="nav-link" href="login.html">Login</a>
+					</li>
+				</ul>
+			</div>
         </nav>
 	<div class="row">
 		<div class="col-lg-12">
 
-			<?php showCart(); ?>
+			<?php 
+				showCart(); 
+			?>
 				<a href="listprod.php"><button class='btn btn-primary mb-1'>Continue Shopping</button></a>
 			</div>
 		</div>
