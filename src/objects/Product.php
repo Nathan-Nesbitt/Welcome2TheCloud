@@ -61,9 +61,9 @@ class Product {
         * */
     
         /* Prepares the function so we can pass in the values from the user */
-        $query = $connection->prepare("INSERT INTO product (productName, productPrice, productImageURL, productImage, productDesc, categoryId) VALUES (?, ?, ?, ?, ?, ?)");
+        $query = $connection->prepare("INSERT INTO product (productName, productPrice, productImageURL, productDesc, categoryId) VALUES (?, ?, ?, ?, ?)");
         /* Passes the values into the query */
-        $query->bind_param("sisssi", $productName, $productPrice, $productImageURL, $productDesc, $categoryId);
+        $query->bind_param("sissi", $productName, $productPrice, $productImageURL, $productDesc, $categoryId);
     
         $result = $query->execute();
     
