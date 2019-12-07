@@ -19,7 +19,16 @@ If you want to see a live version of the site, it can be seen at Welcome2The.clo
 3. Create a new user for this database using `CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';`
 4. Create a database for this account `CREATE DATABASE <database>`
 5. Allow the new user access to the database `GRANT ALL ON <database>.* TO '<username>'@'localhost';`
-6. Flush privileges to ensure that everything has been committed. `flush privileges;`
+6. Create a user for testing using this exact string `CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';`
+7. Create a test database  `CREATE DATABASE testDatabase;`
+8. Allow the test user access to the test database `GRANT ALL ON testDatabase.* TO 'username'@'localhost';`
+9. Flush privileges to ensure that everything has been committed. `flush privileges;`
+
+Now you can leave MySQL and run the database creation script by running the following command:
+
+```
+sudo mysql --default-character-set=utf8 testDatabase < src/data/createDatabase.sql
+```
 
 #### Configuring apache to redirect to your file
 1. Download the files to a directory on your computer
