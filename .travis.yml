@@ -26,6 +26,7 @@ script:
 - vendor/bin/phpunit --bootstrap src/objects/Admin.php tests/AdminTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Category.php tests/CategoryTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Login.php tests/LoginTest.php
+- vendor/bin/phpunit --bootstrap src/objects/Order.php tests/OrderTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Product.php tests/ProductTest.php
 - vendor/bin/phpunit --bootstrap src/objects/ShoppingCart.php tests/ShoppingCartTest.php
 deploy:

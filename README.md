@@ -64,13 +64,13 @@ First you need to make it so you can run the tests, I used composer which gets t
 If you want to run the tests you can use the following commands, it's kinda hacky for now. Once everything is running well I can update the structure to ensure that they run by just running phpunit.
 
 ```{php}
-vendor/bin/phpunit --bootstrap src/addcart.php tests/AddCartTest.php
-vendor/bin/phpunit --bootstrap src/checkout.php tests/CheckoutTest.php
-vendor/bin/phpunit --bootstrap src/listorder.php tests/ListOrderTest.php
-vendor/bin/phpunit --bootstrap src/listprod.php tests/ListProdTest.php
-vendor/bin/phpunit --bootstrap src/loaddata.php tests/LoadDataTest.php
-vendor/bin/phpunit --bootstrap src/order.php tests/OrderTest.php
-vendor/bin/phpunit --bootstrap src/showcart.php tests/ShowCartTest.php
+vendor/bin/phpunit --bootstrap src/objects/Account.php tests/AccountTest.php
+vendor/bin/phpunit --bootstrap src/objects/Admin.php tests/AdminTest.php
+vendor/bin/phpunit --bootstrap src/objects/Category.php tests/CategoryTest.php
+vendor/bin/phpunit --bootstrap src/objects/Login.php tests/LoginTest.php
+vendor/bin/phpunit --bootstrap src/objects/Order.php tests/OrderTest.php
+vendor/bin/phpunit --bootstrap src/objects/Product.php tests/ProductTest.php
+vendor/bin/phpunit --bootstrap src/objects/ShoppingCart.php tests/ShoppingCartTest.php
 ```
 
 ### If you are using it on your own server:
