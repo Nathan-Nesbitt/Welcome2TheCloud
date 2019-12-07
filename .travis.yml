@@ -25,7 +25,6 @@ script:
 - vendor/bin/phpunit --bootstrap src/objects/Account.php tests/AccountTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Admin.php tests/AdminTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Category.php tests/CategoryTest.php
-- vendor/bin/phpunit --bootstrap src/objects/Customer.php tests/CustomerTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Login.php tests/LoginTest.php
 - vendor/bin/phpunit --bootstrap src/objects/Product.php tests/ProductTest.php
 - vendor/bin/phpunit --bootstrap src/objects/ShoppingCart.php tests/ShoppingCartTest.php
