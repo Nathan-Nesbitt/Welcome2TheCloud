@@ -5,8 +5,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
 	<title>Order List - Welcome2TheCloud</title>
-	<link rel="stylesheet" href="shop.css?<?php echo time(); ?>">
-	<link rel="stylesheet" href="listOrder.css?<?php echo time(); ?>">
+	<link rel="stylesheet" href="stylesheets/shop.css?<?php echo time(); ?>">
+	<link rel="stylesheet" href="stylesheets/listOrder.css?<?php echo time(); ?>">
 	<link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
 		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
