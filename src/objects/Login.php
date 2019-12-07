@@ -21,7 +21,7 @@ class Login {
     }
 
     /* Function to check to see if it is right password */
-    function idLogin($connection, $custId, $password) {
+    public function idLogin($connection, $custId, $password) {
 
         $query = $connection->prepare("SELECT password FROM customer WHERE customerId = ?");
 
@@ -37,7 +37,7 @@ class Login {
         return FALSE;
     }
 
-    function storeToken($connection, $user, $token) {
+    public function storeToken($connection, $user, $token) {
         /* Function to store the value for the token for a user in the database 
             Returns the id for the insertion.
         */
@@ -47,7 +47,7 @@ class Login {
         return $query->insert_id;
     }
 
-    function fetchToken($connection, $user, $tokenId){
+    public function fetchToken($connection, $user, $tokenId){
         /* Function to get the token and id for some user from the database */
 
         $query = $connection->prepare("SELECT token FROM tokens WHERE userid=? and tokenId=?");
@@ -57,7 +57,7 @@ class Login {
         return $token["token"];
     }
 
-    function removeToken($connection, $userid, $tokenId) {
+    public function removeToken($connection, $userid, $tokenId) {
         /* Function to remove the token for some user */
         
         $query = $connection->prepare("DELETE from tokens WHERE userid=? and tokenId=?");
@@ -65,7 +65,7 @@ class Login {
         $query->execute();
     }
 
-    function createToken($connection, $user) {
+    public function createToken($connection, $user) {
         /* 
             This should be moved to a better spot, it's only here for testing and should be changed ASAP
             DO NOT DEPLOY WITH THIS! IT IS NOT SECURE!
@@ -83,7 +83,7 @@ class Login {
         setcookie('loggedIn', $cookie);
     }
 
-    function checkToken($connection) {
+    public function checkToken($connection) {
         /* Function that checks to see if the current user is logged in based on their cookie */
 
         $cookie = isset($_COOKIE['loggedIn']) ? $_COOKIE['loggedIn'] : '';
@@ -109,7 +109,7 @@ class Login {
         }
     }
 
-    function removeSessionToken($connection){
+    public function removeSessionToken($connection){
         $cookie = $_COOKIE["loggedIn"];
         $userId = explode(":", $cookie)[0];
         $tokenId = explode(":", $cookie)[1];
