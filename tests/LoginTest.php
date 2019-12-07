@@ -1,11 +1,11 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-final class OrderTest extends TestCase
+final class LoginTest extends TestCase
 {
     public function testTemplate() {
         $connection = new mysqli($host="localhost", $username="username", $passwd="password", $dbname="testDatabase");
-        $this->assertNotFalse((new Order)->getProductsInOrder($connection, 1));
+        $this->assertNotFalse((new Login)->loginUser($connection, "arnold", "test"));
     }
 }
 

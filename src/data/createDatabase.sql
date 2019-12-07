@@ -1,17 +1,3 @@
-DROP TABLE review;
-DROP TABLE shipment;
-DROP TABLE productinventory;
-DROP TABLE warehouse;
-DROP TABLE orderproduct;
-DROP TABLE incart;
-DROP TABLE product;
-DROP TABLE category;
-DROP TABLE ordersummary;
-DROP TABLE paymentmethod;
-DROP TABLE customer;
-DROP TABLE tokens;
-
-
 CREATE TABLE customer (
     customerId          INT NOT NULL AUTO_INCREMENT,
     firstName           VARCHAR(40),

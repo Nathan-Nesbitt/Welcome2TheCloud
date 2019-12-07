@@ -19,7 +19,16 @@ If you want to see a live version of the site, it can be seen at Welcome2The.clo
 3. Create a new user for this database using `CREATE USER '<username>'@'localhost' IDENTIFIED BY '<password>';`
 4. Create a database for this account `CREATE DATABASE <database>`
 5. Allow the new user access to the database `GRANT ALL ON <database>.* TO '<username>'@'localhost';`
-6. Flush privileges to ensure that everything has been committed. `flush privileges;`
+6. Create a user for testing using this exact string `CREATE USER 'username'@'localhost' IDENTIFIED BY 'password';`
+7. Create a test database  `CREATE DATABASE testDatabase;`
+8. Allow the test user access to the test database `GRANT ALL ON testDatabase.* TO 'username'@'localhost';`
+9. Flush privileges to ensure that everything has been committed. `flush privileges;`
+
+Now you can leave MySQL and run the database creation script by running the following command:
+
+```
+sudo mysql --default-character-set=utf8 testDatabase < src/data/createDatabase.sql
+```
 
 #### Configuring apache to redirect to your file
 1. Download the files to a directory on your computer
@@ -55,13 +64,13 @@ First you need to make it so you can run the tests, I used composer which gets t
 If you want to run the tests you can use the following commands, it's kinda hacky for now. Once everything is running well I can update the structure to ensure that they run by just running phpunit.
 
 ```{php}
-vendor/bin/phpunit --bootstrap src/addcart.php tests/AddCartTest.php
-vendor/bin/phpunit --bootstrap src/checkout.php tests/CheckoutTest.php
-vendor/bin/phpunit --bootstrap src/listorder.php tests/ListOrderTest.php
-vendor/bin/phpunit --bootstrap src/listprod.php tests/ListProdTest.php
-vendor/bin/phpunit --bootstrap src/loaddata.php tests/LoadDataTest.php
-vendor/bin/phpunit --bootstrap src/order.php tests/OrderTest.php
-vendor/bin/phpunit --bootstrap src/showcart.php tests/ShowCartTest.php
+vendor/bin/phpunit --bootstrap src/objects/Account.php tests/AccountTest.php
+vendor/bin/phpunit --bootstrap src/objects/Admin.php tests/AdminTest.php
+vendor/bin/phpunit --bootstrap src/objects/Category.php tests/CategoryTest.php
+vendor/bin/phpunit --bootstrap src/objects/Login.php tests/LoginTest.php
+vendor/bin/phpunit --bootstrap src/objects/Order.php tests/OrderTest.php
+vendor/bin/phpunit --bootstrap src/objects/Product.php tests/ProductTest.php
+vendor/bin/phpunit --bootstrap src/objects/ShoppingCart.php tests/ShoppingCartTest.php
 ```
 
 ### If you are using it on your own server:

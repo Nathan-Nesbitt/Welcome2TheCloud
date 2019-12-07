@@ -27,9 +27,11 @@ require_once 'include/db_connection.php';
 include 'objects/Login.php';
 
 /* Function to get all orders from the database */
-function getOrders($connection) {
-	$query = "SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId ORDER BY O.orderId";
-	$result = $connection-> query($query);
+function getOrders($connection, $userId) {
+	$query = $connection->prepare("SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId and C.userId = ? ORDER BY O.orderId");
+    $query->bind_param("s", $userId);
+    $query->execute();
+    $result =  $query->get_result();
 	return $result;
 }
 
@@ -51,9 +53,13 @@ function printTable($connection) {
 		$loggedIn = Login::checkToken($connection);
 		if (!$loggedIn){
 			return FALSE;
-		}
+        }
 
-		$result = getOrders($connection);
+        // Gets the userId from the cookie //
+        $cookie = $_COOKIE["loggedIn"];
+        $userId = explode(":", $cookie)[0];
+
+		$result = getOrders($connection, $userId);
 		
 		while($row = $result->fetch_assoc()) {
 			/* Prints out the 'head values' or the order values */
@@ -171,7 +177,7 @@ function printTable($connection) {
 					newLi += '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
 					newLi += '<a class="dropdown-item" href="/customer.php">User Summary</a>';
 					newLi += '<a class="dropdown-item" href="/showcart.php">View Cart</a>';
-					newLi += '<a class="dropdown-item" href="/listUserOrder.php">My Orders</a>';
+                    newLi += '<a class="dropdown-item" href="/listUserOrder.php">My Orders</a>';
 					newLi += '</li>';
 					$("#navbar-ul").append(newLi);
 

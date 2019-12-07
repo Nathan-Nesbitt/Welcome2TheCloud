@@ -6,7 +6,7 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0' />
         <title>Login - Welcome2TheCloud</title>
         <link rel="icon" type="image/png" href="images/Welcome2TheCloud.png" type="image/x-icon">
-        <link rel="stylesheet" href="shop.css">
+        <link rel="stylesheet" href="stylesheets/shop.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
                 integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
                 crossorigin="anonymous">
@@ -39,9 +39,6 @@
                                         <a class="nav-link" href="listprod.php">Products</a>
                                 </li>
                                 <li class="nav-item">
-                                        <a class="nav-link" href="listorder.php">Orders</a>
-                                </li>
-                                <li class="nav-item">
                                         <a class="nav-link" href="createAccount.html">Create Account</a>
                                 </li>
                         </ul>
@@ -51,15 +48,15 @@
                 <div class="col-lg-12 col-md-12 col-sm-12" align="center">
                         <div class="slide-content">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <form method="get" action="login.php">
+                                        <form method="post" id="login-form" action="login.php">
                                                 <div>
                                                         <div class="form-group">
                                                                 <input type="text" class="form-control" name="userid"
-                                                                        placeholder="Username">
+                                                                        placeholder="Username" required>
                                                         </div>
                                                         <div class="form-group">
-                                                                <input type="text" class="form-control" name="password"
-                                                                        placeholder="Password">
+                                                                <input type="password" class="form-control"
+                                                                        name="password" placeholder="Password" required>
                                                         </div>
                                                         <input type="submit" class="btn btn-primary mb-2"
                                                                 value="Submit">
@@ -73,13 +70,36 @@
         <footer class="container mt-12">
                 <div class="row">
                         <div class="col">
-                                <p class="text-center"><a
-                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Nathan
-                                                Nesbitt</a>, Copyright © 2019</p>
+                                <p class="text-center">View the code at <a
+                                                href="https://github.com/Nathan-Nesbitt/Welcome2TheCloud">Welcome2TheCloud</a>
+                                </p>
                         </div>
                 </div>
         </footer>
 </body>
 
+<!-- Importing the AJAX libraries -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+</script>
+
+<script>
+        $('#login-form').submit(
+                // This handles the Contact-Us form submission//
+                function (e) {
+                        e.preventDefault();
+                        data = $(this).closest('form').serialize();
+                        $.ajax({
+                                url: 'login.php',
+                                type: 'post',
+                                data: data,
+                                success: function () {
+                                        // Redirects the page to the home
+                                        window.location = "/"
+                                }
+                        });
+                }
+        )
+</script>
 <!DOCTYPE html>
 <html>
