@@ -41,6 +41,14 @@ class Account {
 		/* Returns TRUE if successful, and FALSE if failed */
 		return array(TRUE, $userid);
 	}
+
+	function getPaymentInformation($connection, $custId){
+		$getPaymentInfo = $connection->prepare("SELECT paymentType, paymentNumber FROM paymentmethod WHERE customerId=?");
+		$getPaymentInfo->bind_param("i", $custId);
+		$getPaymentInfo->execute();
+		$paymentInfo = $getPaymentInfo->get_result()->fetch_assoc();
+		return $paymentInfo;
+	}
 }
 
 ?>

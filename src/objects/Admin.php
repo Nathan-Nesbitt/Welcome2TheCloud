@@ -16,13 +16,19 @@ class Admin extends Account {
         return $query->get_result();
     }
     
-    function getUserById($connection, $userId){
-        $getUserInfoQuery = $connection->prepare("SELECT * FROM customer WHERE userid = ?");
-        $getUserInfoQuery->bind_param("s", $userId);
-        $getUserInfoQuery->execute();
-        $userInfo = $getUserInfoQuery->get_result()->fetch_assoc();
+    function getUserById($connection, $userid) {
+        /**
+         * Gets all customer info for some user based on their userID
+         * 
+         * Returns: Result from query.
+         */
     
-        return $userInfo;
+        $getCustomerInfo = $connection->prepare("SELECT customerId, firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid FROM customer WHERE userid=?");
+        $getCustomerInfo->bind_param("s", $userid);
+        $getCustomerInfo->execute();
+        $result = $getCustomerInfo->get_result()->fetch_assoc();
+    
+        return $result;
     }
     
     function getOrderAmountByDay($connection) {
