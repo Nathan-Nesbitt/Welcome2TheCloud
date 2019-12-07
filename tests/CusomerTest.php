@@ -1,10 +1,10 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
-final class CheckoutTest extends TestCase
+final class CusomerTest extends TestCase
 {
     public function testTemplate() {
-        $this->assertTrue(TRUE);
+        $this -> assertNull(NULL);
     }
 }
 

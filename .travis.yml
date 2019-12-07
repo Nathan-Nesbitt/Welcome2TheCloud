@@ -22,13 +22,13 @@ before_install:
 before_script:
 - composer update
 script:
-- vendor/bin/phpunit --bootstrap src/addcart.php tests/AddCartTest.php
-- vendor/bin/phpunit --bootstrap src/checkout.php tests/CheckoutTest.php
-- vendor/bin/phpunit --bootstrap src/listorder.php tests/ListOrderTest.php
-- vendor/bin/phpunit --bootstrap src/listprod.php tests/ListProdTest.php
-- vendor/bin/phpunit --bootstrap src/loaddata.php tests/LoadDataTest.php
-- vendor/bin/phpunit --bootstrap src/order.php tests/OrderTest.php
-- vendor/bin/phpunit --bootstrap src/showcart.php tests/ShowCartTest.php
+- vendor/bin/phpunit --bootstrap src/objects/Account.php tests/AccountTest.php
+- vendor/bin/phpunit --bootstrap src/Admin.php tests/AdminTest.php
+- vendor/bin/phpunit --bootstrap src/Category.php tests/CategoryTest.php
+- vendor/bin/phpunit --bootstrap src/Customer.php tests/CustomerTest.php
+- vendor/bin/phpunit --bootstrap src/Login.php tests/LoginTest.php
+- vendor/bin/phpunit --bootstrap src/Product.php tests/ProductTest.php
+- vendor/bin/phpunit --bootstrap src/ShoppingCart.php tests/ShoppingCartTest.php
 deploy:
 - provider: script
   skip_cleanup: true

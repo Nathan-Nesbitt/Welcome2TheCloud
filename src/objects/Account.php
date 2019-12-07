@@ -12,7 +12,7 @@ class Account {
 		/* Passes the values into the query */
 		$query->bind_param("sssi", $paymentType, $paymentNumber, $paymentExpiryDate, $customerId);
 		$query->execute();
-		
+		return true;
 	}
 
 	function createAccount($connection) {
