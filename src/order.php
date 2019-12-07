@@ -2,7 +2,9 @@
 
 include 'include/db_connection.php';
 include 'objects/Login.php';
-include 'objects/Customer.php';
+include 'objects/Account.php';
+include 'objects/Admin.php';
+include 'objects/Order.php';
 
 
 /* Function to check to see if customer exists */
@@ -35,135 +37,37 @@ function getOrderData($connection) {
 	
 }
 
-function checkUserInput($connection, $userid, $password, $productList) {
-	
-	/**
-	 * Function that checks the user input to see if userID exists,
-	 * password matches for that user, and that the product list exists
-	 * 
-	 * Returns: FALSE if any of these fail and prints to screen. TRUE if no error.
-	 * 
-	 * **/
-	$rightPassword = Login::loginUser($connection, $userid, $password);
-	if ($rightPassword == FALSE) {
-		echo "<h3>Wrong Password or Username</h3>";
-		return FALSE;
-	}
-
-	if(is_null($productList)){
-		echo "<h3>No Ordered Data</h3>";
-		return FALSE;
-	}
-	
-	return TRUE;
-}
-
-function getCustomerInfo($connection, $userid) {
-	/**
-	 * Gets all customer info for some user based on their userID
-	 * 
-	 * Returns: Result from query.
-	 */
-
-	$getCustomerInfo = $connection->prepare("SELECT customerId, firstName, lastName, email, phonenum, address, city, state, postalCode, country FROM customer WHERE userid=?");
-	$getCustomerInfo->bind_param("s", $userid);
-	$getCustomerInfo->execute();
-	$result = $getCustomerInfo->get_result()->fetch_assoc();
-
-	return $result;
-}
-
-function createOrderSummary($connection, $userid) {
-	/**
-	 * Creates a new order for a certain user based on their username
-	 * 
-	 * Returns: orderId
-	 */
-	$customerInfo = getCustomerInfo($connection, $userid);
-	
-	$orderDate = date('Y-m-d H:i:s');
-
-	$orderSummaryQuery = $connection->prepare("INSERT INTO ordersummary (customerId, totalAmount, orderDate) VALUES (?, 0, ?)");
-	$orderSummaryQuery->bind_param("is", $customerInfo["customerId"], $orderDate);
-	$orderSummaryQuery->execute();
-
-	/* Gets the newly created order ID from the ordersummary table */
-	$orderId = $orderSummaryQuery->insert_id;
-
-	return $orderId;
-}
-
-function addProductsToCart($connection, $productList, $orderId) {
-	/**
-	 * Adds all products to a cart using the productlist and orderId
-	 * 
-	 * Returns: None
-	 */
-	foreach ($productList as $product) {
-		$price = doubleval($product['price']);
-		$totalPrice = doubleval($price) * doubleval($product['quantity']);
-		$productID = intval($product['id']);
-		$OrderProductInsert = $connection->prepare("INSERT INTO orderproduct VALUES (?, ?, ?, ?)");
-		$OrderProductInsert->bind_param("iiid", $orderId, $productID, $product['quantity'], $product['price']);
-		$OrderProductInsert->execute();
-	}
-
-	/* Updating the total for the ordersummary */
-	$updateOrderTotalQuery = $connection->prepare("UPDATE ordersummary SET totalAmount=? WHERE orderId=?");
-	$updateOrderTotalQuery->bind_param("ii", $totalPrice, $orderId);
-	$updateOrderTotalQuery->execute();
-}
-
-/** Save order information to database**/
-function saveOrderData($connection){
-
-	/**
-	 * Calls all required functions to load the data into the database
-	 */
-	
-	list($userid, $password, $productList) = getOrderData($connection);
-
-	$success = checkUserInput($connection, $userid, $password, $productList);
-	if(!$success)
-		return FALSE;
-
-	$orderId = createOrderSummary($connection, $userid);
-
-	addProductsToCart($connection, $productList, $orderId);
-	
-	return $orderId;
-}
-
 function printOrder() {
+	/**
+	 *  Function to print out the order information 
+	 *  Returns: False on failure, True on success 
+	 */
 	$connection = createConnection();
-	$orderId = saveOrderData($connection);
-
+	// Creates the order in the database, getting the created orderId back //
+	$orderId = Order::saveOrderData($connection);
+	
 	if(!$orderId)
 		return FALSE;
 
-	$getInfo = $connection->prepare("SELECT * FROM ordersummary O, customer C WHERE O.customerId = C.customerId AND O.orderId=?");
-	$getInfo->bind_param("i", $orderId);
-	$getInfo->execute();
-	$result = $getInfo->get_result()->fetch_assoc(); 
-
-	$getOrderInfo = $connection->prepare("SELECT * FROM orderproduct, product WHERE orderId = ? AND orderproduct.productId = product.productId");
-	$getOrderInfo->bind_param("i", $orderId);
-	$getOrderInfo->execute();
-	$orderInfo = $getOrderInfo->get_result();
-
+	// Gets all of the customer & order information //
+	$result = Order::getCustomerAndOrderInfo($connection, $orderId);
 	$custId = $result["customerId"];
-	$getPaymentInfo = $connection->prepare("SELECT paymentType, paymentNumber FROM paymentmethod WHERE customerId=?");
-	$getPaymentInfo->bind_param("i", $custId);
-	$getPaymentInfo->execute();
-	$paymentInfo = $getPaymentInfo->get_result()->fetch_assoc();
 
-	echo "<div style='float: left; text-align:left'>
-		<h2>Your total is $".$result["totalAmount"]."</h2>";
+	// Gets all of the products in that order //
+	$orderInfo = Order::getProductsInOrder($connection, $orderId);
+
+	// Gets the payment information for the customer //
+	$paymentInfo = Account::getPaymentInformation($connection, $custId);
+
+	// Header for the order confimation //
+	echo "<div style='float: left; text-align:left'><h2>Your total is $".$result["totalAmount"]."</h2>";
 	echo "<h2>Your order reference number is: " . $result["orderId"] . "</h2>";
 	echo "<h2>Customer ID: " . $result["customerId"] ."</h2>";
 	echo "<h2>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h2>";
 	echo "<h2>Shipping to: " . $result["address"] . ", " . $result["city"] . ", " . $result["state"] . ", " . $result["country"] . "</h2>";
-	if ($paymentInfo["paymentType"] !== '') {
+	
+	// Payment type and number //
+	if ($paymentInfo["paymentType"] != '') {
 		echo "<h2>Payment Type: " . $paymentInfo["paymentType"] . "</h2>";
 	}
 	if (strlen($paymentInfo["paymentNumber"]) > 12) {
@@ -171,22 +75,23 @@ function printOrder() {
 	}
 	echo "</div>";
 
+	// Table of ordered products //
 	echo '
-				<table class="table"">
-				<tr>
-					<th scope="col">Product Id</th>
-                    <th scope="col">Quantity</th>
-					<th scope="col">Price</th>
-					<th scope="col">Product Name</th>
-				</tr>';
+		<table class="table"">
+		<tr>
+			<th scope="col">Product Id</th>
+            <th scope="col">Quantity</th>
+			<th scope="col">Price</th>
+			<th scope="col">Product Name</th>
+		</tr>';
 
 	while ($row = $orderInfo->fetch_assoc()) {
 		echo '<tr>
-						<td>'.$row["productId"].'</td>
-						<td>'.$row["quantity"].'</td>
-						<td>$'.$row["price"].'</td>
-						<td>'.$row["productName"].'</td>
-					</tr>';
+				<td>'.$row["productId"].'</td>
+				<td>'.$row["quantity"].'</td>
+				<td>$'.$row["price"].'</td>
+				<td>'.$row["productName"].'</td>
+			</tr>';
 	}
 	echo "</table>";
 
@@ -194,8 +99,8 @@ function printOrder() {
 	$_SESSION['productList'] = null;
 
 	$connection->close();
+	return true;
 }
-
 
 ?>
 <!DOCTYPE html>
