@@ -55,7 +55,7 @@
                                                         $connection = createConnection();
                                                         $result = Product::getProducts($connection);
                                                         while($row = $result->fetch_assoc()){
-                                                                echo '<div class="col-md-3 col-sm-6 col-xs-6 text-center">';
+                                                                echo '<div class="product col-md-3 col-sm-6 col-xs-6 text-center">';
                                                                 echo '<a href="product.php?id='.$row["productId"].'">';
                                                                 echo '<img src="'.$row["productImageURL"].'" style="width: 100%; height: 80%;">';
                                                                 echo '<p>'.$row["productName"].'</p>';

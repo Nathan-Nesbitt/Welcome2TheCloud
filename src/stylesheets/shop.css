@@ -12,6 +12,10 @@ Colour Scheme:
   #8e6e53
 */
 
+.product img {
+  border-radius: 10px;
+}
+
 * {
     margin: 0;
     padding: 0;
