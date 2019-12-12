@@ -15,14 +15,14 @@
 			$cat = $row["categoryName"];
 			$resultTwo = Product::getProductsByCategory($connection, $cat);
 			echo '<div class="dropdown">
-						<button class="dropbtn">' . $cat . '</button>
-							<div class="dropdown-content">';
-							while($row = $resultTwo->fetch_assoc()){
-								echo "<a href='product.php?id= " .
-									  $row["productId"] . "'>" .
-									  $row["productName"] . "</a>";
-							}
-							echo'</div></div>';
+				<button class="dropbtn">' . $cat . '</button>
+				<div class="dropdown-content">';
+			while($row = $resultTwo->fetch_assoc()){
+				echo "<a href='product.php?id= " .
+				$row["productId"] . "'>" .
+				$row["productName"] . "</a>";
+			}
+			echo'</div></div>';
 
 		}
 		$connection->close();
@@ -113,17 +113,11 @@
 	</nav>
 	<div class="container-fluid">
 		<div class="row" id="Homepage">
-			<div class="col-lg-16 col-md-16 col-sm-16" align="center">
+			<div class="col-lg-16 col-md-16 col-sm-16 center">
 				<div class="slide-content">
-					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16" style="padding-top=10px; padding-bottom:10px;">
-						<h2>Browse by category</h2>
-						<?php
-							displayProductByCategory();
-						?>
-					</div>
-					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group">
+					<div class="col-lg-6 col-md-6 col-sm-16 col-xs-16 form-group mx-auto text-center justify-content-center">
 						<form method="get" action="listprod.php">
-						<h2> Or search for a product</h2>
+						<h2> Search for a product</h2>
 							<div class="form-group">
 								<input type="text"
 									placeholder="Enter the product you want here...(Leave blank for all products)"
@@ -144,12 +138,10 @@
 								<th>Price</th>
 								<th></th>
 							<tr>
-								<?php
+							<?php
 								/* Runs the main function to print the tables */
 								printTableProd();
 							?>
-
-
 					</div>
 				</div>
 			</div>
