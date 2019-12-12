@@ -26,7 +26,7 @@ function displayImage($connection, $productId){
 
     $result = Product::getImage($connection, $productId);
     $row = $result->fetch_assoc();
-    echo "<img class=resize src=" .$row["productImageURL"] . ">";
+    echo "<img class='img-fluid' style='max-width: 80%; border-radius: 10px;' src=" .$row["productImageURL"] . ">";
 }
 
 ?>
@@ -89,7 +89,7 @@ function displayImage($connection, $productId){
                                 displayImage($connection, $productId);
                             ?>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-8 col-md-8 col-sm-8 form-group mx-auto text-center justify-content-center" style='margin-top: 20px;'>
                             <?php                                                          
                                 displayDetail($connection, $productId);                                                                                         
                             ?>
