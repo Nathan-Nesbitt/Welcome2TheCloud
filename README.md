@@ -28,6 +28,7 @@ Now you can leave MySQL and run the database creation script by running the foll
 
 ```
 sudo mysql --default-character-set=utf8 testDatabase < src/data/createDatabase.sql
+sudo mysql --default-character-set=utf8 <database> < src/data/createDatabase.sql
 ```
 
 #### Configuring apache to redirect to your file
