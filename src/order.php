@@ -60,24 +60,27 @@ function printOrder() {
 	$paymentInfo = Account::getPaymentInformation($connection, $custId);
 
 	// Header for the order confimation //
-	echo "<div style='float: left; text-align:left'><h2>Your total is $".$result["totalAmount"]."</h2>";
-	echo "<h2>Your order reference number is: " . $result["orderId"] . "</h2>";
-	echo "<h2>Customer ID: " . $result["customerId"] ."</h2>";
-	echo "<h2>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h2>";
-	echo "<h2>Shipping to: " . $result["address"] . ", " . $result["city"] . ", " . $result["state"] . ", " . $result["country"] . "</h2>";
+	echo "<div class='col-lg-12 col-md-12 col-sm-12' style='float: left; text-align:left'>";
+	echo "<h5>Your total is $" . $result["totalAmount"] . "</h5>";
+	echo "<h5>Order reference number: " . $result["orderId"] . "</h5>";
+	echo "<h5>Customer ID: " . $result["customerId"] . "</h5>";
+	echo "<h5>Customer Name: " . $result["firstName"] . " " . $result["lastName"] . "</h5>";
+	echo "<h5>Shipping to: " . $result["address"] . ", " . $result["city"] . ", " . 
+		$result["state"] . ", " . $result["country"] . "</h5>";
 	
 	// Payment type and number //
 	if ($paymentInfo["paymentType"] != '') {
-		echo "<h2>Payment Type: " . $paymentInfo["paymentType"] . "</h2>";
+		echo "<h5>Payment Type: " . $paymentInfo["paymentType"] . "</h5>";
 	}
 	if (strlen($paymentInfo["paymentNumber"]) > 12) {
-		echo "<h2>Payment Number: " . "************" . substr($paymentInfo["paymentNumber"], 12) . "</h2>";
+		echo "<h5>Payment Number: " . "************" . 
+			substr($paymentInfo["paymentNumber"], 12) . "</h5>";
 	}
 	echo "</div>";
 
 	// Table of ordered products //
 	echo '
-		<table class="table"">
+		<table class="table">
 		<tr>
 			<th scope="col">Product Id</th>
             <th scope="col">Quantity</th>
