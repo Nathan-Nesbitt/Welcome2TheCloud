@@ -7,7 +7,7 @@ A simple store for all of your cloud needs. Built using PHP, HTML, and Javascrip
 
 It is configured to auto-deploy to a server when you successfully pass all tests on Travis CI. 
 
-If you want to see a live version of the site, it can be seen at Welcome2The.cloud. 
+If you want to see a live version of the site, it can be seen at Welcome2The.cloud. The basic username is `arnold` and the password is `test`.
 
 ## How to use this?
 
