@@ -111,7 +111,7 @@ function showCart() {
 			if(cookieExists){
 
 					// Changes out the login for the Customer Page Navbar Button //
-					cookieExists = cookieExists.split(':');
+					cookieExists = cookieExists.split('%3A');
 					// Gets the login element //
 					var loginElement = document.getElementById("login-nav");
 					loginElement.remove();
