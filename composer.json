@@ -2,6 +2,6 @@
     "require-dev": {
     },
     "require": {
-        "phpunit/phpunit": "^8.4"
+        "phpunit/phpunit": "^12.5"
     }
 }
